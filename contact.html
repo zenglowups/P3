@@ -1,0 +1,70 @@
+﻿<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | ZEN Clinics</title>
+  <meta name="description" content="Contact și programare ZEN Clinics.">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body class="inner-page lux-home">
+  <header class="lux-header is-scrolled" data-header><div class="lux-announcement"><a href="card-loialitate.html">Excelență în estetică medicală →</a></div><div class="lux-shell lux-header__main"><div class="lux-header__meta"><a href="tel:+40720558515">+40 720 558 515</a><span>București · Adresă de completat</span></div><a class="lux-brand" href="index.html"><img src="gallery/logo.jpg" alt="Logo ZEN Clinics" width="224" height="224"><span>ZEN Clinics</span></a><div class="lux-header__actions"><a class="lux-header__cta" href="#formular">Programare</a><button class="nav-toggle lux-nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Deschide meniul</span></button></div></div><nav class="lux-primary-nav"><div class="lux-shell lux-primary-nav__inner"><a href="index.html">Acasă</a><a href="despre-noi.html">Despre noi</a><a href="medicina-estetica.html">Medicină estetică</a><a href="preturi-rate.html">Prețuri</a><a href="card-loialitate.html">ZEN VIP Card</a></div></nav><div class="lux-mobile" id="mobile-menu" data-mobile-menu hidden><nav class="lux-mobile__panel"><a href="index.html">Acasă</a><a href="preturi-rate.html">Prețuri</a><a href="card-loialitate.html">ZEN VIP Card</a></nav></div></header>
+  <main id="continut">
+    <section class="inner-hero"><div class="lux-shell inner-hero__content reveal-up"><p class="lux-kicker">Contact</p><h1>Programează o consultație.</h1><p>Completează formularul, iar solicitarea poate fi conectată ulterior la backend pentru trimitere reală.</p></div></section>
+    <section class="inner-section contact-booking-section" id="formular">
+      <div class="lux-shell inner-grid inner-grid--two">
+        <div class="inner-panel contact-panel reveal-up">
+          <p class="lux-kicker">ZEN Clinics</p>
+          <h2>Date contact</h2>
+          <p>Telefon: <a href="tel:+40720558515">+40 720 558 515</a></p>
+          <p>Email: <a href="mailto:office@zenclinics.ro">office@zenclinics.ro</a></p>
+          <p>Locație: București · Zen Clinics</p>
+          <a class="lux-map-card lux-map-card--compact" href="https://www.google.com/maps/place/Zen+Clinics/@44.4687447,26.0529368,16.55z/data=!4m6!3m5!1s0x40b203481cba5c03:0xab60f43540b88a61!8m2!3d44.4685937!4d26.052391!16s%2Fg%2F11tspyrl1q?entry=ttu&amp;g_ep=EgoyMDI2MDUwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">
+            <span>Google Maps</span>
+            <strong>Vezi locația clinicii</strong>
+            <em>Deschide traseul</em>
+          </a>
+        </div>
+        <form class="inner-form inner-form--premium reveal-up" data-booking-form>
+          <div class="form-grid">
+            <label><span>Nume</span><input type="text" name="name" autocomplete="name" required></label>
+            <label><span>Telefon</span><input type="tel" name="phone" autocomplete="tel" required></label>
+          </div>
+          <div class="form-grid">
+            <label><span>Email</span><input type="email" name="email" autocomplete="email"></label>
+            <label><span>Metodă preferată</span><select name="contact-method"><option>Telefon</option><option>WhatsApp</option><option>Email</option></select></label>
+          </div>
+          <div class="form-grid">
+            <label><span>Ramură</span><select name="branch" required><option value="">Alege ramura</option><option>Medicină estetică</option><option>Chirurgie estetică</option><option>Dermatologie</option><option>Ginecologie</option><option>ORL</option><option>Terapie LED</option><option>Terapii IV</option><option>Stomatologie</option></select></label>
+            <label><span>Procedură de interes</span><input type="text" name="procedure" list="procedure-options" placeholder="Ex. Volumizare buze, Rinoplastie, ORL"></label>
+          </div>
+          <datalist id="procedure-options">
+            <option value="Volumizare buze"></option>
+            <option value="Estompare riduri"></option>
+            <option value="Mezoterapie"></option>
+            <option value="Microneedling"></option>
+            <option value="Rinoplastie"></option>
+            <option value="Blefaroplastie"></option>
+            <option value="Implant mamar"></option>
+            <option value="Lipoaspirație"></option>
+            <option value="Labioplastie"></option>
+            <option value="Laser CO2"></option>
+            <option value="Consultație ORL"></option>
+            <option value="Terapie LED"></option>
+            <option value="Terapii IV"></option>
+          </datalist>
+          <div class="form-grid">
+            <label><span>Interval preferat</span><select name="preferred-time"><option>Oricând este disponibil</option><option>Dimineața</option><option>După-amiaza</option><option>Seara</option></select></label>
+<label><span>Tip solicitare</span><select name="request-type"><option>Consultație inițială</option><option>Control / follow-up</option><option>Detalii prețuri</option><option>ZEN VIP Card</option></select></label>
+          </div>
+          <label><span>Mesaj</span><textarea name="message" rows="5" placeholder="Spune-ne pe scurt ce te interesează sau ce interval de programare preferi."></textarea></label>
+          <label class="inner-form__check"><input type="checkbox" required><span>Accept să fiu contactat(ă) pentru programare și înțeleg că formularul nu transmite date până la conectarea la backend.</span></label>
+          <button class="lux-button lux-button--gold" type="submit">Trimite solicitarea</button>
+          <p class="inner-form__status" data-form-status aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "git.enabled": false,
+  "git.autorefresh": false,
+  "git.autoRepositoryDetection": false,
+  "git.autoRepositoryDetection.openEditors": false,
+  "git.decorations.enabled": false,
+  "git.countBadge": "off",
+  "git.showProgress": false,
+  "git.confirmSync": true
+}
