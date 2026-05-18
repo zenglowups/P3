@@ -333,6 +333,10 @@ p {
   background: var(--bg-soft);
 }
 
+.mobile-menu[hidden] {
+  display: none;
+}
+
 .mobile-menu-panel {
   display: grid;
   gap: 4px;
@@ -551,6 +555,37 @@ p {
     display: block;
   }
 
+  .site-header.menu-open {
+    isolation: isolate;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .mobile-menu {
+    position: static;
+    flex: 1;
+    overflow: visible;
+    background: rgba(251, 248, 242, 0.98);
+    box-shadow: inset 0 1px 0 rgba(35, 31, 25, 0.08);
+  }
+
+  .mobile-menu-panel {
+    gap: 0;
+    padding: 28px 0 max(42px, env(safe-area-inset-bottom));
+  }
+
+  .mobile-menu-panel a {
+    display: flex;
+    min-height: 54px;
+    align-items: center;
+    line-height: 1.18;
+  }
+
   .brand-text small {
     display: none;
   }
@@ -673,7 +708,9 @@ body.procedure-page {
 
 .procedure-page .mobile-menu {
   border-top-color: rgba(255, 250, 240, 0.12);
-  background: #151713;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(197, 169, 146, 0.13), transparent 34%),
+    #101210;
 }
 
 .procedure-page .mobile-menu-panel a {
@@ -5841,6 +5878,7 @@ body.zen-clean-page {
 }
 
 .lux-header {
+  --lux-mobile-offset: 102px;
   position: fixed;
   inset: 0 0 auto;
   z-index: 100;
@@ -6228,13 +6266,20 @@ body.zen-clean-page {
 
 .lux-mobile {
   position: fixed;
-  inset: 0;
-  z-index: 90;
-  padding: 112px 24px 28px;
-  background: rgba(5, 4, 3, 0.98);
+  inset: var(--lux-mobile-offset) 0 0;
+  z-index: 115;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 24px 24px max(34px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 18% 0%, rgba(226, 199, 130, 0.12), transparent 32%),
+    #050403;
+  box-shadow: inset 0 1px 0 rgba(226, 199, 130, 0.14), 0 30px 80px rgba(0, 0, 0, 0.46);
 }
 
 .lux-mobile__panel {
+  position: relative;
+  z-index: 1;
   display: grid;
   width: min(560px, 100%);
   margin: 0 auto;
@@ -6247,6 +6292,7 @@ body.zen-clean-page {
   color: var(--text);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.7rem;
+  line-height: 1.08;
 }
 
 .lux-mobile__cta {
@@ -8452,6 +8498,19 @@ body.zen-clean-page {
     width: min(var(--shell), calc(100% - 36px));
   }
 
+  .lux-header {
+    --lux-mobile-offset: 102px;
+  }
+
+  .lux-header.menu-open {
+    inset: 0;
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column;
+    overflow-y: auto;
+    background: #050403;
+  }
+
   .lux-header__main {
     grid-template-columns: 1fr auto;
     min-height: 72px;
@@ -8470,6 +8529,31 @@ body.zen-clean-page {
 
   .lux-nav-toggle {
     display: block;
+  }
+
+  .lux-header.menu-open .lux-mobile {
+    position: static;
+    flex: 1;
+    overflow: visible;
+    padding: clamp(26px, 5vw, 44px) 24px max(44px, env(safe-area-inset-bottom));
+    background:
+      radial-gradient(circle at 14% 0%, rgba(226, 199, 130, 0.14), transparent 32%),
+      linear-gradient(180deg, rgba(5, 4, 3, 0.98), #050403);
+    box-shadow: inset 0 1px 0 rgba(226, 199, 130, 0.16);
+  }
+
+  .lux-header.menu-open .lux-mobile__panel {
+    width: min(460px, 100%);
+    gap: 0;
+  }
+
+  .lux-header.menu-open .lux-mobile__panel a {
+    display: flex;
+    min-height: 58px;
+    align-items: center;
+    padding: 14px 0;
+    font-size: clamp(1.45rem, 5.3vw, 2.05rem);
+    line-height: 1.08;
   }
 
   .lux-hero {
@@ -8568,6 +8652,10 @@ body.zen-clean-page {
     width: min(var(--shell), calc(100% - 28px));
   }
 
+  .lux-header {
+    --lux-mobile-offset: 100px;
+  }
+
   .lux-announcement {
     min-height: 28px;
   }
@@ -8586,7 +8674,8 @@ body.zen-clean-page {
   }
 
   .lux-mobile__panel a {
-    font-size: 1.35rem;
+    padding: 13px 0;
+    font-size: 1.34rem;
   }
 
   .lux-hero {
