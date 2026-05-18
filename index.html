@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ro">
 <head>
   <meta charset="utf-8">
@@ -6,7 +6,7 @@
   <title>ZEN Clinics | Estetică medicală premium</title>
   <meta name="description" content="ZEN Clinics propune o experiență premium de estetică medicală, cu accent pe echilibru, discreție și recomandări personalizate.">
   <meta name="theme-color" content="#050403">
-  <link rel="preload" as="image" href="gallery/zen-aesthetic-portrait-03.png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/optimized/zen-aesthetic-portrait-03-1000.jpg" fetchpriority="high">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
@@ -21,16 +21,16 @@
     <div class="zen-header-shell zen-header-main">
       <div class="zen-header-meta" aria-label="Date de contact">
         <a href="tel:+40720558515">+40 720 558 515</a>
-        <span>București · Adresă de completat</span>
+        <span>Calea Griviței, 010764 București</span>
       </div>
 
       <a class="zen-brand" href="index.html" aria-label="ZEN Clinics acasă">
-        <img src="gallery/logo.jpg" alt="Logo ZEN Clinics" width="224" height="224">
+        <img decoding="async" src="gallery/logo.jpg" alt="Logo ZEN Clinics" width="224" height="224">
         <span>ZEN Clinics</span>
       </a>
 
       <div class="zen-header-actions">
-        <a class="zen-pill zen-pill--ghost" href="card-loialitate.html">VIP Card</a>
+        <a class="zen-pill zen-pill--ghost" href="card-loialitate.html">ZEN VIP Card</a>
         <a class="zen-pill zen-pill--gold" href="#programare">Programare</a>
         <button class="zen-nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle>
           <span></span>
@@ -43,28 +43,140 @@
 
     <nav class="zen-main-nav" aria-label="Navigație principală">
       <div class="zen-header-shell zen-main-nav__inner">
-        <a href="despre-noi.html">Despre noi</a>
-        <a class="zen-nav-link--caret" href="proceduri.html">Proceduri</a>
-        <a class="zen-nav-link--caret" href="medicina-estetica.html">Medicină estetică</a>
-        <a class="zen-nav-link--caret" href="chirurgie-estetica.html">Chirurgie estetică</a>
-        <a class="zen-nav-link--caret" href="preturi-rate.html#ginecologie">Ginecologie</a>
-        <a class="zen-nav-link--caret" href="preturi-rate.html#dermatologie">Dermatologie</a>
-        <a class="zen-nav-link--caret" href="sections/mezoterapia.html">Cosmetologie</a>
-        <a href="stomatologie.html">Stomatologie</a>
-        <a href="preturi-rate.html">Prețuri</a>
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-despre" data-mega-toggle>Despre noi</button>
+          <div class="mega-panel zen-mega-menu zen-mega-menu--compact" id="menu-despre" data-mega-menu>
+            <a href="index.html#top"><strong>Cine suntem</strong><small>Revenire la imaginea principală ZEN Clinics</small></a>
+            <a href="index.html#top"><strong>De ce ZEN</strong><small>Revenire la imaginea principală ZEN Clinics</small></a>
+            <a href="index.html#testimoniale"><strong>Testimoniale</strong><small>Review-uri și impresii reale</small></a>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-proceduri" data-mega-toggle>Proceduri</button>
+          <div class="mega-panel zen-mega-menu" id="menu-proceduri" data-mega-menu>
+            <div class="zen-mega-group">
+              <h2>Populare</h2>
+              <a href="sections/full-face-acid-hialuronic.html">Acid hialuronic</a>
+              <a href="sections/estompare-riduri.html">Botox</a>
+              <a href="sections/skinbooster.html">Skinbooster</a>
+            </div>
+            <div class="zen-mega-group">
+              <h2>Textura pielii</h2>
+              <a href="sections/prp.html">PRP</a>
+              <a href="sections/microneedling.html">Microneedling</a>
+              <a href="sections/peeling-facial.html">Peeling facial</a>
+            </div>
+            <div class="zen-mega-group">
+              <h2>Tehnologie</h2>
+              <a href="sections/laser-co2.html">Laser fracționar CO2</a>
+              <a href="sections/topirea-grasimii.html">Topirea grăsimii</a>
+              <a href="proceduri.html">Toate procedurile</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-estetica" data-mega-toggle>Medicină estetică</button>
+          <div class="mega-panel zen-mega-menu" id="menu-estetica" data-mega-menu>
+            <div class="zen-mega-group">
+              <h2>Injectări</h2>
+              <a href="sections/full-face-acid-hialuronic.html">Acid hialuronic</a>
+              <a href="sections/volumizarea-buzelor.html">Volumizare buze</a>
+              <a href="sections/rinocorectie-acid-hialuronic.html">Rinocorecție cu acid hialuronic</a>
+            </div>
+            <div class="zen-mega-group">
+              <h2>Expresie</h2>
+              <a href="sections/estompare-riduri.html">Botox</a>
+              <a href="sections/rejuvenare-faciala.html">Rejuvenare facială</a>
+              <a href="sections/mezoterapia.html">Mezoterapie</a>
+            </div>
+            <div class="zen-mega-group">
+              <h2>Regenerare</h2>
+              <a href="sections/skinbooster.html">Skinbooster</a>
+              <a href="sections/prp.html">PRP</a>
+              <a href="sections/microneedling.html">Microneedling</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-chirurgie" data-mega-toggle>Chirurgie generală</button>
+          <div class="mega-panel zen-mega-menu zen-mega-menu--compact" id="menu-chirurgie" data-mega-menu>
+            <a href="chirurgie-estetica.html"><strong>Orientare chirurgie</strong><small>Față, sân și corp</small></a>
+            <a href="chirurgie-estetica.html#fata"><strong>Chirurgia feței</strong><small>Evaluare și plan personalizat</small></a>
+            <a href="chirurgie-estetica.html#corp"><strong>Chirurgia corpului</strong><small>Intervenții discutate medical</small></a>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-gineco" data-mega-toggle>Estetică ginecologică</button>
+          <div class="mega-panel zen-mega-menu zen-mega-menu--compact" id="menu-gineco" data-mega-menu>
+            <a href="preturi-rate.html#ginecologie"><strong>Listă prețuri</strong><small>Servicii și consultații ginecologice</small></a>
+            <a href="preturi-rate.html#ginecologie"><strong>Rejuvenare intimă</strong><small>Discutată în urma evaluării</small></a>
+            <a href="contact.html#formular"><strong>Programare consultație</strong><small>Discret, calm, individual</small></a>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-dermato" data-mega-toggle>Dermatologie estetică</button>
+          <div class="mega-panel zen-mega-menu zen-mega-menu--compact" id="menu-dermato" data-mega-menu>
+            <a href="sections/laser-co2.html"><strong>Laser fracționar CO2</strong><small>Rejuvenare și textura pielii</small></a>
+            <a href="sections/peeling-facial.html"><strong>Peeling facial</strong><small>Uniformizare și luminozitate</small></a>
+            <a href="preturi-rate.html#dermatologie"><strong>Prețuri dermatologie</strong><small>Consultații și tratamente</small></a>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-cosmetologie" data-mega-toggle>Cosmetologie</button>
+          <div class="mega-panel zen-mega-menu" id="menu-cosmetologie" data-mega-menu>
+            <div class="zen-mega-group">
+              <h2>Facial</h2>
+              <a href="cosmetologie.html">Pagina Cosmetologie</a>
+              <a href="sections/peeling-facial.html">Peeling facial</a>
+              <a href="sections/mezoterapia.html">Mezoterapie</a>
+              <a href="sections/skinbooster.html">Biostimulatoare</a>
+            </div>
+            <div class="zen-mega-group">
+              <h2>Textura</h2>
+              <a href="sections/microneedling.html">Dermapen</a>
+              <a href="sections/laser-co2.html">Laser fracționar CO2</a>
+              <a href="preturi-rate.html#dermatologie">Prețuri cosmetologie</a>
+            </div>
+            <div class="zen-mega-group">
+              <h2>Laser</h2>
+              <a href="contact.html#formular">Epilare laser</a>
+              <a href="sections/laser-co2.html">Laser CO2</a>
+              <a href="contact.html#formular">Programare evaluare</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega-item>
+          <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="menu-preturi" data-mega-toggle>Prețuri</button>
+          <div class="mega-panel zen-mega-menu zen-mega-menu--compact" id="menu-preturi" data-mega-menu>
+            <a href="preturi-rate.html"><strong>Lista completă</strong><small>Tarife orientative pe ramuri</small></a>
+            <a href="preturi-rate.html#dermatologie"><strong>Dermatologie</strong><small>Laser și tratamente cutanate</small></a>
+            <a href="preturi-rate.html#ginecologie"><strong>Estetică ginecologică</strong><small>Servicii dedicate</small></a>
+          </div>
+        </div>
+
         <a href="contact.html#formular">Contact</a>
       </div>
     </nav>
 
     <div class="zen-mobile-menu" id="mobile-menu" data-mobile-menu hidden>
       <nav aria-label="Navigație mobilă">
-        <a href="despre-noi.html">Despre noi</a>
+        <a href="index.html#top">Despre noi</a>
         <a href="proceduri.html">Proceduri</a>
         <a href="medicina-estetica.html">Medicină estetică</a>
-        <a href="chirurgie-estetica.html">Chirurgie estetică</a>
-        <a href="stomatologie.html">Stomatologie</a>
+        <a href="chirurgie-estetica.html">Chirurgie generală</a>
+        <a href="preturi-rate.html#ginecologie">Estetică ginecologică</a>
+        <a href="preturi-rate.html#dermatologie">Dermatologie estetică</a>
+        <a href="cosmetologie.html">Cosmetologie</a>
+        <a href="sections/laser-co2.html">Laser fracționar CO2</a>
         <a href="preturi-rate.html">Prețuri</a>
-        <a href="card-loialitate.html">VIP Card</a>
+        <a href="card-loialitate.html">ZEN VIP Card</a>
         <a href="contact.html#formular">Contact</a>
         <a class="zen-pill zen-pill--gold" href="#programare">Programare</a>
       </nav>
@@ -73,6 +185,8 @@
 
   <main id="continut">
     <section class="hero-home" id="top" aria-labelledby="hero-title">
+      <span id="despre" aria-hidden="true"></span>
+      <span id="de-ce-zen" aria-hidden="true"></span>
       <div class="hero-home__bg" aria-hidden="true"></div>
 
       <div class="zen-shell hero-home__inner">
@@ -114,7 +228,7 @@
       </div>
 
       <figure class="hero-home__portrait" aria-hidden="true">
-        <img src="gallery/zen-aesthetic-portrait-03.png" alt="" width="1122" height="1402" loading="eager" fetchpriority="high" decoding="async">
+        <img src="assets/optimized/zen-aesthetic-portrait-03-1000.jpg" alt="" width="1000" height="1250" loading="eager" fetchpriority="high" decoding="async">
       </figure>
 
       <aside class="hero-contact-rail" aria-label="Contact rapid">
@@ -134,7 +248,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
           <span>Email</span>
         </a>
-        <a href="https://www.google.com/maps/place/Zen+Clinics/@44.4685937,26.052391,16z" target="_blank" rel="noopener" aria-label="Locație">
+        <a href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x40b203481cba5c03:0xab60f43540b88a61?sa=X&amp;ved=1t:8290&amp;ictx=111" target="_blank" rel="noopener" aria-label="Locație">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.2 6-11a6 6 0 0 0-12 0c0 5.8 6 11 6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>
           <span>Locație</span>
         </a>
@@ -161,44 +275,6 @@
       </div>
     </section>
 
-    <section class="zen-about-section" id="despre" aria-labelledby="about-title">
-      <div class="zen-about-visual" aria-hidden="true"></div>
-
-      <div class="zen-about-content">
-        <img class="zen-about-logo" src="gallery/logo.jpg" alt="" width="224" height="224" loading="lazy" decoding="async">
-        <h2 id="about-title">Cine suntem noi?</h2>
-        <p class="zen-about-subtitle">Expertiză medicală, naturalețe și o experiență construită în jurul tău.</p>
-        <p class="zen-about-lead">La ZEN Clinics, frumusețea este abordată cu responsabilitate, rafinament și respect pentru autenticitate. Fiecare recomandare este gândită pentru echilibru, confort și o relație bazată pe încredere.</p>
-        <p class="zen-about-lead">Punem accent pe consultații atente, tehnici moderne minim invazive și recomandări sincere, astfel încât fiecare procedură să fie discutată realist, fără promisiuni exagerate.</p>
-
-        <div class="zen-about-values" aria-label="Valori ZEN Clinics">
-          <article>
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M4 21a8 8 0 0 1 16 0"/><path d="M9 15l3 3 3-3"/></svg>
-            </span>
-            <strong>Medici specializați</strong>
-            <small>Expertiză și atenție dedicate ție.</small>
-          </article>
-          <article>
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M7 3h10v4H7z"/><path d="M6 5H5v16h14V5h-1"/><path d="M8 12h8M8 16h5"/><path d="M9 3a3 3 0 0 1 6 0"/></svg>
-            </span>
-            <strong>Plan personalizat</strong>
-            <small>Recomandări adaptate obiectivelor tale.</small>
-          </article>
-          <article>
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 21c0-5.6-5-8-8-8 0 4.3 3.1 8 8 8z"/><path d="M12 21c0-5.6 5-8 8-8 0 4.3-3.1 8-8 8z"/><path d="M12 21V5"/><path d="M12 5c-2.4 2.2-3.3 4.2-3.3 6.1 0 1.8 1.2 3.2 3.3 4.5 2.1-1.3 3.3-2.7 3.3-4.5C15.3 9.2 14.4 7.2 12 5z"/></svg>
-            </span>
-            <strong>Rezultate naturale</strong>
-            <small>Armonie, echilibru și discreție.</small>
-          </article>
-        </div>
-
-        <a class="zen-about-cta" href="despre-noi.html">Descoperă ZEN Clinics <span aria-hidden="true">→</span></a>
-      </div>
-    </section>
-
     <section class="zen-editorial-break" aria-labelledby="editorial-break-title">
       <div class="zen-shell zen-editorial-break__inner reveal-up">
         <div class="zen-editorial-break__mark" aria-hidden="true"></div>
@@ -208,50 +284,6 @@
         </div>
         <p>Înainte de orice procedură, ne interesează contextul tău: ce îți dorești, ce te deranjează și ce variantă poate păstra cel mai bine naturalețea trăsăturilor tale.</p>
         <a href="#programare">Începe cu o consultație <span aria-hidden="true">→</span></a>
-      </div>
-    </section>
-
-    <section class="zen-why-light" id="de-ce-zen" aria-labelledby="why-title">
-      <div class="zen-why-light__visual" aria-hidden="true"></div>
-
-      <div class="zen-why-light__content">
-        <img class="zen-why-light__logo" src="gallery/logo.jpg" alt="" width="224" height="224" loading="lazy" decoding="async">
-        <p class="zen-why-light__eyebrow">Experiența</p>
-        <h2 id="why-title">De ce aleg pacientele ZEN Clinics</h2>
-        <p class="zen-why-light__lead">La ZEN Clinics, frumusețea ta este înțeleasă în profunzime. Îmbinăm știința, arta și empatia pentru rezultate care te reprezintă, cu recomandări atent explicate și un ritm confortabil.</p>
-
-        <div class="zen-why-light__cards" aria-label="Motive pentru alegerea ZEN Clinics">
-          <article>
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 21c0-5.6-5-8-8-8 0 4.3 3.1 8 8 8z"/><path d="M12 21c0-5.6 5-8 8-8 0 4.3-3.1 8-8 8z"/><path d="M12 21V5"/><path d="M12 5c-2.4 2.2-3.3 4.2-3.3 6.1 0 1.8 1.2 3.2 3.3 4.5 2.1-1.3 3.3-2.7 3.3-4.5C15.3 9.2 14.4 7.2 12 5z"/></svg>
-            </span>
-            <strong>Personalizare reală</strong>
-            <small>Fiecare plan este creat în jurul nevoilor și obiectivelor tale.</small>
-          </article>
-          <article>
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.6-2.8 7.9-7 10-4.2-2.1-7-5.4-7-10V6l7-3z"/><path d="M8.7 12l2.1 2.1 4.7-5"/></svg>
-            </span>
-            <strong>Rezultate naturale</strong>
-            <small>Urmărim armonia trăsăturilor, nu transformări artificiale.</small>
-          </article>
-          <article>
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M4 21a8 8 0 0 1 16 0"/><path d="M9 15l3 3 3-3"/></svg>
-            </span>
-            <strong>Medici specializați</strong>
-            <small>Echipă medicală atentă, dedicată siguranței și clarității.</small>
-          </article>
-          <article>
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8L12 3z"/><path d="M5 21h14"/></svg>
-            </span>
-            <strong>Confort & rafinament</strong>
-            <small>Un mediu elegant, discret și relaxant, dedicat ție.</small>
-          </article>
-        </div>
-
-        <a class="zen-why-light__cta" href="#programare">Programează o consultație <span aria-hidden="true">→</span></a>
       </div>
     </section>
 
@@ -266,7 +298,7 @@
         <div class="zen-popular-grid zen-popular-grid--visual">
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/full-face-acid-hialuronic.html">
-              <img src="assets/images/acid-hialuronic-injectare.png" alt="Procedură estetică minim invazivă cu acid hialuronic" loading="lazy" decoding="async">
+              <img src="assets/optimized/acid-hialuronic-injectare-900.jpg" alt="Procedură estetică minim invazivă cu acid hialuronic" width="900" height="507" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">01</span>
               <div class="zen-procedure-tile__body">
                 <h3>Acid hialuronic</h3>
@@ -277,7 +309,7 @@
           </article>
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/estompare-riduri.html">
-              <img src="assets/images/botox-hero.png" alt="Tratament Botox pentru riduri de expresie" loading="lazy" decoding="async">
+              <img src="assets/optimized/botox-hero-900.jpg" alt="Tratament Botox pentru riduri de expresie" width="900" height="507" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">02</span>
               <div class="zen-procedure-tile__body">
                 <h3>Botox</h3>
@@ -288,7 +320,7 @@
           </article>
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/volumizarea-buzelor.html">
-              <img src="gallery/Volumizarea Buzelor1.jpg" alt="Volumizare buze cu aspect natural" loading="lazy" decoding="async">
+              <img src="gallery/Volumizarea Buzelor1.jpg" alt="Volumizare buze cu aspect natural" width="300" height="214" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">03</span>
               <div class="zen-procedure-tile__body">
                 <h3>Volumizare buze</h3>
@@ -299,7 +331,7 @@
           </article>
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/mezoterapia.html">
-              <img src="gallery/MEZOTERAPIE1.jpg" alt="Mezoterapie facială pentru revitalizarea pielii" loading="lazy" decoding="async">
+              <img src="gallery/MEZOTERAPIE1.jpg" alt="Mezoterapie facială pentru revitalizarea pielii" width="300" height="214" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">04</span>
               <div class="zen-procedure-tile__body">
                 <h3>Mezoterapie</h3>
@@ -310,7 +342,7 @@
           </article>
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/skinbooster.html">
-              <img src="assets/images/skinbooster-hero.png" alt="Tratament Skinbooster pentru calitatea pielii" loading="lazy" decoding="async">
+              <img src="assets/optimized/skinbooster-hero-900.jpg" alt="Tratament Skinbooster pentru calitatea pielii" width="900" height="507" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">05</span>
               <div class="zen-procedure-tile__body">
                 <h3>Skinbooster</h3>
@@ -321,7 +353,7 @@
           </article>
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/prp.html">
-              <img src="assets/images/prp-hero.png" alt="Tratament PRP pentru revitalizarea pielii" loading="lazy" decoding="async">
+              <img src="assets/optimized/prp-hero-900.jpg" alt="Tratament PRP pentru revitalizarea pielii" width="900" height="675" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">06</span>
               <div class="zen-procedure-tile__body">
                 <h3>PRP</h3>
@@ -332,10 +364,10 @@
           </article>
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/peeling-facial.html">
-              <img src="gallery/PEELING1.jpg" alt="Peeling chimic pentru luminozitatea pielii" loading="lazy" decoding="async">
+              <img src="gallery/PEELING1.jpg" alt="Peeling facial / chimic pentru luminozitatea pielii" width="300" height="214" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">07</span>
               <div class="zen-procedure-tile__body">
-                <h3>Peeling chimic</h3>
+                <h3>Peeling facial / chimic</h3>
                 <p>Uniformizarea texturii pielii și redarea luminozității într-un mod controlat.</p>
                 <span class="zen-procedure-tile__button">Vezi detalii</span>
               </div>
@@ -343,7 +375,7 @@
           </article>
           <article class="zen-procedure-tile reveal-up">
             <a href="sections/laser-co2.html">
-              <img src="assets/images/laser-co2-hero.png" alt="Tratament Laser CO2 intr-un cadru medical" loading="lazy" decoding="async">
+              <img src="assets/optimized/laser-co2-hero-900.jpg" alt="Tratament Laser CO2 intr-un cadru medical" width="900" height="507" loading="lazy" decoding="async">
               <span class="zen-procedure-tile__number">08</span>
               <div class="zen-procedure-tile__body">
                 <h3>Laser CO2</h3>
@@ -356,7 +388,7 @@
       </div>
     </section>
 
-    <section class="zen-process-section" id="proces" aria-labelledby="process-title">
+    <section class="zen-process-section" id="proces" aria-labelledby="process-title" data-process-timeline>
       <div class="zen-shell">
         <div class="zen-section-head reveal-up">
           <p class="zen-kicker">Proces</p>
@@ -461,65 +493,6 @@
       </div>
     </section>
 
-    <section class="zen-booking-section" id="programare" aria-labelledby="programare-title">
-      <div class="zen-shell zen-booking-section__grid">
-        <div class="zen-booking-copy reveal-up">
-          <p class="zen-kicker">Programare</p>
-          <h2 id="programare-title">Programează o consultație</h2>
-          <p>Completează formularul, iar echipa ZEN Clinics te va contacta pentru confirmarea detaliilor.</p>
-          <div class="zen-booking-contact" aria-label="Contact rapid">
-            <a href="tel:+40720558515">+40 720 558 515</a>
-            <a href="mailto:office@zenclinics.ro">office@zenclinics.ro</a>
-            <a href="https://wa.me/40720558515" target="_blank" rel="noopener">WhatsApp</a>
-          </div>
-        </div>
-
-        <form class="zen-booking-form reveal-up" action="#" method="post" novalidate data-booking-form>
-          <label>
-            <span>Nume și prenume</span>
-            <input type="text" name="full_name" autocomplete="name" required>
-          </label>
-          <label>
-            <span>Telefon</span>
-            <input type="tel" name="phone" autocomplete="tel" required>
-          </label>
-          <label>
-            <span>Email</span>
-            <input type="email" name="email" autocomplete="email">
-          </label>
-          <label>
-            <span>Procedura de interes</span>
-            <select name="procedure">
-              <option>Consultație estetică</option>
-              <option>Acid hialuronic</option>
-              <option>Botox</option>
-              <option>Volumizare buze</option>
-              <option>Mezoterapie</option>
-              <option>Skinbooster</option>
-              <option>PRP</option>
-              <option>Peeling chimic</option>
-              <option>Laser CO2</option>
-              <option>Stomatologie</option>
-              <option>Ginecologie</option>
-              <option>Dermatologie</option>
-              <option>Altă procedură</option>
-            </select>
-          </label>
-          <label>
-            <span>Data preferată</span>
-            <input type="date" name="preferred_date">
-          </label>
-          <label class="zen-booking-form__wide">
-            <span>Mesaj / detalii suplimentare</span>
-            <textarea name="message" rows="5"></textarea>
-          </label>
-          <p class="zen-booking-form__note">Prin trimiterea formularului, ești de acord să fii contactat(ă) de echipa ZEN Clinics pentru stabilirea programării.</p>
-          <button type="submit">Trimite cererea</button>
-          <p class="zen-form-status" aria-live="polite" data-form-status></p>
-        </form>
-      </div>
-    </section>
-
     <section class="zen-map-section" id="contact" aria-labelledby="map-title">
       <div class="zen-shell zen-map-section__grid">
         <div class="zen-map-copy reveal-up">
@@ -529,7 +502,7 @@
           <div class="zen-location-cards">
             <article class="zen-location-card">
               <span>Adresă</span>
-              <strong>București · Adresă de completat</strong>
+              <strong>Calea Griviței, 010764 București</strong>
             </article>
             <article class="zen-location-card">
               <span>Telefon</span>
@@ -544,10 +517,10 @@
               <a href="https://wa.me/40720558515" target="_blank" rel="noopener">Trimite mesaj</a>
             </article>
           </div>
-          <a class="zen-map-link" href="https://www.google.com/maps/place/Zen+Clinics/@44.4685937,26.052391,16z" target="_blank" rel="noopener">Deschide în Google Maps <span aria-hidden="true">→</span></a>
+          <a class="zen-map-link" href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x40b203481cba5c03:0xab60f43540b88a61?sa=X&amp;ved=1t:8290&amp;ictx=111" target="_blank" rel="noopener">Deschide în Google Maps <span aria-hidden="true">→</span></a>
         </div>
         <div class="zen-map-embed reveal-scale">
-          <iframe title="Hartă ZEN Clinics" src="https://www.google.com/maps?q=Zen%20Clinics%2C%20Bucure%C8%99ti&amp;ll=44.4685937,26.052391&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe title="Hartă ZEN Clinics" src="https://www.google.com/maps?q=Calea%20Grivi%C8%9Bei%2C%20010764%20Bucure%C8%99ti&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </section>
@@ -572,15 +545,10 @@
           <button class="zen-vip-card" type="button" aria-pressed="false" data-vip-card>
             <span class="zen-vip-card__inner">
               <span class="zen-vip-card__face zen-vip-card__front">
-                <img src="gallery/card.jpg" alt="ZEN Clinics VIP Card" loading="lazy" decoding="async">
+                <img src="assets/optimized/card-1000.jpg" alt="ZEN Clinics VIP Card" width="1000" height="593" loading="lazy" decoding="async">
               </span>
               <span class="zen-vip-card__face zen-vip-card__back">
-                <strong>Beneficii VIP</strong>
-                <span>Consultații gratuite 1 an</span>
-                <span>-20% cosmetică medicală</span>
-                <span>-10% acid hialuronic / botox</span>
-                <span>-7% proceduri anestezie locală</span>
-                <span>-5% proceduri anestezie generală</span>
+                <img src="assets/optimized/vip-card-beneficii-1100.jpg" alt="Beneficiile cardului VIP ZEN Clinics" width="1100" height="699" loading="lazy" decoding="async">
               </span>
             </span>
           </button>
@@ -639,9 +607,152 @@
           </article>
         </div>
 
-        <a class="zen-testimonials-home__cta reveal-up" href="https://www.google.com/search?sa=X&amp;sca_esv=5c55c0604bc74172&amp;sxsrf=ANbL-n6MzM8idZsBRD8dCt3_N8KYAxWlcw:1778667123368&amp;q=Zen+Clinics+Reviews&amp;rflfq=1&amp;num=20&amp;stick=H4sIAAAAAAAAAONgkxIxNDI2sTQ0tjCzMLcwMDM0t7Q0Nt_AyPiKUTgqNU_BOSczLzO5WCEotSwztbx4ESs2UQAeFw1xRwAAAA&amp;rldimm=12349138687806179937&amp;tbm=lcl&amp;hl=en-RO&amp;ved=2ahUKEwiFmr-wg7aUAxVp0QIHHe8RHAMQ9fQKegQIMxAG&amp;biw=1745&amp;bih=828&amp;dpr=1.1#lkt=LocalPoiReviews" target="_blank" rel="noopener">
-          Vezi review-urile pe Google <span aria-hidden="true">→</span>
+        <a class="zen-testimonials-home__cta reveal-up" href="testimoniale.html">
+          Vezi toate testimonialele <span aria-hidden="true">→</span>
         </a>
+      </div>
+    </section>
+
+    <section class="zen-booking-section" id="programare" aria-labelledby="programare-title">
+      <div class="zen-shell zen-booking-section__grid">
+        <div class="zen-booking-copy reveal-up">
+          <p class="zen-kicker">Programare</p>
+          <h2 id="programare-title">Programează o consultație</h2>
+          <p>Completează datele esențiale, iar echipa ZEN Clinics te contactează pentru confirmarea intervalului și orientarea către specialistul potrivit.</p>
+          <div class="zen-booking-contact" aria-label="Contact rapid">
+            <a href="tel:+40720558515">+40 720 558 515</a>
+            <a href="mailto:office@zenclinics.ro">office@zenclinics.ro</a>
+            <a href="https://wa.me/40720558515" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+          <a class="zen-booking-address" href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x40b203481cba5c03:0xab60f43540b88a61?sa=X&amp;ved=1t:8290&amp;ictx=111" target="_blank" rel="noopener">
+            <span>Adresă clinică</span>
+            <strong>Calea Griviței, 010764 București</strong>
+          </a>
+          <div class="zen-booking-map" aria-label="Hartă ZEN Clinics">
+            <iframe title="Mini-hartă ZEN Clinics" src="https://www.google.com/maps?q=Calea%20Grivi%C8%9Bei%2C%20010764%20Bucure%C8%99ti&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+
+        <form class="zen-booking-form reveal-up" action="#" method="post" novalidate data-booking-form>
+          <label>
+            <span>Nume și prenume</span>
+            <input type="text" name="full_name" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Telefon</span>
+            <input type="tel" name="phone" autocomplete="tel" required>
+          </label>
+          <label>
+            <span>Vârstă</span>
+            <input type="number" name="age" inputmode="numeric" min="16" max="100" placeholder="Ex. 34">
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email">
+          </label>
+          <label>
+            <span>Ramură</span>
+            <select name="branch" data-branch-select>
+              <option value="">Toate ramurile</option>
+              <option>Medicină estetică</option>
+              <option>Chirurgie generală</option>
+              <option>Estetică ginecologică</option>
+              <option>Dermatologie estetică</option>
+              <option>Cosmetologie</option>
+              <option>ORL</option>
+              <option>Terapii IV</option>
+              <option>Stomatologie</option>
+            </select>
+          </label>
+          <label>
+            <span>Procedura de interes</span>
+            <select name="procedure" data-procedure-select required>
+              <option value="">Alege procedura</option>
+              <option data-branch="Medicină estetică">Consultație estetică</option>
+              <option data-branch="Medicină estetică">Full face cu acid hialuronic</option>
+              <option data-branch="Medicină estetică">Volumizare buze</option>
+              <option data-branch="Medicină estetică">Estompare riduri / Botox</option>
+              <option data-branch="Medicină estetică">Rinocorecție cu acid hialuronic</option>
+              <option data-branch="Medicină estetică">Mezoterapie</option>
+              <option data-branch="Medicină estetică">Skinbooster</option>
+              <option data-branch="Medicină estetică">PRP / terapia vampir</option>
+              <option data-branch="Medicină estetică">Microneedling / Dermapen</option>
+              <option data-branch="Medicină estetică">Topirea grăsimii</option>
+              <option data-branch="Medicină estetică">Conturare mandibulară</option>
+              <option data-branch="Medicină estetică">Mărirea pomeților</option>
+              <option data-branch="Medicină estetică">Mărirea mentonului</option>
+              <option data-branch="Medicină estetică">Estompare cearcăne</option>
+              <option data-branch="Chirurgie generală">Consultație chirurgie</option>
+              <option data-branch="Chirurgie generală">Rinoplastie</option>
+              <option data-branch="Chirurgie generală">Rinoplastie ultrasonică</option>
+              <option data-branch="Chirurgie generală">Blefaroplastie</option>
+              <option data-branch="Chirurgie generală">Lifting facial</option>
+              <option data-branch="Chirurgie generală">Otoplastie</option>
+              <option data-branch="Chirurgie generală">Bichectomie</option>
+              <option data-branch="Chirurgie generală">Implant mamar</option>
+              <option data-branch="Chirurgie generală">Ridicare sâni</option>
+              <option data-branch="Chirurgie generală">Micșorare sâni</option>
+              <option data-branch="Chirurgie generală">Ginecomastie</option>
+              <option data-branch="Chirurgie generală">Liposucție</option>
+              <option data-branch="Chirurgie generală">Liposucție cervicală</option>
+              <option data-branch="Chirurgie generală">Abdominoplastie</option>
+              <option data-branch="Chirurgie generală">Lifting brațe</option>
+              <option data-branch="Chirurgie generală">Lifting coapse</option>
+              <option data-branch="Chirurgie generală">Lifting brazilian</option>
+              <option data-branch="Chirurgie generală">Remodelare postnatală</option>
+              <option data-branch="Chirurgie generală">Operație postbariatrică</option>
+              <option data-branch="Chirurgie generală">Diastază abdominală</option>
+              <option data-branch="Chirurgie generală">Micșorare stomac</option>
+              <option data-branch="Estetică ginecologică">Labioplastie</option>
+              <option data-branch="Estetică ginecologică">Consultație estetică ginecologică</option>
+              <option data-branch="Dermatologie estetică">Laser fracționar CO2</option>
+              <option data-branch="Dermatologie estetică">Peeling facial</option>
+              <option data-branch="Dermatologie estetică">Xantelasme</option>
+              <option data-branch="Dermatologie estetică">Hiperhidroză</option>
+              <option data-branch="Dermatologie estetică">Zâmbet gingival</option>
+              <option data-branch="Cosmetologie">Consultație cosmetologie</option>
+              <option data-branch="Cosmetologie">Curățare facială</option>
+              <option data-branch="Cosmetologie">Epilare laser</option>
+              <option data-branch="Cosmetologie">Biostimulatoare</option>
+              <option data-branch="ORL">Consultație ORL</option>
+              <option data-branch="Terapii IV">Terapie IV</option>
+              <option data-branch="Stomatologie">Consultație stomatologie</option>
+              <option>Altă procedură</option>
+            </select>
+          </label>
+          <label>
+            <span>Data preferată</span>
+            <input type="date" name="preferred_date">
+          </label>
+          <label>
+            <span>Ora preferată</span>
+            <input type="time" name="preferred_time" min="08:00" max="20:00" step="900">
+          </label>
+          <label>
+            <span>Metodă de contact</span>
+            <select name="contact_method">
+              <option>Telefon</option>
+              <option>WhatsApp</option>
+              <option>Email</option>
+            </select>
+          </label>
+          <label>
+            <span>Tip solicitare</span>
+            <select name="request_type">
+              <option>Consultație inițială</option>
+              <option>Control / follow-up</option>
+              <option>Detalii prețuri</option>
+              <option>ZEN VIP Card</option>
+            </select>
+          </label>
+          <label class="zen-booking-form__wide">
+            <span>Mesaj / detalii suplimentare</span>
+            <textarea name="message" rows="5"></textarea>
+          </label>
+          <p class="zen-booking-form__note">Prin trimiterea formularului, ești de acord să fii contactat(ă) de echipa ZEN Clinics pentru stabilirea programării.</p>
+          <button type="submit">Trimite cererea</button>
+          <p class="zen-form-status" aria-live="polite" data-form-status></p>
+        </form>
       </div>
     </section>
   </main>
@@ -658,10 +769,10 @@
 
       <nav class="zen-footer__nav" aria-label="Navigație footer">
         <h3>Clinică</h3>
-        <a href="despre-noi.html">Despre noi</a>
+        <a href="index.html#top">Despre noi</a>
         <a href="medicina-estetica.html">Medicină estetică</a>
-        <a href="chirurgie-estetica.html">Chirurgie estetică</a>
-        <a href="stomatologie.html">Stomatologie</a>
+        <a href="chirurgie-estetica.html">Chirurgie generală</a>
+        <a href="cosmetologie.html">Cosmetologie</a>
       </nav>
 
       <nav class="zen-footer__nav" aria-label="Linkuri utile">
@@ -669,14 +780,14 @@
         <a href="proceduri.html">Proceduri</a>
         <a href="preturi-rate.html">Prețuri</a>
         <a href="card-loialitate.html">ZEN VIP Card</a>
-        <a href="#testimoniale">Testimoniale</a>
+        <a href="testimoniale.html">Testimoniale</a>
       </nav>
 
       <div class="zen-footer__contact">
         <h3>Contact</h3>
         <a href="tel:+40720558515">+40 720 558 515</a>
         <a href="mailto:office@zenclinics.ro">office@zenclinics.ro</a>
-        <span>București · Adresă de completat</span>
+        <span>Calea Griviței, 010764 București</span>
         <a href="#programare">Programează o consultație</a>
       </div>
     </div>

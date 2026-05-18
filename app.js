@@ -9,6 +9,7 @@
   var vipCards = document.querySelectorAll("[data-vip-card]");
   var scrollProgressBar = document.querySelector("[data-scroll-progress]");
   var zenWhySection = document.querySelector("[data-zen-why]");
+  var processSection = document.querySelector("[data-process-timeline]");
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var revealSelector = ".reveal, .reveal-up, .reveal-scale, .stagger-item, .zen-hero-benefits a, .zen-about-story__features article, .lux-procedure-list a, .lux-location__cards article, .lux-minimal__portrait, .lux-map-actions a";
 
@@ -50,6 +51,10 @@
     if (!Array.isArray(categories)) {
       return;
     }
+
+    categories = categories.filter(function (category) {
+      return category && category.id !== "stomatologie";
+    });
 
     root.innerHTML = "";
 
@@ -127,7 +132,7 @@
     var viewport;
     var progress;
 
-    if (!zenWhySection) {
+    if (!zenWhySection || reduceMotion) {
       return;
     }
 
@@ -422,19 +427,55 @@
     showSlide(0);
   });
 
-  document.querySelectorAll("[data-faq-toggle]").forEach(function (button) {
+  function syncFaqPanelHeight(panel) {
+    if (!panel || panel.hidden) {
+      return;
+    }
+
+    panel.style.maxHeight = panel.scrollHeight + "px";
+  }
+
+  document.querySelectorAll("[data-faq-item]").forEach(function (item) {
+    var button = item.querySelector("[data-faq-toggle]");
+    var panel = item.querySelector("[data-faq-panel]");
+    var isOpen;
+
+    if (!button || !panel) {
+      return;
+    }
+
+    isOpen = item.classList.contains("is-open") || button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(isOpen));
+    panel.hidden = !isOpen;
+    panel.style.maxHeight = isOpen ? panel.scrollHeight + "px" : "0px";
+
     button.addEventListener("click", function () {
-      var item = button.closest("[data-faq-item]");
-      var panel = item ? item.querySelector("[data-faq-panel]") : null;
-      var isOpen = button.getAttribute("aria-expanded") === "true";
+      var nextOpen = button.getAttribute("aria-expanded") !== "true";
 
-      if (!panel) {
-        return;
+      button.setAttribute("aria-expanded", String(nextOpen));
+
+      if (nextOpen) {
+        panel.hidden = false;
+        item.classList.add("is-open");
+        panel.style.maxHeight = "0px";
+
+        window.requestAnimationFrame(function () {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        });
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+
+        window.requestAnimationFrame(function () {
+          item.classList.remove("is-open");
+          panel.style.maxHeight = "0px";
+        });
+
+        window.setTimeout(function () {
+          if (!item.classList.contains("is-open")) {
+            panel.hidden = true;
+          }
+        }, reduceMotion ? 0 : 580);
       }
-
-      button.setAttribute("aria-expanded", String(!isOpen));
-      panel.hidden = isOpen;
-      item.classList.toggle("is-open", !isOpen);
     });
   });
 
@@ -442,8 +483,9 @@
 
   document.querySelectorAll("[data-price-search]").forEach(function (input) {
     var cards = Array.prototype.slice.call(document.querySelectorAll("[data-price-card]"));
+    var searchFrame = 0;
 
-    input.addEventListener("input", function () {
+    function filterPrices() {
       var query = normalizeText(input.value);
 
       cards.forEach(function (card) {
@@ -458,15 +500,317 @@
 
         card.classList.toggle("is-hidden", visibleItems === 0);
       });
+      searchFrame = 0;
+    }
+
+    input.addEventListener("input", function () {
+      if (searchFrame) {
+        window.cancelAnimationFrame(searchFrame);
+      }
+
+      searchFrame = window.requestAnimationFrame(filterPrices);
     });
   });
 
+  var bookingContextBySlug = {
+    "medicina-estetica": { branch: "Medicină estetică", procedure: "Consultație estetică" },
+    "cosmetologie": { branch: "Cosmetologie", procedure: "Consultație cosmetologie" },
+    "chirurgie-estetica": { branch: "Chirurgie generală", procedure: "Consultație chirurgie" },
+    "volumizarea-buzelor": { branch: "Medicină estetică", procedure: "Volumizare buze" },
+    "full-face-acid-hialuronic": { branch: "Medicină estetică", procedure: "Full face cu acid hialuronic" },
+    "estompare-riduri": { branch: "Medicină estetică", procedure: "Estompare riduri / Botox" },
+    "tratamentul-ridurilor": { branch: "Medicină estetică", procedure: "Estompare riduri / Botox" },
+    "rinocorectie-acid-hialuronic": { branch: "Medicină estetică", procedure: "Rinocorecție cu acid hialuronic" },
+    "rejuvenare-faciala": { branch: "Medicină estetică", procedure: "Consultație estetică" },
+    "mezoterapia": { branch: "Medicină estetică", procedure: "Mezoterapie" },
+    "skinbooster": { branch: "Medicină estetică", procedure: "Skinbooster" },
+    "prp": { branch: "Medicină estetică", procedure: "PRP / terapia vampir" },
+    "terapia-vampir": { branch: "Medicină estetică", procedure: "PRP / terapia vampir" },
+    "microneedling": { branch: "Medicină estetică", procedure: "Microneedling / Dermapen" },
+    "topirea-grasimii": { branch: "Medicină estetică", procedure: "Topirea grăsimii" },
+    "conturare-tample": { branch: "Medicină estetică", procedure: "Consultație estetică" },
+    "marirea-pometilor": { branch: "Medicină estetică", procedure: "Mărirea pomeților" },
+    "marirea-mentonului": { branch: "Medicină estetică", procedure: "Mărirea mentonului" },
+    "reconturare-mandibulara": { branch: "Medicină estetică", procedure: "Conturare mandibulară" },
+    "estompare-cearcane": { branch: "Medicină estetică", procedure: "Estompare cearcăne" },
+    "eliminare-cearcane-barbati": { branch: "Medicină estetică", procedure: "Estompare cearcăne" },
+    "laser-co2": { branch: "Dermatologie estetică", procedure: "Laser fracționar CO2" },
+    "peeling-facial": { branch: "Dermatologie estetică", procedure: "Peeling facial" },
+    "xantelasme": { branch: "Dermatologie estetică", procedure: "Xantelasme" },
+    "hiperhidroza": { branch: "Dermatologie estetică", procedure: "Hiperhidroză" },
+    "zambet-gingival": { branch: "Dermatologie estetică", procedure: "Zâmbet gingival" },
+    "rinoplastie": { branch: "Chirurgie generală", procedure: "Rinoplastie" },
+    "rinoplastie-ultrasonica": { branch: "Chirurgie generală", procedure: "Rinoplastie ultrasonică" },
+    "blefaroplastie": { branch: "Chirurgie generală", procedure: "Blefaroplastie" },
+    "lifting-facial": { branch: "Chirurgie generală", procedure: "Lifting facial" },
+    "otoplastie": { branch: "Chirurgie generală", procedure: "Otoplastie" },
+    "bichectomie": { branch: "Chirurgie generală", procedure: "Bichectomie" },
+    "urechi-despicate": { branch: "Chirurgie generală", procedure: "Otoplastie" },
+    "implanturi-cu-silicon": { branch: "Chirurgie generală", procedure: "Implant mamar" },
+    "ridicare-sani": { branch: "Chirurgie generală", procedure: "Ridicare sâni" },
+    "micsorare-sani": { branch: "Chirurgie generală", procedure: "Micșorare sâni" },
+    "ginecomastie": { branch: "Chirurgie generală", procedure: "Ginecomastie" },
+    "liposuctie": { branch: "Chirurgie generală", procedure: "Liposucție" },
+    "liposuctie-dame": { branch: "Chirurgie generală", procedure: "Liposucție" },
+    "liposuctie-cervicala-barbati": { branch: "Chirurgie generală", procedure: "Liposucție cervicală" },
+    "liposuctia-cervicala": { branch: "Chirurgie generală", procedure: "Liposucție cervicală" },
+    "abdominoplastie-femei": { branch: "Chirurgie generală", procedure: "Abdominoplastie" },
+    "abdominoplastie-barbati": { branch: "Chirurgie generală", procedure: "Abdominoplastie" },
+    "lifting-brate": { branch: "Chirurgie generală", procedure: "Lifting brațe" },
+    "lifting-coapse": { branch: "Chirurgie generală", procedure: "Lifting coapse" },
+    "lifting-brazilian": { branch: "Chirurgie generală", procedure: "Lifting brazilian" },
+    "remodelare-postnatala": { branch: "Chirurgie generală", procedure: "Remodelare postnatală" },
+    "operatie-postbariatrica": { branch: "Chirurgie generală", procedure: "Operație postbariatrică" },
+    "diastaza-abdominala": { branch: "Chirurgie generală", procedure: "Diastază abdominală" },
+    "micsorare-stomac": { branch: "Chirurgie generală", procedure: "Micșorare stomac" },
+    "transplant-de-par-fue-advance": { branch: "Chirurgie generală", procedure: "Consultație chirurgie" },
+    "labioplastie": { branch: "Estetică ginecologică", procedure: "Labioplastie" }
+  };
+
+  function findSelectOption(select, value) {
+    var normalizedValue = normalizeText(value);
+    var options = Array.prototype.slice.call(select.options);
+
+    return options.find(function (option) {
+      return option.value === value || normalizeText(option.value) === normalizedValue || normalizeText(option.textContent) === normalizedValue;
+    });
+  }
+
+  function setFieldValue(field, value, allowNewOption, optionBranch) {
+    var option;
+
+    if (!field || !value) {
+      return false;
+    }
+
+    if (field.tagName === "SELECT") {
+      option = findSelectOption(field, value);
+
+      if (!option && allowNewOption) {
+        option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        if (optionBranch) {
+          option.setAttribute("data-branch", optionBranch);
+        }
+        field.appendChild(option);
+      }
+
+      if (option) {
+        field.value = option.value;
+        return true;
+      }
+
+      return false;
+    }
+
+    field.value = value;
+    return true;
+  }
+
+  function refreshProcedureOptions(form, keepCurrent) {
+    var branchSelect = form.querySelector("[data-branch-select]");
+    var procedureSelect = form.querySelector("[data-procedure-select]");
+    var branch = branchSelect ? branchSelect.value : "";
+    var currentValue = procedureSelect ? procedureSelect.value : "";
+    var selectedOption;
+
+    if (!procedureSelect) {
+      return;
+    }
+
+    Array.prototype.forEach.call(procedureSelect.options, function (option) {
+      var optionBranch = option.getAttribute("data-branch") || "";
+      var isVisible = !option.value || !branch || !optionBranch || optionBranch === branch;
+
+      option.hidden = !isVisible;
+      option.disabled = !isVisible;
+    });
+
+    if (!keepCurrent && currentValue) {
+      selectedOption = procedureSelect.options[procedureSelect.selectedIndex];
+      if (selectedOption && selectedOption.disabled) {
+        procedureSelect.value = "";
+      }
+    }
+  }
+
+  function applyBookingPrefill(form) {
+    var params = new URLSearchParams(window.location.search);
+    var branch = params.get("branch") || params.get("ramura") || "";
+    var procedure = params.get("procedure") || params.get("procedura") || params.get("service") || "";
+    var branchSelect = form.querySelector("[data-branch-select], [name='branch']");
+    var procedureField = form.querySelector("[data-procedure-select], [name='procedure']");
+
+    if (branch) {
+      setFieldValue(branchSelect, branch, true);
+    }
+
+    refreshProcedureOptions(form, true);
+
+    if (procedure) {
+      setFieldValue(procedureField, procedure, true, branch);
+    }
+
+    refreshProcedureOptions(form, true);
+  }
+
+  function getCurrentProcedureContext() {
+    var fileName = decodeURIComponent(window.location.pathname.split("/").pop() || "");
+    var slug = fileName.replace(/\.html$/i, "");
+
+    return bookingContextBySlug[slug] || null;
+  }
+
+  function withBookingParams(href, context) {
+    var hashIndex = href.indexOf("#");
+    var hash = hashIndex >= 0 ? href.slice(hashIndex) : "";
+    var beforeHash = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
+    var queryIndex = beforeHash.indexOf("?");
+    var path = queryIndex >= 0 ? beforeHash.slice(0, queryIndex) : beforeHash;
+    var query = queryIndex >= 0 ? beforeHash.slice(queryIndex + 1) : "";
+    var params = new URLSearchParams(query);
+
+    params.set("branch", context.branch);
+    params.set("procedure", context.procedure);
+
+    return path + "?" + params.toString() + hash;
+  }
+
+  function enrichBookingLinks() {
+    var context = getCurrentProcedureContext();
+
+    if (!context) {
+      return;
+    }
+
+    document.querySelectorAll("a[href]").forEach(function (link) {
+      var href = link.getAttribute("href") || "";
+      var hash = href.indexOf("#") >= 0 ? href.slice(href.indexOf("#")) : "";
+      var goesToBooking = hash === "#programare" || hash === "#formular";
+      var goesToKnownForm = href.indexOf("index.html") >= 0 || href.indexOf("contact.html") >= 0;
+
+      if (goesToBooking && goesToKnownForm) {
+        link.setAttribute("href", withBookingParams(href, context));
+      }
+    });
+  }
+
+  enrichBookingLinks();
+
+  function getFieldLabel(field) {
+    var label = field.closest("label");
+    var labelText = label ? label.querySelector("span") : null;
+
+    if (labelText && labelText.textContent.trim()) {
+      return labelText.textContent.trim();
+    }
+
+    return (field.name || "Câmp").replace(/[_-]+/g, " ");
+  }
+
+  function getFieldValue(field) {
+    if (field.type === "checkbox") {
+      return field.checked ? "Da" : "";
+    }
+
+    if (field.tagName === "SELECT") {
+      return field.options[field.selectedIndex] ? field.options[field.selectedIndex].textContent.trim() : field.value.trim();
+    }
+
+    return String(field.value || "").trim();
+  }
+
+  function buildFormMessage(form, subject) {
+    var lines = [subject, ""];
+
+    Array.prototype.forEach.call(form.elements, function (field) {
+      var value;
+
+      if (!field.name && field.type !== "checkbox") {
+        return;
+      }
+
+      if (field.type === "submit" || field.type === "button" || field.type === "reset") {
+        return;
+      }
+
+      value = getFieldValue(field);
+
+      if (!value) {
+        return;
+      }
+
+      lines.push(getFieldLabel(field) + ": " + value);
+    });
+
+    lines.push("");
+    lines.push("Pagina: " + window.location.href);
+
+    return lines.join("\n");
+  }
+
+  function openRequestChannels(subject, message) {
+    var email = "office@zenclinics.ro";
+    var whatsappPhone = "40720558515";
+    var mailtoUrl = "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(message);
+    var whatsappUrl = "https://wa.me/" + whatsappPhone + "?text=" + encodeURIComponent(message);
+
+    window.open(whatsappUrl, "_blank", "noopener");
+    window.setTimeout(function () {
+      window.location.href = mailtoUrl;
+    }, 120);
+
+    return {
+      mailto: mailtoUrl,
+      whatsapp: whatsappUrl
+    };
+  }
+
+  function renderRequestLinks(status, links) {
+    var text = document.createTextNode("Cererea este pregătită pentru WhatsApp și email. Dacă nu s-au deschis automat, folosește linkurile: ");
+    var whatsappLink = document.createElement("a");
+    var separator = document.createTextNode(" · ");
+    var emailLink = document.createElement("a");
+
+    status.classList.remove("is-error");
+    status.textContent = "";
+
+    whatsappLink.href = links.whatsapp;
+    whatsappLink.target = "_blank";
+    whatsappLink.rel = "noopener";
+    whatsappLink.textContent = "WhatsApp";
+
+    emailLink.href = links.mailto;
+    emailLink.textContent = "Email";
+
+    status.appendChild(text);
+    status.appendChild(whatsappLink);
+    status.appendChild(separator);
+    status.appendChild(emailLink);
+  }
+
   document.querySelectorAll("[data-booking-form]").forEach(function (form) {
+    var branchSelect = form.querySelector("[data-branch-select]");
+
+    refreshProcedureOptions(form, true);
+    applyBookingPrefill(form);
+
+    if (branchSelect) {
+      branchSelect.addEventListener("change", function () {
+        refreshProcedureOptions(form, false);
+      });
+    }
+
     form.addEventListener("submit", function (event) {
       var status = form.querySelector("[data-form-status]");
       var nameInput = form.querySelector("[name='full_name'], [name='name']");
       var phoneInput = form.querySelector("[name='phone'], [name='telefon']");
       var emailInput = form.querySelector("[name='email']");
+      var missingRequired = null;
+      var subject = "Cerere programare ZEN Clinics";
+      var message;
+      var links;
       var nameValue = nameInput ? nameInput.value.trim() : "";
       var phoneValue = phoneInput ? phoneInput.value.trim() : "";
       var emailValue = emailInput ? emailInput.value.trim() : "";
@@ -488,11 +832,27 @@
         errors.push("Completează o adresă de email validă sau lasă câmpul gol.");
       }
 
+      Array.prototype.some.call(form.querySelectorAll("[required]"), function (field) {
+        var isKnownField = field === nameInput || field === phoneInput || field === emailInput;
+        var isMissing = field.type === "checkbox" ? !field.checked : !String(field.value || "").trim();
+
+        if (!isKnownField && isMissing) {
+          missingRequired = field;
+          return true;
+        }
+
+        return false;
+      });
+
+      if (missingRequired) {
+        errors.push("Completează câmpurile obligatorii.");
+      }
+
       if (status) {
         status.classList.toggle("is-error", errors.length > 0);
         status.textContent = errors.length
           ? errors.join(" ")
-          : "Solicitarea a fost pregătită. Echipa ZEN Clinics va putea primi aceste date după conectarea formularului la backend.";
+          : "";
       }
 
       if (errors.length > 0) {
@@ -502,23 +862,41 @@
           phoneInput.focus();
         } else if (emailInput && !emailValid) {
           emailInput.focus();
+        } else if (missingRequired) {
+          missingRequired.focus();
         }
 
         return;
       }
 
+      message = buildFormMessage(form, subject);
+      links = openRequestChannels(subject, message);
+
+      if (status) {
+        renderRequestLinks(status, links);
+      }
+
       form.reset();
+      refreshProcedureOptions(form, false);
     });
   });
 
   document.querySelectorAll("[data-privilege-form]").forEach(function (form) {
     form.addEventListener("submit", function (event) {
       var status = form.querySelector("[data-privilege-status]");
+      var links;
 
       event.preventDefault();
 
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      links = openRequestChannels("Solicitare ZEN VIP Card", buildFormMessage(form, "Solicitare ZEN VIP Card"));
+
       if (status) {
-        status.textContent = "Cererea ta a fost înregistrată local. Conectează formularul la backend pentru trimitere reală.";
+        renderRequestLinks(status, links);
       }
     });
   });
@@ -573,6 +951,26 @@
   initSiteIntro();
   initPageTransitions();
 
+  if (processSection) {
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      processSection.classList.add("is-process-visible");
+    } else {
+      var processObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            processSection.classList.add("is-process-visible");
+            processObserver.unobserve(processSection);
+          }
+        });
+      }, {
+        rootMargin: "0px 0px -22% 0px",
+        threshold: 0.22
+      });
+
+      processObserver.observe(processSection);
+    }
+  }
+
   if (reduceMotion) {
     document.querySelectorAll(revealSelector).forEach(function (element) {
       element.classList.add("is-visible");
@@ -599,7 +997,30 @@
     });
   }
 
+  var scrollTicking = false;
+  var resizeTimer = 0;
+
+  function requestScrollUpdate() {
+    if (scrollTicking) {
+      return;
+    }
+
+    scrollTicking = true;
+    window.requestAnimationFrame(function () {
+      updateHeader();
+      scrollTicking = false;
+    });
+  }
+
+  function requestResizeUpdate() {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(function () {
+      updateHeader();
+      document.querySelectorAll("[data-faq-panel]").forEach(syncFaqPanelHeight);
+    }, 120);
+  }
+
   updateHeader();
-  window.addEventListener("scroll", updateHeader, { passive: true });
-  window.addEventListener("resize", updateHeader);
+  window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+  window.addEventListener("resize", requestResizeUpdate);
 }());

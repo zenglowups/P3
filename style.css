@@ -461,6 +461,31 @@ p {
   transform: translateY(0);
 }
 
+.zen-clean-page .reveal-up,
+.zen-clean-page .reveal-scale,
+.zen-clean-page .stagger-item {
+  opacity: 0;
+  transition:
+    opacity 680ms ease,
+    transform 680ms cubic-bezier(0.2, 0.72, 0.2, 1);
+}
+
+.zen-clean-page .reveal-up,
+.zen-clean-page .stagger-item {
+  transform: translateY(24px);
+}
+
+.zen-clean-page .reveal-scale {
+  transform: scale(0.985);
+}
+
+.zen-clean-page .reveal-up.is-visible,
+.zen-clean-page .reveal-scale.is-visible,
+.zen-clean-page .stagger-item.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -474,6 +499,14 @@ p {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .zen-clean-page .reveal-up,
+  .zen-clean-page .reveal-scale,
+  .zen-clean-page .stagger-item {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }
 
@@ -789,6 +822,37 @@ body.procedure-page {
   font-size: 1.05rem;
 }
 
+.procedure-editorial,
+.procedure-split {
+  display: grid;
+  grid-template-columns: 0.78fr 1.22fr;
+  gap: 58px;
+  align-items: start;
+}
+
+.procedure-editorial__copy {
+  display: grid;
+  gap: 18px;
+}
+
+.procedure-editorial__copy p {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+}
+
+.procedure-section__head {
+  max-width: 800px;
+  margin-bottom: 34px;
+}
+
+.procedure-section__head h2 {
+  margin-bottom: 16px;
+}
+
+.procedure-section__head p:not(.eyebrow) {
+  max-width: 720px;
+}
+
 .procedure-section--dark p {
   color: rgba(255, 250, 240, 0.7);
 }
@@ -811,7 +875,8 @@ body.procedure-page {
   grid-template-columns: 1fr 1fr;
 }
 
-.procedure-visual {
+.procedure-visual,
+.procedure-visual-card {
   position: relative;
   margin: 0;
   overflow: hidden;
@@ -821,7 +886,8 @@ body.procedure-page {
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
 }
 
-.procedure-visual:first-child {
+.procedure-visual:first-child,
+.procedure-visual-card--large {
   grid-row: span 2;
 }
 
@@ -830,7 +896,8 @@ body.procedure-page {
   grid-row: auto;
 }
 
-.procedure-visual img {
+.procedure-visual img,
+.procedure-visual-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -841,6 +908,12 @@ body.procedure-page {
 .procedure-objectives {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.procedure-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -870,6 +943,7 @@ body.procedure-page {
 .procedure-mini-card p,
 .procedure-objective-card p {
   margin-bottom: 0;
+  color: var(--muted);
   font-size: 0.96rem;
 }
 
@@ -882,7 +956,8 @@ body.procedure-page {
   list-style: none;
 }
 
-.procedure-timeline li {
+.procedure-timeline li,
+.procedure-step {
   position: relative;
   min-height: 220px;
   padding: 24px;
@@ -891,7 +966,8 @@ body.procedure-page {
   background: rgba(255, 255, 255, 0.055);
 }
 
-.procedure-timeline li::after {
+.procedure-timeline li::after,
+.procedure-step::after {
   content: "";
   position: absolute;
   top: 41px;
@@ -901,11 +977,13 @@ body.procedure-page {
   background: rgba(255, 250, 240, 0.24);
 }
 
-.procedure-timeline li:last-child::after {
+.procedure-timeline li:last-child::after,
+.procedure-step:last-child::after {
   content: none;
 }
 
-.procedure-timeline span {
+.procedure-timeline span,
+.procedure-step span {
   display: block;
   margin-bottom: 34px;
   color: var(--procedure-accent);
@@ -913,11 +991,13 @@ body.procedure-page {
   font-size: 1.55rem;
 }
 
-.procedure-timeline h3 {
+.procedure-timeline h3,
+.procedure-step h3 {
   color: var(--ivory);
 }
 
-.procedure-timeline p {
+.procedure-timeline p,
+.procedure-step p {
   margin-bottom: 0;
 }
 
@@ -933,7 +1013,16 @@ body.procedure-page {
   gap: 18px;
 }
 
-.procedure-detail-card {
+.procedure-detail-list,
+.procedure-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.procedure-detail-card,
+.procedure-detail,
+.procedure-benefit {
   padding: 28px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -941,18 +1030,28 @@ body.procedure-page {
   box-shadow: var(--shadow-soft);
 }
 
-.procedure-detail-card h2 {
+.procedure-detail-card h2,
+.procedure-detail h3,
+.procedure-benefit h3 {
   margin-bottom: 14px;
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
+}
+
+.procedure-detail-card h2 {
   font-size: 1.7rem;
 }
 
-.procedure-detail-card p {
+.procedure-detail-card p,
+.procedure-detail p,
+.procedure-benefit p {
   margin-bottom: 12px;
+  color: var(--muted);
 }
 
-.procedure-detail-card p:last-child {
+.procedure-detail-card p:last-child,
+.procedure-detail p:last-child,
+.procedure-benefit p:last-child {
   margin-bottom: 0;
 }
 
@@ -1064,12 +1163,16 @@ body.procedure-page {
   }
 
   .procedure-card-grid,
+  .procedure-mini-grid,
+  .procedure-detail-list,
+  .procedure-benefit-grid,
   .procedure-objectives,
   .procedure-timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .procedure-timeline li::after {
+  .procedure-timeline li::after,
+  .procedure-step::after {
     content: none;
   }
 }
@@ -1085,6 +1188,8 @@ body.procedure-page {
   }
 
   .procedure-intro-grid,
+  .procedure-editorial,
+  .procedure-split,
   .procedure-details-grid,
   .procedure-faq-grid {
     grid-template-columns: 1fr;
@@ -1100,7 +1205,8 @@ body.procedure-page {
     grid-auto-rows: 280px;
   }
 
-  .procedure-visual:first-child {
+  .procedure-visual:first-child,
+  .procedure-visual-card--large {
     grid-row: auto;
   }
 }
@@ -1116,6 +1222,9 @@ body.procedure-page {
   }
 
   .procedure-card-grid,
+  .procedure-mini-grid,
+  .procedure-detail-list,
+  .procedure-benefit-grid,
   .procedure-objectives,
   .procedure-timeline {
     grid-template-columns: 1fr;
@@ -1123,7 +1232,9 @@ body.procedure-page {
 
   .procedure-mini-card,
   .procedure-objective-card,
-  .procedure-detail-card {
+  .procedure-detail-card,
+  .procedure-detail,
+  .procedure-benefit {
     padding: 22px;
   }
 }
@@ -1322,8 +1433,6 @@ body.procedure-page {
   transform-style: preserve-3d;
 }
 
-.vip-card:hover .vip-card-inner,
-.vip-card:focus-visible .vip-card-inner,
 .vip-card.is-flipped .vip-card-inner {
   transform: rotateY(180deg);
 }
@@ -1395,8 +1504,6 @@ body.procedure-page {
     transform 920ms var(--ease-premium, ease);
 }
 
-.vip-card:hover .vip-card-front--image::after,
-.vip-card:focus-visible .vip-card-front--image::after,
 .vip-card.is-flipped .vip-card-front--image::after {
   opacity: 0.62;
   transform: translateX(125%);
@@ -1452,7 +1559,6 @@ body.procedure-page {
   transition: transform var(--motion-long, 900ms) var(--ease-premium, ease);
 }
 
-.vip-card:hover .vip-card-back img,
 .vip-card.is-flipped .vip-card-back img {
   transform: scale(1.015);
 }
@@ -1625,11 +1731,6 @@ body.procedure-page {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.026);
-}
-
-.zen-dental-hero .inner-hero__media img {
-  object-position: center;
-  filter: saturate(0.88) brightness(0.9);
 }
 
 .privilege-hero {
@@ -2020,6 +2121,32 @@ body.procedure-page {
 .procedure-directory-card:focus-visible img {
   filter: saturate(1.08) contrast(1.08);
   transform: scale(1.07);
+}
+
+.surgery-page .surgery-hero {
+  background-position: 56% center;
+}
+
+.surgery-page .surgery-intro {
+  border-bottom: 1px solid rgba(200, 164, 93, 0.12);
+}
+
+.surgery-page .surgery-zone-grid .procedure-image-card {
+  min-height: clamp(340px, 34vw, 520px);
+}
+
+.surgery-page .procedure-directory__head p:not(.lux-kicker) {
+  max-width: 760px;
+  margin-top: 18px;
+}
+
+.surgery-page .procedure-directory-card {
+  min-height: 300px;
+}
+
+.surgery-page .surgery-directory:nth-of-type(even) {
+  border-top: 1px solid rgba(200, 164, 93, 0.1);
+  border-bottom: 1px solid rgba(200, 164, 93, 0.1);
 }
 
 .price-section {
@@ -2550,7 +2677,9 @@ body.zen-clean-page {
   min-height: 58px;
   align-items: center;
   justify-content: center;
-  gap: clamp(12px, 2.2vw, 34px);
+  flex-wrap: wrap;
+  gap: 6px clamp(8px, 1.1vw, 18px);
+  padding-block: 8px;
 }
 
 .zen-main-nav a {
@@ -2569,6 +2698,18 @@ body.zen-clean-page {
   padding: 12px 0;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.zen-main-nav .mega-item {
+  display: inline-flex;
+}
+
+.zen-main-nav .mega-toggle {
+  font-family: inherit;
+}
+
+.zen-main-nav .mega-panel {
+  text-align: left;
 }
 
 .zen-nav-link--caret::after {
@@ -2804,10 +2945,10 @@ body.zen-clean-page {
 }
 
 .hero-contact-rail {
-  position: absolute;
+  position: fixed;
   right: clamp(22px, 2.1vw, 42px);
   top: 50%;
-  z-index: 3;
+  z-index: 70;
   display: grid;
   gap: 14px;
   padding: 18px 12px;
@@ -2939,7 +3080,7 @@ body.zen-clean-page {
   min-height: inherit;
   background:
     linear-gradient(90deg, rgba(247, 242, 234, 0.18), transparent 56%),
-    url("assets/images/about-zen-woman.png") center center / cover no-repeat,
+    url("assets/optimized/about-zen-woman-780.jpg") center center / cover no-repeat,
     #f2eadc;
 }
 
@@ -3244,7 +3385,7 @@ body.zen-clean-page {
   min-height: inherit;
   background:
     linear-gradient(90deg, rgba(255, 250, 242, 0.04), rgba(255, 250, 242, 0.4) 92%),
-    url("assets/images/why-zen-woman.png") center center / cover no-repeat,
+    url("assets/optimized/why-zen-woman-735.jpg") center center / cover no-repeat,
     #f9f1e4;
 }
 
@@ -3697,7 +3838,20 @@ body.zen-clean-page {
   right: 8%;
   left: 8%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(226, 199, 130, 0.56), transparent);
+  background: linear-gradient(90deg, transparent, rgba(226, 199, 130, 0.18), transparent);
+}
+
+.zen-process-timeline::after {
+  content: "";
+  position: absolute;
+  top: 45px;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(226, 199, 130, 0.86), rgba(255, 241, 184, 0.72), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1100ms cubic-bezier(0.2, 0.72, 0.2, 1);
 }
 
 .zen-process-step {
@@ -3705,6 +3859,50 @@ body.zen-clean-page {
   min-height: 300px;
   padding: 82px 22px 24px;
   border-right: 1px solid rgba(226, 199, 130, 0.12);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 680ms ease, transform 680ms cubic-bezier(0.2, 0.72, 0.2, 1);
+  transition-delay: var(--process-delay, 0ms);
+}
+
+.zen-process-section.is-process-visible .zen-process-timeline::after {
+  transform: scaleX(1);
+}
+
+.zen-process-section.is-process-visible .zen-process-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.zen-clean-page .zen-process-step.reveal-up.is-visible {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.zen-clean-page .zen-process-section.is-process-visible .zen-process-step,
+.zen-clean-page .zen-process-section.is-process-visible .zen-process-step.reveal-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.zen-process-step:nth-child(1) {
+  --process-delay: 160ms;
+}
+
+.zen-process-step:nth-child(2) {
+  --process-delay: 280ms;
+}
+
+.zen-process-step:nth-child(3) {
+  --process-delay: 400ms;
+}
+
+.zen-process-step:nth-child(4) {
+  --process-delay: 520ms;
+}
+
+.zen-process-step:nth-child(5) {
+  --process-delay: 640ms;
 }
 
 .zen-process-step:last-child {
@@ -3760,6 +3958,7 @@ body.zen-clean-page {
 }
 
 .zen-faq-item {
+  overflow: hidden;
   border: 1px solid rgba(226, 199, 130, 0.18);
   border-radius: 22px;
   background:
@@ -3822,6 +4021,18 @@ body.zen-clean-page {
 }
 
 .zen-faq-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 24px;
+  transition:
+    max-height 560ms cubic-bezier(0.2, 0.72, 0.2, 1),
+    opacity 320ms ease,
+    padding 320ms ease;
+}
+
+.zen-faq-item.is-open .zen-faq-panel {
+  opacity: 1;
   padding: 0 24px 24px;
 }
 
@@ -3872,6 +4083,53 @@ body.zen-clean-page {
   color: var(--zen-gold-soft);
 }
 
+.zen-booking-address {
+  display: grid;
+  gap: 7px;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid rgba(226, 199, 130, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--zen-text);
+}
+
+.zen-booking-address span {
+  color: rgba(234, 216, 184, 0.72);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.zen-booking-address strong {
+  color: var(--zen-gold-soft);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.zen-booking-map,
+.contact-map-embed {
+  position: relative;
+  min-height: 240px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(226, 199, 130, 0.2);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+.zen-booking-map iframe,
+.contact-map-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: saturate(0.9) contrast(1.02);
+}
+
 .zen-booking-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3916,6 +4174,18 @@ body.zen-clean-page {
   min-height: 132px;
   padding-top: 14px;
   resize: vertical;
+}
+
+.zen-booking-form option,
+.inner-form option {
+  background: #110e0b;
+  color: var(--zen-text);
+}
+
+.zen-booking-form input[type="time"]::-webkit-calendar-picker-indicator,
+.inner-form input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.82) sepia(0.24) saturate(1.4);
 }
 
 .zen-booking-form input:focus,
@@ -3971,6 +4241,10 @@ body.zen-clean-page {
 
 .zen-form-status.is-error {
   color: #f1b3a9;
+}
+
+.inner-form__status.is-error {
+  color: #f1b3a9 !important;
 }
 
 .zen-map-section {
@@ -4187,10 +4461,13 @@ body.zen-clean-page {
   transition: transform 760ms cubic-bezier(0.2, 0.74, 0.25, 1);
 }
 
-.zen-vip-card:hover .zen-vip-card__inner,
-.zen-vip-card:focus-visible .zen-vip-card__inner,
 .zen-vip-card.is-flipped .zen-vip-card__inner {
   transform: rotateY(180deg);
+}
+
+.vip-card:focus-visible,
+.zen-vip-card:focus-visible {
+  outline: 0;
 }
 
 .zen-vip-card__face {
@@ -4211,28 +4488,17 @@ body.zen-clean-page {
 }
 
 .zen-vip-card__back {
-  display: grid;
-  align-content: center;
-  gap: 12px;
-  padding: clamp(22px, 3.2vw, 46px);
-  background:
-    radial-gradient(circle at 18% 12%, rgba(226, 199, 130, 0.2), transparent 28%),
-    linear-gradient(135deg, #080706, #1b1611 52%, #050403);
-  color: var(--zen-text);
+  display: block;
+  padding: 0;
+  background: #050403;
   transform: rotateY(180deg);
 }
 
-.zen-vip-card__back strong {
-  color: var(--zen-gold-soft);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.8rem, 3vw, 3.4rem);
-  font-weight: 500;
-  line-height: 1;
-}
-
-.zen-vip-card__back span {
-  color: rgba(246, 239, 229, 0.86);
-  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+.zen-vip-card__back img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .zen-loyalty-form {
@@ -4547,7 +4813,7 @@ body.zen-clean-page {
   border-bottom: 1px solid rgba(226, 199, 130, 0.14);
   background:
     linear-gradient(90deg, rgba(5, 4, 3, 0.96) 0%, rgba(5, 4, 3, 0.78) 50%, rgba(5, 4, 3, 0.96) 100%),
-    url("gallery/testimoniu-bg.png") center / cover no-repeat,
+    url("assets/optimized/testimoniu-bg-1400.jpg") center / cover no-repeat,
     #050403;
 }
 
@@ -4610,7 +4876,7 @@ body.zen-clean-page {
   border-radius: 28px;
   background:
     linear-gradient(180deg, rgba(17, 14, 11, 0.86), rgba(5, 4, 3, 0.94)),
-    url("gallery/testimoniu-bg.png") center / cover no-repeat;
+    url("assets/optimized/testimoniu-bg-1400.jpg") center / cover no-repeat;
   box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
   transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
 }
@@ -4972,6 +5238,22 @@ body.zen-clean-page {
     background: linear-gradient(180deg, transparent, rgba(226, 199, 130, 0.46), transparent);
   }
 
+  .zen-process-timeline::after {
+    top: 0;
+    bottom: 0;
+    right: auto;
+    left: 23px;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, transparent, rgba(226, 199, 130, 0.82), rgba(255, 241, 184, 0.64), transparent);
+    transform: scaleY(0);
+    transform-origin: center top;
+  }
+
+  .zen-process-section.is-process-visible .zen-process-timeline::after {
+    transform: scaleY(1);
+  }
+
   .zen-process-step {
     min-height: auto;
     padding: 22px 22px 22px 82px;
@@ -5225,6 +5507,10 @@ body.zen-clean-page {
   }
 
   .zen-faq-panel {
+    padding: 0 18px;
+  }
+
+  .zen-faq-item.is-open .zen-faq-panel {
     padding: 0 18px 20px;
   }
 
@@ -6405,103 +6691,6 @@ body.zen-clean-page {
   padding-bottom: 104px;
 }
 
-.zen-dental-hero {
-  background:
-    radial-gradient(circle at 80% 36%, rgba(200, 164, 93, 0.2), transparent 24%),
-    linear-gradient(90deg, rgba(5, 4, 3, 0.98), rgba(5, 4, 3, 0.82)),
-    #050403;
-}
-
-.zen-dental-hero .zen-code-hero__media {
-  min-height: clamp(560px, 68vh, 760px);
-  border-radius: 34px;
-  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.46);
-}
-
-.zen-dental-hero .zen-code-hero__media img {
-  object-position: center;
-  filter: saturate(0.92) brightness(0.96) contrast(1.03);
-}
-
-.zen-dental-hero .zen-code-hero__media::after {
-  background:
-    radial-gradient(circle at 62% 28%, transparent 0 34%, rgba(5, 4, 3, 0.08) 56%, rgba(5, 4, 3, 0.24) 100%),
-    linear-gradient(180deg, transparent 58%, rgba(5, 4, 3, 0.28));
-}
-
-.zen-facets-section {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(92px, 10vw, 150px) 0;
-  border-top: 1px solid rgba(200, 164, 93, 0.14);
-  border-bottom: 1px solid rgba(200, 164, 93, 0.14);
-  background:
-    radial-gradient(circle at 78% 42%, rgba(200, 164, 93, 0.14), transparent 28%),
-    linear-gradient(90deg, #050403 0%, #090706 48%, rgba(18, 14, 10, 0.96) 100%);
-}
-
-.zen-facets-section__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(360px, 1fr);
-  gap: clamp(38px, 7vw, 92px);
-  align-items: center;
-}
-
-.zen-facets-section__copy {
-  max-width: 690px;
-}
-
-.zen-facets-section h2 {
-  margin: 0;
-  color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3rem, 5vw, 5.8rem);
-  font-weight: 500;
-  line-height: 1;
-}
-
-.zen-facets-section p:not(.lux-kicker) {
-  margin: 22px 0 0;
-  color: rgba(246, 239, 229, 0.82);
-  font-size: 1.02rem;
-  line-height: 1.76;
-}
-
-.zen-facets-section .lux-button {
-  margin-top: 34px;
-}
-
-.zen-facets-section__media {
-  position: relative;
-  width: 100%;
-  min-height: 620px;
-  margin: 0;
-  overflow: hidden;
-  border: 1px solid rgba(226, 199, 130, 0.24);
-  border-radius: 30px;
-  box-shadow: 0 34px 110px rgba(0, 0, 0, 0.36);
-}
-
-.zen-facets-section__media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(5, 4, 3, 0.32), transparent 54%),
-    linear-gradient(180deg, transparent 58%, rgba(5, 4, 3, 0.52));
-}
-
-.zen-facets-section__media img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  filter: saturate(0.9) contrast(1.02);
-}
-
 .lux-trust {
   border-top: 1px solid rgba(200, 164, 93, 0.16);
   border-bottom: 1px solid rgba(200, 164, 93, 0.16);
@@ -6937,7 +7126,7 @@ body.zen-clean-page {
   object-fit: cover;
   filter: saturate(0.74) brightness(0.62);
   transform: scale(1.01);
-  transition: opacity 360ms ease, transform 620ms cubic-bezier(0.22, 1, 0.36, 1), filter 620ms ease;
+  transition: opacity 360ms ease, transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .lux-surgery__showcase::after {
@@ -7301,7 +7490,7 @@ body.zen-clean-page {
   position: relative;
   background:
     linear-gradient(180deg, rgba(6, 5, 3, 0.82), rgba(10, 8, 6, 0.92)),
-    url("gallery/testimoniu-bg.png") center / cover fixed,
+    url("assets/optimized/testimoniu-bg-1400.jpg") center / cover,
     var(--bg);
   overflow: hidden;
 }
@@ -7346,7 +7535,7 @@ body.zen-clean-page {
   border-radius: 28px;
   background:
     linear-gradient(145deg, rgba(5, 4, 3, 0.78), rgba(21, 17, 13, 0.76)),
-    url("gallery/testimoniu-bg.png") center / cover;
+    url("assets/optimized/testimoniu-bg-1400.jpg") center / cover;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 28px 90px rgba(0, 0, 0, 0.36);
   text-align: center;
 }
@@ -7400,14 +7589,14 @@ body.zen-clean-page {
 .testimonials-hero {
   background:
     linear-gradient(180deg, rgba(5, 4, 3, 0.52), rgba(5, 4, 3, 0.92)),
-    url("gallery/testimoniu-bg.png") center / cover;
+    url("assets/optimized/testimoniu-bg-1400.jpg") center / cover;
 }
 
 .testimonials-archive {
   position: relative;
   background:
     linear-gradient(180deg, rgba(5, 4, 3, 0.9), rgba(13, 11, 9, 0.96)),
-    url("gallery/testimoniu-bg.png") center / cover fixed;
+    url("assets/optimized/testimoniu-bg-1400.jpg") center / cover;
   overflow: hidden;
 }
 
@@ -7430,7 +7619,7 @@ body.zen-clean-page {
   border-radius: 26px;
   background:
     linear-gradient(145deg, rgba(5, 4, 3, 0.82), rgba(21, 17, 13, 0.76)),
-    url("gallery/testimoniu-bg.png") center / cover;
+    url("assets/optimized/testimoniu-bg-1400.jpg") center / cover;
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.26);
   transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
 }
@@ -7457,6 +7646,12 @@ body.zen-clean-page {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.18rem;
   line-height: 1.55;
+}
+
+.testimonials-archive__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(28px, 5vw, 54px);
 }
 
 .lux-booking {
@@ -7665,7 +7860,7 @@ body.zen-clean-page {
   inset: 0;
   background:
     linear-gradient(135deg, rgba(5, 4, 3, 0.98), rgba(21, 17, 13, 0.84)),
-    url("gallery/MEZOTERAPIE2.jpg") center / cover;
+    url("assets/optimized/mezoterapie2-900.jpg") center / cover;
   opacity: 0.9;
 }
 
@@ -7701,7 +7896,7 @@ body.zen-clean-page {
   order: 1;
   gap: 10px;
   transform-origin: bottom center;
-  transition: opacity 260ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1), filter 320ms ease, visibility 320ms ease;
+  transition: opacity 260ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1), visibility 320ms ease;
 }
 
 .floating-contact__toggle {
@@ -7914,9 +8109,7 @@ body.zen-clean-page {
   opacity: 0;
   transition:
     opacity var(--motion-medium, 720ms) var(--ease-premium, ease),
-    transform var(--motion-medium, 720ms) var(--ease-premium, ease),
-    filter var(--motion-medium, 720ms) var(--ease-premium, ease);
-  will-change: opacity, transform;
+    transform var(--motion-medium, 720ms) var(--ease-premium, ease);
 }
 
 .lux-home .reveal,
@@ -7931,13 +8124,11 @@ body.zen-clean-page {
 
 .lux-home .reveal-scale {
   transform: scale(0.985);
-  filter: saturate(0.9);
 }
 
 .lux-home .is-visible {
   opacity: 1;
   transform: none;
-  filter: none;
 }
 
 .lux-home .stagger-item:nth-child(2) {
@@ -8022,8 +8213,7 @@ body.zen-clean-page {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .zen-code-hero__inner,
-  .zen-facets-section__grid {
+  .zen-code-hero__inner {
     grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.82fr);
   }
 
@@ -8083,8 +8273,7 @@ body.zen-clean-page {
 
   .zen-code-hero__inner,
   .zen-about-story,
-  .zen-why-section__inner,
-  .zen-facets-section__grid {
+  .zen-why-section__inner {
     grid-template-columns: 1fr;
   }
 
@@ -8114,10 +8303,6 @@ body.zen-clean-page {
     min-height: 560px;
     max-width: 560px;
     margin-inline: auto;
-  }
-
-  .zen-facets-section__media {
-    min-height: 500px;
   }
 
   .lux-location__grid,
@@ -8236,8 +8421,7 @@ body.zen-clean-page {
   }
 
   .zen-about-story h2,
-  .zen-why-section__head h2,
-  .zen-facets-section h2 {
+  .zen-why-section__head h2 {
     font-size: clamp(2.35rem, 13vw, 3.35rem);
   }
 
@@ -8249,8 +8433,7 @@ body.zen-clean-page {
     padding: 82px 0;
   }
 
-  .zen-why-section__visual,
-  .zen-facets-section__media {
+  .zen-why-section__visual {
     min-height: 400px;
     border-radius: 22px;
   }
@@ -8377,5 +8560,55 @@ body.zen-clean-page {
 
   .lux-footer__bottom {
     flex-direction: column;
+  }
+}
+
+/* Performance tuning: keep below-the-fold sections cheap to render, especially on mobile. */
+.zen-popular-section,
+.zen-process-section,
+.zen-faq-section,
+.zen-testimonials-home,
+.zen-loyalty-section,
+.zen-map-section,
+.zen-booking-section,
+.lux-testimonials,
+.lux-location,
+.lux-final-cta {
+  content-visibility: auto;
+  contain-intrinsic-size: 720px;
+}
+
+@media (max-width: 980px), (pointer: coarse) {
+  .zen-site-header,
+  .zen-mobile-menu,
+  .mega-panel,
+  .hero-contact-rail,
+  .lux-surgery__card,
+  .lux-final-cta__inner {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .zen-clean-page .reveal,
+  .zen-clean-page .reveal-up,
+  .zen-clean-page .reveal-scale,
+  .zen-clean-page .stagger-item,
+  .lux-home .reveal,
+  .lux-home .reveal-up,
+  .lux-home .reveal-scale,
+  .lux-home .stagger-item {
+    transition-duration: 360ms;
+  }
+
+  .hero-home__portrait img,
+  .zen-popular-card,
+  .floating-contact a,
+  .floating-contact__toggle,
+  .back-to-top {
+    transition-duration: 180ms;
+  }
+
+  .lux-map-embed iframe {
+    filter: none;
   }
 }
