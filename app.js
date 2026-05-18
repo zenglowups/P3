@@ -903,6 +903,74 @@
     });
   }
 
+  function getSupabaseTableUrl(tableName) {
+    var baseUrl = (zenConfig.supabaseUrl || "").replace(/\/+$/, "");
+
+    return baseUrl ? baseUrl + "/rest/v1/" + tableName : "";
+  }
+
+  function submitSupabaseInsert(tableName, payload) {
+    var endpoint = getSupabaseTableUrl(tableName);
+    var anonKey = zenConfig.supabaseAnonKey || "";
+
+    if (!endpoint || !anonKey) {
+      return Promise.resolve({ skipped: true });
+    }
+
+    return fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "apikey": anonKey,
+        "Authorization": "Bearer " + anonKey,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      if (!response.ok) {
+        return response.text().then(function (text) {
+          throw new Error(text || "Supabase insert failed");
+        });
+      }
+
+      return { ok: true };
+    });
+  }
+
+  function getFormDataValue(formData, names) {
+    var index;
+    var value;
+
+    for (index = 0; index < names.length; index += 1) {
+      value = formData.get(names[index]);
+
+      if (value !== null && String(value).trim()) {
+        return String(value).trim();
+      }
+    }
+
+    return "";
+  }
+
+  function collectAppointmentPayload(form) {
+    var formData = new FormData(form);
+    var age = getFormDataValue(formData, ["age"]);
+
+    return {
+      full_name: getFormDataValue(formData, ["full_name", "name"]),
+      phone: getFormDataValue(formData, ["phone", "telefon"]),
+      age: age ? Number(age) : null,
+      email: getFormDataValue(formData, ["email"]) || null,
+      branch: getFormDataValue(formData, ["branch"]) || null,
+      procedure: getFormDataValue(formData, ["procedure"]) || null,
+      preferred_date: getFormDataValue(formData, ["preferred_date"]) || null,
+      preferred_time: getFormDataValue(formData, ["preferred_time"]) || null,
+      contact_method: getFormDataValue(formData, ["contact_method"]) || null,
+      request_type: getFormDataValue(formData, ["request_type"]) || null,
+      message: getFormDataValue(formData, ["message"]) || null
+    };
+  }
+
   function openRequestChannels(subject, message) {
     var email = "office@zenclinics.ro";
     var whatsappPhone = "40720558515";
@@ -966,6 +1034,7 @@
       var message;
       var links;
       var payload;
+      var appointmentPayload;
       var nameValue = nameInput ? nameInput.value.trim() : "";
       var phoneValue = phoneInput ? phoneInput.value.trim() : "";
       var emailValue = emailInput ? emailInput.value.trim() : "";
@@ -1027,13 +1096,16 @@
       message = buildFormMessage(form, subject);
       payload = collectFormPayload(form, "contact");
       payload.message = message;
+      appointmentPayload = collectAppointmentPayload(form);
 
       if (status) {
         status.classList.remove("is-error");
-        status.textContent = getFunctionUrl("submit-contact") ? "Se trimite securizat..." : "";
+        status.textContent = getSupabaseTableUrl("appointments") || getFunctionUrl("submit-contact") ? "Se trimite..." : "";
       }
 
-      submitSecureForm("submit-contact", payload).then(function () {
+      submitSupabaseInsert("appointments", appointmentPayload).then(function () {
+        return submitSecureForm("submit-contact", payload);
+      }).then(function () {
         links = openRequestChannels(subject, message);
 
         if (status) {
@@ -1045,7 +1117,7 @@
       }).catch(function () {
         if (status) {
           status.classList.add("is-error");
-          status.textContent = "Trimiterea securizată nu a reușit. Verifică setările Supabase / Cloudflare sau încearcă din nou.";
+          status.textContent = "Trimiterea nu a reusit. Verifica tabela appointments, politica RLS din Supabase sau incearca din nou.";
         }
       });
     });
