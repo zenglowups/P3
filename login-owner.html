@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Owner Login | ZEN Clinics</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#050403">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="inner-page lux-home owner-login-page">
+  <main class="owner-admin" id="continut">
+    <section class="owner-auth" data-auth-view>
+      <div class="owner-auth__card">
+        <img src="gallery/logo.jpg" alt="ZEN Clinics" width="224" height="224">
+        <p class="lux-kicker" data-auth-kicker>Owner access</p>
+        <h1 data-auth-title>Login owner</h1>
+        <form class="owner-form" data-owner-auth-form>
+          <label><span>User</span><input type="text" name="username" autocomplete="username" required></label>
+          <label><span>Parolă</span><input type="password" name="password" autocomplete="current-password" minlength="6" required></label>
+          <button class="lux-button lux-button--gold" type="submit" data-auth-submit>Intră în panel</button>
+          <p class="owner-status" data-auth-status aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="owner-panel" data-owner-panel hidden>
+      <div class="lux-shell owner-panel__head">
+        <div>
+          <p class="lux-kicker">ZEN Clinics</p>
+          <h1>Panel administrativ prețuri</h1>
+          <p>Modificările se aplică local în browser și sunt citite de pagina de prețuri prin aceeași sursă salvată.</p>
+        </div>
+        <button class="lux-button lux-button--ghost" type="button" data-owner-logout>Logout</button>
+      </div>
+
+      <div class="lux-shell owner-panel__grid">
+        <aside class="owner-tools">
+          <label><span>Ramură</span><select data-category-select></select></label>
+          <button class="lux-button lux-button--gold" type="button" data-save-prices>Salvează prețurile</button>
+          <button class="lux-button lux-button--ghost" type="button" data-add-price>Adaugă procedură</button>
+          <button class="lux-button lux-button--ghost" type="button" data-export-prices>Exportă JSON</button>
+          <button class="owner-danger" type="button" data-reset-prices>Șterge modificările locale</button>
+          <p class="owner-status" data-owner-status aria-live="polite"></p>
+        </aside>
+
+        <div class="owner-price-editor">
+          <div class="owner-price-editor__top">
+            <h2 data-current-category>Prețuri</h2>
+            <span data-price-count>0 servicii</span>
+          </div>
+          <div class="owner-price-rows" data-price-rows></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var ACCOUNT_KEY = "zen-owner-account";
+      var AUTH_KEY = "zen-owner-auth";
+      var PRICES_KEY = "zen-owner-price-data";
+      var DEFAULT_OWNER_ACCOUNT = {
+        username: "owner",
+        passwordHash: "088845b39902f1d6fc0c752d16b19b7b41703eed6a80b81bafad971de9cc2614"
+      };
+      var account = null;
+      var priceData = [];
+      var authView = document.querySelector("[data-auth-view]");
+      var authForm = document.querySelector("[data-owner-auth-form]");
+      var authTitle = document.querySelector("[data-auth-title]");
+      var authSubmit = document.querySelector("[data-auth-submit]");
+      var authStatus = document.querySelector("[data-auth-status]");
+      var panel = document.querySelector("[data-owner-panel]");
+      var categorySelect = document.querySelector("[data-category-select]");
+      var rowsRoot = document.querySelector("[data-price-rows]");
+      var categoryTitle = document.querySelector("[data-current-category]");
+      var priceCount = document.querySelector("[data-price-count]");
+      var ownerStatus = document.querySelector("[data-owner-status]");
+
+      function setStatus(node, message, isError) {
+        if (!node) {
+          return;
+        }
+        node.classList.toggle("is-error", Boolean(isError));
+        node.textContent = message || "";
+      }
+
+      function getStoredAccount() {
+        try {
+          return JSON.parse(window.localStorage.getItem(ACCOUNT_KEY) || "null") || DEFAULT_OWNER_ACCOUNT;
+        } catch (error) {
+          return DEFAULT_OWNER_ACCOUNT;
+        }
+      }
+
+      async function hashValue(value) {
+        var bytes;
+        var hash;
+
+        if (!window.crypto || !window.crypto.subtle || !window.TextEncoder) {
+          return "plain:" + value;
+        }
+
+        bytes = new TextEncoder().encode(value);
+        hash = await window.crypto.subtle.digest("SHA-256", bytes);
+        return Array.prototype.map.call(new Uint8Array(hash), function (byte) {
+          return byte.toString(16).padStart(2, "0");
+        }).join("");
+      }
+
+      function setMode() {
+        account = getStoredAccount();
+        authTitle.textContent = "Login owner";
+        authSubmit.textContent = "Intră în panel";
+      }
+
+      function showPanel() {
+        authView.hidden = true;
+        panel.hidden = false;
+        window.sessionStorage.setItem(AUTH_KEY, "true");
+        loadPrices();
+      }
+
+      function showLogin() {
+        panel.hidden = true;
+        authView.hidden = false;
+        window.sessionStorage.removeItem(AUTH_KEY);
+        setMode();
+      }
+
+      function parsePriceHtml(html) {
+        var match = html.match(/<script[^>]*data-price-data[^>]*>([\s\S]*?)<\/script>/i);
+        return match ? JSON.parse(match[1]) : [];
+      }
+
+      async function loadPrices() {
+        var stored = window.localStorage.getItem(PRICES_KEY);
+        var response;
+        var html;
+
+        try {
+          priceData = stored ? JSON.parse(stored) : [];
+        } catch (error) {
+          priceData = [];
+        }
+
+        if (!priceData.length) {
+          try {
+            response = await fetch("preturi-rate.html", { cache: "no-store" });
+            html = await response.text();
+            priceData = parsePriceHtml(html);
+          } catch (error) {
+            setStatus(ownerStatus, "Nu am putut încărca lista de prețuri.", true);
+            priceData = [];
+          }
+        }
+
+        renderCategorySelect();
+        renderRows();
+      }
+
+      function renderCategorySelect() {
+        categorySelect.innerHTML = "";
+        priceData.forEach(function (category, index) {
+          var option = document.createElement("option");
+          option.value = String(index);
+          option.textContent = category.title || "Ramură";
+          categorySelect.appendChild(option);
+        });
+      }
+
+      function renderRows() {
+        var category = priceData[Number(categorySelect.value)] || priceData[0];
+        rowsRoot.innerHTML = "";
+
+        if (!category) {
+          categoryTitle.textContent = "Prețuri";
+          priceCount.textContent = "0 servicii";
+          return;
+        }
+
+        categoryTitle.textContent = category.title || "Prețuri";
+        priceCount.textContent = (category.items || []).length + " servicii";
+
+        (category.items || []).forEach(function (entry, index) {
+          var row = document.createElement("div");
+          var nameInput = document.createElement("input");
+          var priceInput = document.createElement("input");
+          var remove = document.createElement("button");
+
+          row.className = "owner-price-row";
+          nameInput.value = entry[0] || "";
+          priceInput.value = entry[1] || "";
+          nameInput.setAttribute("aria-label", "Procedură");
+          priceInput.setAttribute("aria-label", "Preț");
+          remove.type = "button";
+          remove.textContent = "Șterge";
+
+          nameInput.addEventListener("input", function () {
+            entry[0] = nameInput.value;
+          });
+
+          priceInput.addEventListener("input", function () {
+            entry[1] = priceInput.value;
+          });
+
+          remove.addEventListener("click", function () {
+            category.items.splice(index, 1);
+            renderRows();
+          });
+
+          row.appendChild(nameInput);
+          row.appendChild(priceInput);
+          row.appendChild(remove);
+          rowsRoot.appendChild(row);
+        });
+      }
+
+      authForm.addEventListener("submit", async function (event) {
+        var data = new FormData(authForm);
+        var username = String(data.get("username") || "").trim();
+        var password = String(data.get("password") || "");
+        var passwordHash;
+
+        event.preventDefault();
+
+        if (!username || password.length < 6) {
+          setStatus(authStatus, "Completează userul și o parolă de minimum 6 caractere.", true);
+          return;
+        }
+
+        passwordHash = await hashValue(password);
+
+        if (username === account.username && passwordHash === account.passwordHash) {
+          authForm.reset();
+          showPanel();
+        } else {
+          setStatus(authStatus, "User sau parolă incorectă.", true);
+        }
+      });
+
+      categorySelect.addEventListener("change", renderRows);
+
+      document.querySelector("[data-add-price]").addEventListener("click", function () {
+        var category = priceData[Number(categorySelect.value)];
+
+        if (!category) {
+          return;
+        }
+
+        category.items = category.items || [];
+        category.items.unshift(["Procedură nouă", ""]);
+        renderRows();
+      });
+
+      document.querySelector("[data-save-prices]").addEventListener("click", function () {
+        window.localStorage.setItem(PRICES_KEY, JSON.stringify(priceData));
+        setStatus(ownerStatus, "Prețurile au fost salvate local. Deschide pagina de prețuri în același browser pentru verificare.");
+      });
+
+      document.querySelector("[data-export-prices]").addEventListener("click", function () {
+        var blob = new Blob([JSON.stringify(priceData, null, 2)], { type: "application/json" });
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "zen-clinics-prices.json";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      });
+
+      document.querySelector("[data-reset-prices]").addEventListener("click", function () {
+        window.localStorage.removeItem(PRICES_KEY);
+        setStatus(ownerStatus, "Modificările locale au fost șterse.");
+        loadPrices();
+      });
+
+      document.querySelector("[data-owner-logout]").addEventListener("click", showLogin);
+
+      setMode();
+      if (window.sessionStorage.getItem(AUTH_KEY) === "true") {
+        showPanel();
+      }
+    }());
+  </script>
+</body>
+</html>

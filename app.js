@@ -12,6 +12,8 @@
   var processSection = document.querySelector("[data-process-timeline]");
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var revealSelector = ".reveal, .reveal-up, .reveal-scale, .stagger-item, .zen-hero-benefits a, .zen-about-story__features article, .lux-procedure-list a, .lux-location__cards article, .lux-minimal__portrait, .lux-map-actions a";
+  var zenConfig = window.ZEN_CONFIG || {};
+  var turnstileReady = null;
 
   if (!scrollProgressBar) {
     scrollProgressBar = document.createElement("div");
@@ -35,6 +37,7 @@
   function renderPriceLists() {
     var dataNode = document.querySelector("[data-price-data]");
     var root = document.querySelector("[data-price-root]");
+    var storedData;
     var categories;
 
     if (!dataNode || !root) {
@@ -42,7 +45,14 @@
     }
 
     try {
-      categories = JSON.parse(dataNode.textContent);
+      storedData = window.localStorage && window.localStorage.getItem("zen-owner-price-data");
+      categories = storedData ? JSON.parse(storedData) : null;
+    } catch (error) {
+      categories = null;
+    }
+
+    try {
+      categories = Array.isArray(categories) ? categories : JSON.parse(dataNode.textContent);
     } catch (error) {
       root.textContent = "Lista de prețuri nu a putut fi încărcată.";
       return;
@@ -188,9 +198,10 @@
 
   function initSiteIntro() {
     var intro;
+    var logoSrc;
     var seenIntro = false;
 
-    if (!document.body.classList.contains("home-page") || reduceMotion) {
+    if (reduceMotion || document.body.classList.contains("owner-login-page")) {
       return;
     }
 
@@ -205,9 +216,10 @@
     }
 
     intro = document.createElement("div");
+    logoSrc = window.location.pathname.indexOf("/sections/") >= 0 ? "../gallery/logo.jpg" : "gallery/logo.jpg";
     intro.className = "site-intro";
     intro.setAttribute("aria-hidden", "true");
-    intro.innerHTML = '<div class="site-intro__content"><span class="site-intro__mark"></span><span class="site-intro__title">ZEN Clinics</span><span class="site-intro__caption">Medical aesthetics with discretion</span></div>';
+    intro.innerHTML = '<div class="site-intro__content"><span class="site-intro__mark"><img class="site-intro__logo" src="' + logoSrc + '" alt=""></span><span class="site-intro__title">ZEN Clinics</span><span class="site-intro__caption">Frumusețe cu măsură. Rezultate cu sens.</span></div>';
     document.body.appendChild(intro);
     document.body.classList.add("is-intro-active");
 
@@ -484,9 +496,10 @@
   document.querySelectorAll("[data-price-search]").forEach(function (input) {
     var cards = Array.prototype.slice.call(document.querySelectorAll("[data-price-card]"));
     var searchFrame = 0;
+    var searchTimer = 0;
 
     function filterPrices() {
-      var query = normalizeText(input.value);
+      var query = normalizeText(input.value.replace(/[<>{}[\]$]/g, "").slice(0, 80));
 
       cards.forEach(function (card) {
         var items = Array.prototype.slice.call(card.querySelectorAll("[data-price-item]"));
@@ -504,9 +517,22 @@
     }
 
     input.addEventListener("input", function () {
+      var sanitized = input.value.replace(/[<>{}[\]$]/g, "").slice(0, 80);
+
+      if (sanitized !== input.value) {
+        input.value = sanitized;
+      }
+
       if (searchFrame) {
         window.cancelAnimationFrame(searchFrame);
       }
+
+      window.clearTimeout(searchTimer);
+      searchTimer = window.setTimeout(function () {
+        if (getFunctionUrl("price-search") && sanitized.length >= 2) {
+          submitSecureForm("price-search", { query: sanitized }).catch(function () {});
+        }
+      }, 900);
 
       searchFrame = window.requestAnimationFrame(filterPrices);
     });
@@ -721,6 +747,37 @@
     return String(field.value || "").trim();
   }
 
+  function collectFormPayload(form, type) {
+    var payload = {
+      type: type || "contact",
+      page: window.location.href,
+      submittedAt: new Date().toISOString(),
+      fields: {}
+    };
+
+    Array.prototype.forEach.call(form.elements, function (field) {
+      var value;
+
+      if (!field.name && field.type !== "checkbox") {
+        return;
+      }
+
+      if (field.type === "submit" || field.type === "button" || field.type === "reset") {
+        return;
+      }
+
+      value = getFieldValue(field);
+
+      if (!value) {
+        return;
+      }
+
+      payload.fields[field.name || getFieldLabel(field)] = value;
+    });
+
+    return payload;
+  }
+
   function buildFormMessage(form, subject) {
     var lines = [subject, ""];
 
@@ -748,6 +805,102 @@
     lines.push("Pagina: " + window.location.href);
 
     return lines.join("\n");
+  }
+
+  function getFunctionUrl(functionName) {
+    var baseUrl = (zenConfig.supabaseFunctionsUrl || "").replace(/\/+$/, "");
+
+    return baseUrl ? baseUrl + "/" + functionName : "";
+  }
+
+  function loadTurnstile() {
+    var script;
+
+    if (!zenConfig.turnstileSiteKey) {
+      return Promise.resolve(false);
+    }
+
+    if (window.turnstile) {
+      return Promise.resolve(true);
+    }
+
+    if (turnstileReady) {
+      return turnstileReady;
+    }
+
+    turnstileReady = new Promise(function (resolve, reject) {
+      script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.defer = true;
+      script.onload = function () {
+        resolve(true);
+      };
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+
+    return turnstileReady;
+  }
+
+  function setupTurnstile(form) {
+    var slot;
+    var tokenInput;
+
+    if (!zenConfig.turnstileSiteKey || form.querySelector("[name='turnstileToken']")) {
+      return;
+    }
+
+    slot = document.createElement("div");
+    slot.className = "zen-turnstile";
+    tokenInput = document.createElement("input");
+    tokenInput.type = "hidden";
+    tokenInput.name = "turnstileToken";
+
+    form.appendChild(slot);
+    form.appendChild(tokenInput);
+
+    loadTurnstile().then(function () {
+      if (!window.turnstile) {
+        return;
+      }
+
+      window.turnstile.render(slot, {
+        sitekey: zenConfig.turnstileSiteKey,
+        callback: function (token) {
+          tokenInput.value = token;
+        },
+        "expired-callback": function () {
+          tokenInput.value = "";
+        }
+      });
+    }).catch(function () {
+      // If Turnstile cannot load, the Edge Function still rejects missing tokens.
+    });
+  }
+
+  function submitSecureForm(functionName, payload) {
+    var endpoint = getFunctionUrl(functionName);
+
+    if (!endpoint) {
+      return Promise.resolve({ skipped: true });
+    }
+
+    return fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      return response.json().catch(function () {
+        return {};
+      });
+    });
   }
 
   function openRequestChannels(subject, message) {
@@ -793,6 +946,7 @@
   document.querySelectorAll("[data-booking-form]").forEach(function (form) {
     var branchSelect = form.querySelector("[data-branch-select]");
 
+    setupTurnstile(form);
     refreshProcedureOptions(form, true);
     applyBookingPrefill(form);
 
@@ -811,6 +965,7 @@
       var subject = "Cerere programare ZEN Clinics";
       var message;
       var links;
+      var payload;
       var nameValue = nameInput ? nameInput.value.trim() : "";
       var phoneValue = phoneInput ? phoneInput.value.trim() : "";
       var emailValue = emailInput ? emailInput.value.trim() : "";
@@ -870,21 +1025,41 @@
       }
 
       message = buildFormMessage(form, subject);
-      links = openRequestChannels(subject, message);
+      payload = collectFormPayload(form, "contact");
+      payload.message = message;
 
       if (status) {
-        renderRequestLinks(status, links);
+        status.classList.remove("is-error");
+        status.textContent = getFunctionUrl("submit-contact") ? "Se trimite securizat..." : "";
       }
 
-      form.reset();
-      refreshProcedureOptions(form, false);
+      submitSecureForm("submit-contact", payload).then(function () {
+        links = openRequestChannels(subject, message);
+
+        if (status) {
+          renderRequestLinks(status, links);
+        }
+
+        form.reset();
+        refreshProcedureOptions(form, false);
+      }).catch(function () {
+        if (status) {
+          status.classList.add("is-error");
+          status.textContent = "Trimiterea securizată nu a reușit. Verifică setările Supabase / Cloudflare sau încearcă din nou.";
+        }
+      });
     });
   });
 
   document.querySelectorAll("[data-privilege-form]").forEach(function (form) {
+    setupTurnstile(form);
+
     form.addEventListener("submit", function (event) {
       var status = form.querySelector("[data-privilege-status]");
       var links;
+      var subject = "Solicitare ZEN VIP Card";
+      var message;
+      var payload;
 
       event.preventDefault();
 
@@ -893,11 +1068,29 @@
         return;
       }
 
-      links = openRequestChannels("Solicitare ZEN VIP Card", buildFormMessage(form, "Solicitare ZEN VIP Card"));
+      message = buildFormMessage(form, subject);
+      payload = collectFormPayload(form, "loyalty");
+      payload.message = message;
 
       if (status) {
-        renderRequestLinks(status, links);
+        status.classList.remove("is-error");
+        status.textContent = getFunctionUrl("submit-loyalty") ? "Se trimite securizat..." : "";
       }
+
+      submitSecureForm("submit-loyalty", payload).then(function () {
+        links = openRequestChannels(subject, message);
+
+        if (status) {
+          renderRequestLinks(status, links);
+        }
+
+        form.reset();
+      }).catch(function () {
+        if (status) {
+          status.classList.add("is-error");
+          status.textContent = "Trimiterea securizată nu a reușit. Verifică setările Supabase / Cloudflare sau încearcă din nou.";
+        }
+      });
     });
   });
 

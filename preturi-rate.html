@@ -7,6 +7,7 @@
   <meta name="description" content="Listă de prețuri ZEN Clinics, structurată pe ramuri medicale și estetice, cu prezentare premium black-gold.">
   <meta name="theme-color" content="#050403">
   <link rel="stylesheet" href="style.css">
+  <script src="zen-config.js"></script>
   <script src="app.js" defer></script>
 </head>
 <body class="inner-page lux-home">
@@ -48,7 +49,7 @@
           <p class="lux-kicker">Căutare rapidă</p>
           <h2>Găsește procedura în câteva secunde.</h2>
           <p>Filtrează lista după procedură, ramură sau monedă. Prețurile sunt afișate clar, pe categorii, pentru consultare rapidă.</p>
-          <input type="search" placeholder="Caută procedură..." aria-label="Caută în lista de prețuri" data-price-search>
+          <input type="search" placeholder="Caută procedură..." aria-label="Caută în lista de prețuri" maxlength="80" autocomplete="off" spellcheck="false" data-price-search>
           <nav class="price-quick-nav" aria-label="Ramuri listă prețuri">
             <a href="#non-chirurgical">Non Chirurgical</a>
             <a href="#chirurgie">Chirurgie</a>
