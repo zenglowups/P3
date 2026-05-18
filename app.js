@@ -971,6 +971,16 @@
     };
   }
 
+  function collectVipEnrollmentPayload(form) {
+    var formData = new FormData(form);
+
+    return {
+      email: getFormDataValue(formData, ["email"]),
+      full_name: getFormDataValue(formData, ["full_name", "name"]) || null,
+      marketing_consent: formData.get("marketing_consent") === "on"
+    };
+  }
+
   function openRequestChannels(subject, message) {
     var email = "office@zenclinics.ro";
     var whatsappPhone = "40720558515";
@@ -1123,15 +1133,16 @@
     });
   });
 
-  document.querySelectorAll("[data-privilege-form]").forEach(function (form) {
+  document.querySelectorAll("[data-privilege-form], [data-vip-form]").forEach(function (form) {
     setupTurnstile(form);
 
     form.addEventListener("submit", function (event) {
-      var status = form.querySelector("[data-privilege-status]");
+      var status = form.querySelector("[data-privilege-status], [data-vip-status]");
       var links;
       var subject = "Solicitare ZEN VIP Card";
       var message;
       var payload;
+      var vipPayload;
 
       event.preventDefault();
 
@@ -1143,13 +1154,16 @@
       message = buildFormMessage(form, subject);
       payload = collectFormPayload(form, "loyalty");
       payload.message = message;
+      vipPayload = collectVipEnrollmentPayload(form);
 
       if (status) {
         status.classList.remove("is-error");
-        status.textContent = getFunctionUrl("submit-loyalty") ? "Se trimite securizat..." : "";
+        status.textContent = getSupabaseTableUrl("vip_card_enrollments") || getFunctionUrl("submit-loyalty") ? "Se trimite..." : "";
       }
 
-      submitSecureForm("submit-loyalty", payload).then(function () {
+      submitSupabaseInsert("vip_card_enrollments", vipPayload).then(function () {
+        return submitSecureForm("submit-loyalty", payload);
+      }).then(function () {
         links = openRequestChannels(subject, message);
 
         if (status) {
@@ -1160,7 +1174,7 @@
       }).catch(function () {
         if (status) {
           status.classList.add("is-error");
-          status.textContent = "Trimiterea securizată nu a reușit. Verifică setările Supabase / Cloudflare sau încearcă din nou.";
+          status.textContent = "Trimiterea nu a reusit. Verifica tabela vip_card_enrollments, politica RLS din Supabase sau incearca din nou.";
         }
       });
     });

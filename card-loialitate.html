@@ -66,12 +66,12 @@
             <span><strong>-7%</strong> proceduri cu anestezie locală</span>
             <span><strong>-5%</strong> proceduri cu anestezie generală</span>
           </div>
-          <form class="privilege-form" data-privilege-form>
+          <form class="privilege-form" data-privilege-form data-vip-form>
             <label><span>Email</span><input type="email" name="email" autocomplete="email" required></label>
-            <label><span>Nume opțional</span><input type="text" name="name" autocomplete="name"></label>
-            <label class="privilege-form__check"><input type="checkbox" required><span>Accept să primesc comunicări ocazionale despre servicii, noutăți și beneficii.</span></label>
+            <label><span>Nume opțional</span><input type="text" name="full_name" autocomplete="name"></label>
+            <label class="privilege-form__check"><input type="checkbox" name="marketing_consent" required><span>Accept să primesc comunicări ocazionale despre servicii, noutăți și beneficii.</span></label>
             <button class="lux-button lux-button--gold" type="submit">Solicită accesul</button>
-            <p class="privilege-form__status" data-privilege-status aria-live="polite"></p>
+            <p class="privilege-form__status" data-privilege-status data-vip-status aria-live="polite"></p>
           </form>
         </div>
         <div class="privilege-note reveal-up">
