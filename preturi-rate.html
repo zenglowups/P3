@@ -21,17 +21,18 @@
     </div>
     <nav class="lux-primary-nav" aria-label="Navigație principală">
       <div class="lux-shell lux-primary-nav__inner">
-        <div class="mega-item" data-mega-item><button class="mega-toggle" type="button" aria-expanded="false" data-mega-toggle>Despre noi</button><div class="mega-panel mega-panel--compact" data-mega-menu><a href="despre-noi.html">Clinica</a><a href="card-loialitate.html">ZEN VIP Card</a><a href="testimoniale.html">Testimoniale</a></div></div>
-        <div class="mega-item" data-mega-item><button class="mega-toggle" type="button" aria-expanded="false" data-mega-toggle>Medicină estetică</button><div class="mega-panel mega-panel--compact" data-mega-menu><a href="medicina-estetica.html"><strong>Pagina principală</strong><small>Injectabile, piele și armonizare facială</small></a><a href="proceduri.html"><strong>Catalog proceduri</strong><small>Toate procedurile minim invazive</small></a><a href="#non-chirurgical"><strong>Prețuri estetice</strong><small>Lista pentru proceduri non-chirurgicale</small></a></div></div>
-        <div class="mega-item" data-mega-item><button class="mega-toggle" type="button" aria-expanded="false" data-mega-toggle>Chirurgie generală</button><div class="mega-panel mega-panel--compact" data-mega-menu><a href="chirurgie-estetica.html"><strong>Pagina principală</strong><small>Față, sân și corp într-un cadru medical</small></a><a href="proceduri.html"><strong>Catalog intervenții</strong><small>Proceduri chirurgicale organizate vizual</small></a><a href="#chirurgie"><strong>Prețuri chirurgie</strong><small>Costuri orientative pe intervenții</small></a></div></div>
-        <div class="mega-item" data-mega-item><button class="mega-toggle" type="button" aria-expanded="false" data-mega-toggle>Estetică ginecologică</button><div class="mega-panel mega-panel--compact" data-mega-menu><a href="sections/labioplastie.html">Labioplastie</a><a href="#ginecologie">Prețuri estetică ginecologică</a><a href="contact.html#formular">Consultație</a></div></div>
-        <div class="mega-item" data-mega-item><button class="mega-toggle" type="button" aria-expanded="false" data-mega-toggle>Dermatologie estetică</button><div class="mega-panel mega-panel--compact" data-mega-menu><a href="sections/laser-co2.html">Laser fracționar CO2</a><a href="sections/peeling-facial.html">Peeling facial</a><a href="#dermatologie">Prețuri dermatologie</a></div></div>
+        <a href="despre-noi.html">Despre noi</a>
+        <a href="chirurgie-estetica.html">Chirurgie estetică</a>
+        <a href="chirurgie-generala.html">Chirurgie generală</a>
+        <a href="orl.html">O.R.L</a>
+        <a href="#ginecologie">Estetică ginecologică</a>
+        <a href="#dermatologie">Dermatologie estetică</a>
         <a href="cosmetologie.html">Cosmetologie</a>
-        <div class="mega-item" data-mega-item><button class="mega-toggle" type="button" aria-expanded="false" data-mega-toggle>Prețuri</button><div class="mega-panel mega-panel--compact" data-mega-menu><a href="#lista-preturi">Lista completă</a><a href="#terapii-iv">Terapii IV</a><a href="#orl">ORL</a></div></div>
+        <a href="#lista-preturi">Prețuri</a>
         <a href="contact.html#formular">Contact</a>
       </div>
     </nav>
-    <div class="lux-mobile" id="mobile-menu" data-mobile-menu hidden><nav class="lux-mobile__panel" aria-label="Navigație mobilă"><a href="index.html">Acasă</a><a href="despre-noi.html">Despre noi</a><a href="medicina-estetica.html">Medicină estetică</a><a href="preturi-rate.html">Prețuri & rate</a><a href="card-loialitate.html">ZEN VIP Card</a><a href="contact.html#formular">Contact</a></nav></div>
+    <div class="lux-mobile" id="mobile-menu" data-mobile-menu hidden><nav class="lux-mobile__panel" aria-label="Navigație mobilă"><a href="index.html">Acasă</a><a href="despre-noi.html">Despre noi</a><a href="chirurgie-estetica.html">Chirurgie estetică</a><a href="chirurgie-generala.html">Chirurgie generală</a><a href="orl.html">O.R.L</a><a href="preturi-rate.html">Prețuri & rate</a><a href="card-loialitate.html">ZEN VIP Card</a><a href="contact.html#formular">Contact</a></nav></div>
   </header>
 
   <main id="continut">
@@ -60,6 +61,20 @@
             <a href="#terapii-iv">Terapii IV</a>
           </nav>
         </div>
+
+        <aside class="price-fx-panel reveal-up" data-bnr-rates aria-label="Curs valutar oficial BNR">
+          <div>
+            <p class="lux-kicker">Curs BNR</p>
+            <h2>Curs valutar oficial.</h2>
+            <p data-bnr-status aria-live="polite">Se încarcă automat cursul BNR...</p>
+          </div>
+          <div class="price-fx-panel__rates">
+            <span><strong data-bnr-eur>EUR</strong><small>pentru prețurile în euro</small></span>
+            <span><strong data-bnr-usd>USD</strong><small>referință internațională</small></span>
+            <span><strong data-bnr-gbp>GBP</strong><small>referință informativă</small></span>
+          </div>
+          <a href="https://www.bnr.ro/nbrfxrates.xml" target="_blank" rel="noopener" data-bnr-source>Sursa oficială BNR</a>
+        </aside>
 
         <p class="price-section__note reveal-up">Lista are caracter informativ și poate fi actualizată periodic. Pentru recomandarea potrivită, programează o consultație.</p>
         <div class="price-branches" data-price-root></div>
@@ -198,8 +213,6 @@
       ["BLEFAROPLASTIE TOTALA CU ANESTEZIE GENERALA", "3900 EURO"],
       ["BRAHIOPLASTIE", "2000 EURO"],
       ["BUSTIERA COMPRESIVA", "300 RON"],
-      ["CAZARE (IN CURSUL SAPTAMANII)", "800 RON"],
-      ["CAZARE (IN WEEKEND)", "1000 RON"],
       ["CIORAPI COMPRESIV MĂSURA+CIORAPI", "400 EURO"],
       ["CIRCUMCIZIE CU ANESTEZIE GENERALA", "1800 EURO"],
       ["CONSULTATIE CHIRURGIE VASCULARA", "400 EURO"],
@@ -465,7 +478,7 @@
   <footer class="lux-footer">
     <div class="lux-shell lux-footer__grid">
       <div><a class="lux-footer__brand" href="index.html"><img src="gallery/logo.jpg" alt="Logo ZEN Clinics" width="224" height="224" loading="lazy" decoding="async"><span>ZEN Clinics</span></a><p>Prețuri orientative, confirmate individual.</p></div>
-      <nav><h2>Meniu</h2><a href="despre-noi.html">Despre noi</a><a href="medicina-estetica.html">Medicină estetică</a><a href="card-loialitate.html">ZEN VIP Card</a></nav>
+      <nav><h2>Meniu</h2><a href="despre-noi.html">Despre noi</a><a href="chirurgie-estetica.html">Chirurgie estetică</a><a href="chirurgie-generala.html">Chirurgie generală</a><a href="orl.html">O.R.L</a><a href="card-loialitate.html">ZEN VIP Card</a></nav>
       <nav><h2>Ramuri</h2><a href="#non-chirurgical">Non Chirurgical</a><a href="#chirurgie">Chirurgie</a><a href="#ginecologie">Estetică ginecologică</a><a href="#terapii-iv">Terapii IV</a></nav>
       <div><h2>Contact</h2><a href="tel:+40720558515">+40 720 558 515</a><a href="mailto:office@zenclinics.ro">office@zenclinics.ro</a><p>Calea Griviței, 010764 București.</p></div>
     </div>

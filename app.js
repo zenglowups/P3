@@ -34,6 +34,53 @@
       .replace(/[\u0300-\u036f]/g, "");
   }
 
+  function isConsultationLabel(value) {
+    var text = normalizeText(value).replace(/[^a-z0-9]+/g, " ").trim();
+
+    return text.indexOf("consult") === 0;
+  }
+
+  function formatPriceValue(name, value) {
+    var raw = String(value || "").trim();
+    var normalized = normalizeText(raw);
+    var withoutPrefix;
+
+    if (isConsultationLabel(name)) {
+      return "500 RON";
+    }
+
+    if (!raw) {
+      return "";
+    }
+
+    if (normalized.indexOf("de la") === 0) {
+      withoutPrefix = raw.replace(/^de\s+la\s+/i, "").trim();
+      return "DE LA " + withoutPrefix;
+    }
+
+    if (!/\d/.test(raw)) {
+      return raw;
+    }
+
+    return "DE LA " + raw;
+  }
+
+  function isExcludedPriceItem(name) {
+    return normalizeText(name).indexOf("cazare") !== -1;
+  }
+
+  function createVipPriceBadge() {
+    var badge = document.createElement("a");
+
+    badge.className = "price-vip-badge";
+    badge.href = getLocalHref("card-loialitate.html#activare");
+    badge.title = "Activează ZEN VIP Card pentru beneficii dedicate la consultații și servicii selectate.";
+    badge.setAttribute("data-vip-tooltip", "ZEN VIP Card îți poate activa beneficii dedicate. Solicită accesul pentru avantaje personalizate.");
+    badge.textContent = "VIP";
+
+    return badge;
+  }
+
   function renderPriceLists() {
     var dataNode = document.querySelector("[data-price-data]");
     var root = document.querySelector("[data-price-root]");
@@ -86,21 +133,35 @@
       head.className = "price-card__head";
       title.textContent = category.title || "Ramură";
       count.className = "price-card__count";
-      count.textContent = (category.items && category.items.length ? category.items.length : 0) + " servicii";
+      var visibleItems = (category.items || []).filter(function (entry) {
+        return entry && !isExcludedPriceItem(entry[0] || "");
+      });
+
+      count.textContent = (visibleItems.length || 0) + " servicii";
       head.appendChild(title);
       head.appendChild(count);
 
       summary.textContent = category.summary || "";
       list.className = "price-list";
 
-      (category.items || []).forEach(function (entry) {
+      visibleItems.forEach(function (entry) {
         var item = document.createElement("li");
         var name = document.createElement("span");
+        var nameText = document.createElement("span");
         var price = document.createElement("strong");
+        var serviceName = entry[0] || "";
 
         item.setAttribute("data-price-item", "");
-        name.textContent = entry[0] || "";
-        price.textContent = entry[1] || "";
+        name.className = "price-name-wrap";
+        nameText.textContent = serviceName;
+        name.appendChild(nameText);
+
+        if (isConsultationLabel(serviceName)) {
+          item.classList.add("price-list__consultation");
+          name.appendChild(createVipPriceBadge());
+        }
+
+        price.textContent = formatPriceValue(serviceName, entry[1] || "");
         item.appendChild(name);
         item.appendChild(price);
         list.appendChild(item);
@@ -172,7 +233,7 @@
   }
 
   function closeMegaMenus(exceptItem) {
-    megaToggles.forEach(function (button) {
+    document.querySelectorAll("[data-mega-toggle]").forEach(function (button) {
       var item = getMegaItem(button);
 
       if (item && item !== exceptItem) {
@@ -300,20 +361,26 @@
     });
   }
 
-  megaToggles.forEach(function (button) {
-    button.addEventListener("click", function () {
-      var item = getMegaItem(button);
-      var isOpen = button.getAttribute("aria-expanded") === "true";
+  document.addEventListener("click", function (event) {
+    var button = event.target.closest ? event.target.closest("[data-mega-toggle]") : null;
+    var item;
+    var isOpen;
 
-      closeMegaMenus(item);
+    if (!button) {
+      return;
+    }
 
-      if (!item) {
-        return;
-      }
+    item = getMegaItem(button);
+    isOpen = button.getAttribute("aria-expanded") === "true";
 
-      item.classList.toggle("is-open", !isOpen);
-      button.setAttribute("aria-expanded", String(!isOpen));
-    });
+    closeMegaMenus(item);
+
+    if (!item) {
+      return;
+    }
+
+    item.classList.toggle("is-open", !isOpen);
+    button.setAttribute("aria-expanded", String(!isOpen));
   });
 
   document.addEventListener("click", function (event) {
@@ -541,7 +608,8 @@
   var bookingContextBySlug = {
     "medicina-estetica": { branch: "Medicină estetică", procedure: "Consultație estetică" },
     "cosmetologie": { branch: "Cosmetologie", procedure: "Consultație cosmetologie" },
-    "chirurgie-estetica": { branch: "Chirurgie generală", procedure: "Consultație chirurgie" },
+    "chirurgie-estetica": { branch: "Chirurgie estetică", procedure: "Consultație chirurgie estetică" },
+    "chirurgie-generala": { branch: "Chirurgie generală", procedure: "Consultație chirurgie generală" },
     "volumizarea-buzelor": { branch: "Medicină estetică", procedure: "Volumizare buze" },
     "full-face-acid-hialuronic": { branch: "Medicină estetică", procedure: "Full face cu acid hialuronic" },
     "estompare-riduri": { branch: "Medicină estetică", procedure: "Estompare riduri / Botox" },
@@ -565,32 +633,33 @@
     "xantelasme": { branch: "Dermatologie estetică", procedure: "Xantelasme" },
     "hiperhidroza": { branch: "Dermatologie estetică", procedure: "Hiperhidroză" },
     "zambet-gingival": { branch: "Dermatologie estetică", procedure: "Zâmbet gingival" },
-    "rinoplastie": { branch: "Chirurgie generală", procedure: "Rinoplastie" },
-    "rinoplastie-ultrasonica": { branch: "Chirurgie generală", procedure: "Rinoplastie ultrasonică" },
-    "blefaroplastie": { branch: "Chirurgie generală", procedure: "Blefaroplastie" },
-    "lifting-facial": { branch: "Chirurgie generală", procedure: "Lifting facial" },
-    "otoplastie": { branch: "Chirurgie generală", procedure: "Otoplastie" },
-    "bichectomie": { branch: "Chirurgie generală", procedure: "Bichectomie" },
-    "urechi-despicate": { branch: "Chirurgie generală", procedure: "Otoplastie" },
-    "implanturi-cu-silicon": { branch: "Chirurgie generală", procedure: "Implant mamar" },
-    "ridicare-sani": { branch: "Chirurgie generală", procedure: "Ridicare sâni" },
-    "micsorare-sani": { branch: "Chirurgie generală", procedure: "Micșorare sâni" },
-    "ginecomastie": { branch: "Chirurgie generală", procedure: "Ginecomastie" },
-    "liposuctie": { branch: "Chirurgie generală", procedure: "Liposucție" },
-    "liposuctie-dame": { branch: "Chirurgie generală", procedure: "Liposucție" },
-    "liposuctie-cervicala-barbati": { branch: "Chirurgie generală", procedure: "Liposucție cervicală" },
-    "liposuctia-cervicala": { branch: "Chirurgie generală", procedure: "Liposucție cervicală" },
-    "abdominoplastie-femei": { branch: "Chirurgie generală", procedure: "Abdominoplastie" },
-    "abdominoplastie-barbati": { branch: "Chirurgie generală", procedure: "Abdominoplastie" },
-    "lifting-brate": { branch: "Chirurgie generală", procedure: "Lifting brațe" },
-    "lifting-coapse": { branch: "Chirurgie generală", procedure: "Lifting coapse" },
-    "lifting-brazilian": { branch: "Chirurgie generală", procedure: "Lifting brazilian" },
-    "remodelare-postnatala": { branch: "Chirurgie generală", procedure: "Remodelare postnatală" },
-    "operatie-postbariatrica": { branch: "Chirurgie generală", procedure: "Operație postbariatrică" },
-    "diastaza-abdominala": { branch: "Chirurgie generală", procedure: "Diastază abdominală" },
-    "micsorare-stomac": { branch: "Chirurgie generală", procedure: "Micșorare stomac" },
-    "transplant-de-par-fue-advance": { branch: "Chirurgie generală", procedure: "Consultație chirurgie" },
-    "labioplastie": { branch: "Estetică ginecologică", procedure: "Labioplastie" }
+    "rinoplastie": { branch: "Chirurgie estetică", procedure: "Rinoplastie" },
+    "rinoplastie-ultrasonica": { branch: "Chirurgie estetică", procedure: "Rinoplastie ultrasonică" },
+    "blefaroplastie": { branch: "Chirurgie estetică", procedure: "Blefaroplastie" },
+    "lifting-facial": { branch: "Chirurgie estetică", procedure: "Lifting facial" },
+    "otoplastie": { branch: "Chirurgie estetică", procedure: "Otoplastie" },
+    "bichectomie": { branch: "Chirurgie estetică", procedure: "Bichectomie" },
+    "urechi-despicate": { branch: "Chirurgie estetică", procedure: "Otoplastie" },
+    "implanturi-cu-silicon": { branch: "Chirurgie estetică", procedure: "Implant mamar" },
+    "ridicare-sani": { branch: "Chirurgie estetică", procedure: "Ridicare sâni" },
+    "micsorare-sani": { branch: "Chirurgie estetică", procedure: "Micșorare sâni" },
+    "ginecomastie": { branch: "Chirurgie estetică", procedure: "Ginecomastie" },
+    "liposuctie": { branch: "Chirurgie estetică", procedure: "Liposucție" },
+    "liposuctie-dame": { branch: "Chirurgie estetică", procedure: "Liposucție" },
+    "liposuctie-cervicala-barbati": { branch: "Chirurgie estetică", procedure: "Liposucție cervicală" },
+    "liposuctia-cervicala": { branch: "Chirurgie estetică", procedure: "Liposucție cervicală" },
+    "abdominoplastie-femei": { branch: "Chirurgie estetică", procedure: "Abdominoplastie" },
+    "abdominoplastie-barbati": { branch: "Chirurgie estetică", procedure: "Abdominoplastie" },
+    "lifting-brate": { branch: "Chirurgie estetică", procedure: "Lifting brațe" },
+    "lifting-coapse": { branch: "Chirurgie estetică", procedure: "Lifting coapse" },
+    "lifting-brazilian": { branch: "Chirurgie estetică", procedure: "Lifting brazilian" },
+    "remodelare-postnatala": { branch: "Chirurgie estetică", procedure: "Remodelare postnatală" },
+    "operatie-postbariatrica": { branch: "Chirurgie estetică", procedure: "Operație postbariatrică" },
+    "diastaza-abdominala": { branch: "Chirurgie estetică", procedure: "Diastază abdominală" },
+    "micsorare-stomac": { branch: "Chirurgie estetică", procedure: "Micșorare stomac" },
+    "transplant-de-par-fue-advance": { branch: "Chirurgie estetică", procedure: "Consultație chirurgie estetică" },
+    "labioplastie": { branch: "Estetică ginecologică", procedure: "Labioplastie" },
+    "rejuvenare-intima": { branch: "Estetică ginecologică", procedure: "Rejuvenare intimă" }
   };
 
   function findSelectOption(select, value) {
@@ -722,7 +791,552 @@
     });
   }
 
+  function getLocalHref(path) {
+    var inSections = window.location.pathname.indexOf("/sections/") >= 0;
+
+    return (inSections ? "../" : "") + path;
+  }
+
+  function getSocialLinks() {
+    var configured = zenConfig.socialLinks || {};
+
+    return [
+      {
+        key: "instagram",
+        label: "Instagram ZEN Clinics",
+        href: configured.instagram || "https://www.instagram.com/zenclinics.ro/"
+      },
+      {
+        key: "facebook",
+        label: "Facebook ZEN Clinics",
+        href: configured.facebook || "https://www.facebook.com/ZENClinics"
+      },
+      {
+        key: "tiktok",
+        label: "TikTok ZEN Clinics",
+        href: configured.tiktok || "https://www.tiktok.com/@zenclinics.ro"
+      }
+    ].filter(function (item) {
+      return item.href;
+    });
+  }
+
+  function getSocialIcon(key) {
+    switch (key) {
+      case "instagram":
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="3.4"></circle><circle cx="17" cy="7" r="1"></circle></svg>';
+      case "facebook":
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 8.1h-2.1c-.6 0-.9.3-.9 1v2h2.8l-.4 3h-2.4V22h-3.2v-7.9H7v-3h2.3V8.8c0-2.6 1.6-4.1 4-4.1 1.1 0 2 .1 2.2.1z"></path></svg>';
+      case "tiktok":
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3c.4 2.5 1.8 4 4.1 4.3v3.1a7.4 7.4 0 0 1-4.1-1.3v5.7A5.2 5.2 0 1 1 9 9.6c.4 0 .8 0 1.2.1v3.2a2 2 0 1 0 1.1 1.8V3z"></path></svg>';
+      default:
+        return "";
+    }
+  }
+
+  function createSocialLinks(variant) {
+    var list = document.createElement("div");
+
+    list.className = "zen-social-links zen-social-links--" + variant;
+    list.setAttribute("aria-label", "Social media ZEN Clinics");
+
+    getSocialLinks().forEach(function (item) {
+      var link = document.createElement("a");
+
+      link.className = "zen-social-link zen-social-link--" + item.key;
+      link.href = item.href;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.setAttribute("aria-label", item.label);
+      link.title = item.label;
+      link.innerHTML = getSocialIcon(item.key);
+      list.appendChild(link);
+    });
+
+    return list;
+  }
+
+  function initSocialLinks() {
+    document.querySelectorAll(".zen-header-actions, .lux-header__actions, .header-inner").forEach(function (target) {
+      var toggle;
+
+      if (target.querySelector(".zen-social-links--nav")) {
+        return;
+      }
+
+      toggle = target.querySelector("[data-nav-toggle]");
+      target.insertBefore(createSocialLinks("nav"), toggle || null);
+    });
+
+    document.querySelectorAll("[data-booking-form], [data-privilege-form], [data-vip-form]").forEach(function (form) {
+      var status;
+
+      if (form.querySelector(".zen-social-links--form")) {
+        return;
+      }
+
+      status = form.querySelector("[data-form-status], [data-privilege-status], [data-vip-status]");
+      form.insertBefore(createSocialLinks("form"), status || null);
+    });
+
+    document.querySelectorAll("footer").forEach(function (footer) {
+      var target;
+
+      if (footer.querySelector(".zen-social-links--footer")) {
+        return;
+      }
+
+      target = footer.querySelector(".zen-footer__contact") ||
+        footer.querySelector(".lux-footer__grid > div:last-child") ||
+        footer.querySelector(".footer-grid > div:last-child") ||
+        footer;
+      target.appendChild(createSocialLinks("footer"));
+    });
+  }
+
+  function initBnrRates() {
+    var root = document.querySelector("[data-bnr-rates]");
+    var status;
+    var eurNode;
+    var usdNode;
+    var gbpNode;
+    var sourceNode;
+    var endpoints;
+
+    if (!root || !window.fetch || !window.DOMParser) {
+      return;
+    }
+
+    status = root.querySelector("[data-bnr-status]");
+    eurNode = root.querySelector("[data-bnr-eur]");
+    usdNode = root.querySelector("[data-bnr-usd]");
+    gbpNode = root.querySelector("[data-bnr-gbp]");
+    sourceNode = root.querySelector("[data-bnr-source]");
+    endpoints = [
+      zenConfig.bnrRatesProxyUrl || (window.location.protocol.indexOf("http") === 0 ? window.location.origin + "/api/bnr-rates" : ""),
+      "https://www.bnr.ro/nbrfxrates.xml"
+    ].filter(Boolean);
+
+    function setStatus(message, isError) {
+      if (status) {
+        status.textContent = message;
+        status.classList.toggle("is-error", Boolean(isError));
+      }
+    }
+
+    function getRateNode(xml, currency) {
+      var rates = Array.prototype.slice.call(xml.getElementsByTagName("Rate"));
+
+      return rates.find(function (rate) {
+        return rate.getAttribute("currency") === currency;
+      }) || null;
+    }
+
+    function getRate(xml, currency) {
+      var node = getRateNode(xml, currency);
+      var multiplier = node ? Number(node.getAttribute("multiplier") || "1") : 1;
+      var value = node ? Number((node.textContent || "").replace(",", ".")) : 0;
+
+      if (!node || !value) {
+        return "";
+      }
+
+      return (multiplier > 1 ? multiplier + " " : "1 ") + currency + " = " + value.toFixed(4) + " RON";
+    }
+
+    function loadFromEndpoint(index) {
+      var endpoint = endpoints[index];
+
+      if (!endpoint) {
+        setStatus("Cursul BNR nu a putut fi încărcat automat. Verifică sursa oficială.", true);
+        return;
+      }
+
+      fetch(endpoint, { cache: "no-store" }).then(function (response) {
+        if (!response.ok) {
+          throw new Error("BNR response failed");
+        }
+
+        return response.text();
+      }).then(function (text) {
+        var xml = new window.DOMParser().parseFromString(text, "application/xml");
+        var cube = Array.prototype.find.call(xml.getElementsByTagName("Cube"), function (node) {
+          return node.getAttribute("date");
+        });
+        var xmlError = xml.querySelector("parsererror");
+
+        if (xmlError) {
+          throw new Error("BNR XML parse failed");
+        }
+
+        if (eurNode) {
+          eurNode.textContent = getRate(xml, "EUR") || "EUR indisponibil";
+        }
+
+        if (usdNode) {
+          usdNode.textContent = getRate(xml, "USD") || "USD indisponibil";
+        }
+
+        if (gbpNode) {
+          gbpNode.textContent = getRate(xml, "GBP") || "GBP indisponibil";
+        }
+
+        if (sourceNode) {
+          sourceNode.href = "https://www.bnr.ro/nbrfxrates.xml";
+        }
+
+        setStatus("Actualizat BNR" + (cube ? ": " + cube.getAttribute("date") : "") + ".");
+      }).catch(function () {
+        loadFromEndpoint(index + 1);
+      });
+    }
+
+    setStatus("Se încarcă automat cursul BNR...");
+    loadFromEndpoint(0);
+  }
+
+  function initPromoBump() {
+    var promotions = [
+      {
+        badge: "Acces privilegiat",
+        amount: "VIP",
+        amountLabel: "card",
+        title: "Devino membru ZEN VIP",
+        text: "Activează cardul și primești acces la reduceri, beneficii speciale și comunicare prioritară.",
+        cta: "Activează cardul VIP →",
+        kind: "vip",
+        href: "card-loialitate.html#activare"
+      },
+      {
+        badge: "Ofertă estetică",
+        amount: "-10%",
+        amountLabel: "reducere",
+        title: "Acid hialuronic & Botox",
+        text: "Reducere dedicată pacienților cu ZEN VIP Card, confirmată în clinică.",
+        cta: "Solicită oferta →",
+        href: "card-loialitate.html#activare"
+      },
+      {
+        badge: "Proceduri selectate",
+        amount: "-7%",
+        amountLabel: "reducere",
+        title: "Blefaroplastie și intervenții locale",
+        text: "Beneficiu VIP pentru proceduri cu anestezie locală, în funcție de indicație.",
+        cta: "Vezi beneficiile →",
+        href: "card-loialitate.html#activare"
+      },
+      {
+        badge: "Chirurgie estetică",
+        amount: "-5%",
+        amountLabel: "reducere",
+        title: "Implant mamar & abdominoplastie",
+        text: "Avantaj VIP pentru proceduri cu anestezie generală, stabilit individual.",
+        cta: "Solicită oferta →",
+        href: "card-loialitate.html#activare"
+      }
+    ];
+    var STORAGE_KEY = "zen-promo-bump-next-index";
+    var REOPEN_DELAY = 40000;
+    var panel;
+    var closeButton;
+    var bodyLink;
+    var visual;
+    var badge;
+    var amount;
+    var amountLabel;
+    var title;
+    var text;
+    var activeIndex = 0;
+    var timer = 0;
+
+    if (!document.body || document.querySelector("[data-promo-bump]") || /login-owner/i.test(window.location.pathname)) {
+      return;
+    }
+
+    panel = document.createElement("aside");
+    panel.className = "zen-promo-bump is-hidden";
+    panel.setAttribute("data-promo-bump", "");
+    panel.setAttribute("aria-label", "Promoții ZEN Clinics");
+    panel.hidden = true;
+    panel.innerHTML = [
+      '<button class="zen-promo-bump__close" type="button" aria-label="Închide promoția">×</button>',
+      '<a class="zen-promo-bump__body" href="#">',
+      '<span class="zen-promo-bump__badge"></span>',
+      '<span class="zen-promo-bump__visual" aria-hidden="true"></span>',
+      '<strong class="zen-promo-bump__deal"><span class="zen-promo-bump__amount"></span><small class="zen-promo-bump__amount-label"></small></strong>',
+      '<p class="zen-promo-bump__title"></p>',
+      '<em class="zen-promo-bump__text"></em>',
+      '<span class="zen-promo-bump__cta">Solicită oferta →</span>',
+      '</a>'
+    ].join("");
+
+    document.body.appendChild(panel);
+
+    closeButton = panel.querySelector(".zen-promo-bump__close");
+    bodyLink = panel.querySelector(".zen-promo-bump__body");
+    visual = panel.querySelector(".zen-promo-bump__visual");
+    badge = panel.querySelector(".zen-promo-bump__badge");
+    amount = panel.querySelector(".zen-promo-bump__amount");
+    amountLabel = panel.querySelector(".zen-promo-bump__amount-label");
+    title = panel.querySelector(".zen-promo-bump__title");
+    text = panel.querySelector(".zen-promo-bump__text");
+
+    function renderPromo(index) {
+      var promo = promotions[index % promotions.length];
+
+      activeIndex = index % promotions.length;
+      panel.classList.toggle("zen-promo-bump--vip", promo.kind === "vip");
+      badge.textContent = promo.badge;
+      amount.textContent = promo.amount;
+      amountLabel.textContent = promo.amountLabel || "reducere";
+      title.textContent = promo.title;
+      text.textContent = promo.text;
+      panel.querySelector(".zen-promo-bump__cta").textContent = promo.cta || "Solicită oferta →";
+      bodyLink.href = getLocalHref(promo.href);
+      visual.innerHTML = promo.kind === "vip"
+        ? '<span class="zen-promo-bump__vip-card"><img src="' + getLocalHref("assets/optimized/card-1000.jpg") + '" alt="" loading="lazy" decoding="async"><span>VIP CARD</span><strong>ZEN</strong><em>CLINICS</em></span>'
+        : "";
+    }
+
+    function getNextIndex() {
+      var stored = 0;
+
+      try {
+        stored = Number(window.localStorage && window.localStorage.getItem(STORAGE_KEY)) || 0;
+        if (window.localStorage) {
+          window.localStorage.setItem(STORAGE_KEY, String((stored + 1) % promotions.length));
+        }
+      } catch (error) {
+        stored = Math.floor(Date.now() / 1000);
+      }
+
+      return stored % promotions.length;
+    }
+
+    function showPromo(index) {
+      window.clearTimeout(timer);
+      renderPromo(index);
+      panel.hidden = false;
+      window.requestAnimationFrame(function () {
+        panel.classList.remove("is-hidden");
+      });
+    }
+
+    closeButton.addEventListener("click", function () {
+      panel.classList.add("is-hidden");
+      window.clearTimeout(timer);
+
+      window.setTimeout(function () {
+        panel.hidden = true;
+        timer = window.setTimeout(function () {
+          showPromo(activeIndex + 1);
+        }, REOPEN_DELAY);
+      }, reduceMotion ? 0 : 260);
+    });
+
+    showPromo(getNextIndex());
+  }
+
+  function setPlainNavLink(link, href, label) {
+    if (!link) {
+      return;
+    }
+
+    link.setAttribute("href", getLocalHref(href));
+    link.textContent = label;
+  }
+
+  function isIndexPage() {
+    var fileName = window.location.pathname.split("/").pop().toLowerCase();
+    return !fileName || fileName === "index.html";
+  }
+
+  function getPlainMegaDestination(label) {
+    switch (label) {
+      case "despre noi":
+        return { href: "despre-noi.html", text: "Despre noi" };
+      case "proceduri":
+        return { href: "proceduri.html", text: "Proceduri" };
+      case "medicina estetica":
+      case "chirurgie estetica":
+        return { href: "chirurgie-estetica.html", text: "Chirurgie estetică" };
+      case "chirurgie generala":
+        return { href: "chirurgie-generala.html", text: "Chirurgie generală" };
+      case "estetica ginecologica":
+        return { href: "sections/labioplastie.html", text: "Estetică ginecologică" };
+      case "dermatologie estetica":
+        return { href: "sections/laser-co2.html", text: "Dermatologie estetică" };
+      case "cosmetologie":
+        return { href: "cosmetologie.html", text: "Cosmetologie" };
+      case "preturi":
+        return { href: "preturi-rate.html", text: "Prețuri" };
+      default:
+        return null;
+    }
+  }
+
+  function buildAestheticSurgeryLinks(panel) {
+    if (!panel) {
+      return;
+    }
+
+    panel.classList.add("zen-mega-menu", "zen-mega-menu--compact");
+    panel.innerHTML = [
+      '<a href="' + getLocalHref("chirurgie-estetica.html") + '"><strong>Pagina principală</strong><small>Față, sân și corp într-un cadru estetic</small></a>',
+      '<a href="' + getLocalHref("chirurgie-estetica.html#fata") + '"><strong>Chirurgia feței</strong><small>Evaluare și plan personalizat</small></a>',
+      '<a href="' + getLocalHref("chirurgie-estetica.html#san") + '"><strong>Chirurgia sânului</strong><small>Volum, poziție și proporții</small></a>',
+      '<a href="' + getLocalHref("chirurgie-estetica.html#corp") + '"><strong>Chirurgia corpului</strong><small>Contur corporal discutat medical</small></a>'
+    ].join("");
+  }
+
+  function buildGeneralSurgeryLinks(panel) {
+    if (!panel) {
+      return;
+    }
+
+    panel.classList.add("zen-mega-menu", "zen-mega-menu--compact");
+    panel.classList.remove("general-surgery-menu");
+    panel.innerHTML = [
+      '<a href="' + getLocalHref("chirurgie-generala.html") + '"><strong>Pagina principală</strong><small>Chirurgie generală explicată clar</small></a>',
+      '<a href="' + getLocalHref("chirurgie-generala.html#minim-invazive") + '"><strong>Minim invazive</strong><small>Injectări și proceduri de cabinet</small></a>',
+      '<a href="' + getLocalHref("chirurgie-generala.html#chirurgie") + '"><strong>Chirurgie</strong><small>Intervenții și direcții chirurgicale</small></a>'
+    ].join("");
+  }
+
+  function replaceMegaItemWithLink(item, href, label) {
+    var link;
+
+    if (!item || !item.parentNode) {
+      return;
+    }
+
+    link = document.createElement("a");
+    link.href = getLocalHref(href);
+    link.textContent = label;
+    item.parentNode.replaceChild(link, item);
+  }
+
+  function replacePlainLinkWithMegaItem(link) {
+    var item;
+    var button;
+    var panel;
+    var id;
+
+    if (!link || !link.parentNode) {
+      return;
+    }
+
+    id = "menu-chirurgie-generala-" + Math.random().toString(36).slice(2, 8);
+    item = document.createElement("div");
+    item.className = "mega-item";
+    item.setAttribute("data-mega-item", "");
+
+    button = document.createElement("button");
+    button.className = "mega-toggle";
+    button.type = "button";
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", id);
+    button.setAttribute("data-mega-toggle", "");
+    button.textContent = "Chirurgie generală";
+
+    panel = document.createElement("div");
+    panel.className = "mega-panel";
+    panel.id = id;
+    panel.setAttribute("data-mega-menu", "");
+    buildGeneralSurgeryLinks(panel);
+
+    item.appendChild(button);
+    item.appendChild(panel);
+    link.parentNode.replaceChild(item, link);
+  }
+
+  function ensureOrlLink(nav) {
+    var link;
+    var contactLink;
+    var ctaLink;
+
+    if (!nav || nav.querySelector("a[href$='orl.html'], a[href='../orl.html']")) {
+      return;
+    }
+
+    link = document.createElement("a");
+    link.href = getLocalHref("orl.html");
+    link.textContent = "O.R.L";
+
+    contactLink = Array.prototype.find.call(nav.querySelectorAll("a"), function (anchor) {
+      return normalizeText(anchor.textContent) === "contact";
+    });
+    ctaLink = nav.querySelector(".mobile-cta");
+
+    if (contactLink && contactLink.parentNode === nav) {
+      nav.insertBefore(link, contactLink);
+    } else if (ctaLink && ctaLink.parentNode === nav) {
+      nav.insertBefore(link, ctaLink);
+    } else {
+      nav.appendChild(link);
+    }
+  }
+
+  function normalizeNavigationTaxonomy() {
+    var navContainers = document.querySelectorAll(".zen-main-nav__inner, .lux-primary-nav__inner, .zen-mobile-menu nav, .lux-mobile__panel, .desktop-nav, .mobile-menu-panel");
+    var desktopNavContainers = document.querySelectorAll(".zen-main-nav__inner, .lux-primary-nav__inner, .desktop-nav");
+    var allowDropdowns = isIndexPage();
+
+    document.querySelectorAll(".mega-item").forEach(function (item) {
+      var button = item.querySelector(".mega-toggle");
+      var panel = item.querySelector(".mega-panel");
+      var label = normalizeText(button ? button.textContent : "");
+      var destination = getPlainMegaDestination(label);
+
+      if (!allowDropdowns) {
+        if (destination) {
+          replaceMegaItemWithLink(item, destination.href, destination.text);
+        }
+        return;
+      }
+
+      if (label === "medicina estetica") {
+        button.textContent = "Chirurgie estetică";
+        buildAestheticSurgeryLinks(panel);
+      }
+
+      if (label === "chirurgie generala") {
+        button.textContent = "Chirurgie generală";
+        buildGeneralSurgeryLinks(panel);
+      }
+    });
+
+    document.querySelectorAll("a[href]").forEach(function (link) {
+      var label = normalizeText(link.textContent);
+      var href = link.getAttribute("href") || "";
+
+      if (label === "medicina estetica") {
+        setPlainNavLink(link, "chirurgie-estetica.html", "Chirurgie estetică");
+      } else if (label === "chirurgie estetica" && href.indexOf("medicina-estetica.html") >= 0) {
+        link.setAttribute("href", getLocalHref("chirurgie-estetica.html"));
+      } else if (label === "chirurgie generala" && href.indexOf("chirurgie-estetica.html") >= 0) {
+        link.setAttribute("href", getLocalHref("chirurgie-generala.html"));
+      }
+    });
+
+    if (allowDropdowns) {
+      desktopNavContainers.forEach(function (nav) {
+        Array.prototype.slice.call(nav.children).forEach(function (child) {
+          if (child.tagName === "A" && normalizeText(child.textContent) === "chirurgie generala") {
+            replacePlainLinkWithMegaItem(child);
+          }
+        });
+      });
+    }
+
+    navContainers.forEach(ensureOrlLink);
+  }
+
+  normalizeNavigationTaxonomy();
   enrichBookingLinks();
+  initSocialLinks();
+  initBnrRates();
+  initPromoBump();
 
   function getFieldLabel(field) {
     var label = field.closest("label");
@@ -963,8 +1577,6 @@
       email: getFormDataValue(formData, ["email"]) || null,
       branch: getFormDataValue(formData, ["branch"]) || null,
       procedure: getFormDataValue(formData, ["procedure"]) || null,
-      preferred_date: getFormDataValue(formData, ["preferred_date"]) || null,
-      preferred_time: getFormDataValue(formData, ["preferred_time"]) || null,
       contact_method: getFormDataValue(formData, ["contact_method"]) || null,
       request_type: getFormDataValue(formData, ["request_type"]) || null,
       message: getFormDataValue(formData, ["message"]) || null
@@ -1263,8 +1875,8 @@
         }
       });
     }, {
-      rootMargin: "0px 0px -12% 0px",
-      threshold: 0.12
+      rootMargin: "0px 0px 14% 0px",
+      threshold: 0.08
     });
 
     document.querySelectorAll(revealSelector).forEach(function (element) {

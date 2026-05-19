@@ -4,5 +4,11 @@ window.ZEN_CONFIG = {
   // Exemplu: "https://PROJECT_REF.functions.supabase.co"
   supabaseFunctionsUrl: "",
   // Cheia publică Cloudflare Turnstile. Secretul rămâne doar în Supabase Edge Function.
-  turnstileSiteKey: ""
+  turnstileSiteKey: "",
+  socialLinks: {
+    instagram: "https://www.instagram.com/zenclinics.ro/",
+    facebook: "https://www.facebook.com/ZENClinics",
+    tiktok: "https://www.tiktok.com/@zenclinics.ro"
+  },
+  bnrRatesProxyUrl: "/api/bnr-rates"
 };

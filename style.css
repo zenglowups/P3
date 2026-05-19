@@ -684,6 +684,11 @@ body.procedure-page {
   color: var(--ivory);
 }
 
+.procedure-page .desktop-nav {
+  gap: clamp(10px, 1.2vw, 18px);
+  font-size: clamp(0.74rem, 0.78vw, 0.86rem);
+}
+
 .procedure-page .brand-text small,
 .procedure-page .desktop-nav a {
   color: rgba(255, 250, 240, 0.72);
@@ -1179,6 +1184,12 @@ body.procedure-page {
 }
 
 .procedure-final__content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+.procedure-final__inner {
   position: relative;
   z-index: 2;
   max-width: 720px;
@@ -1891,6 +1902,64 @@ body.procedure-page {
   margin-bottom: 0;
 }
 
+.medical-copy {
+  display: grid;
+  gap: 26px;
+  max-width: 980px;
+  margin-inline: auto;
+}
+
+.medical-copy h2 {
+  margin-top: 34px;
+  font-size: clamp(1.9rem, 3vw, 3.05rem);
+}
+
+.medical-copy h2:first-child {
+  margin-top: 0;
+}
+
+.medical-copy ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.medical-copy li {
+  position: relative;
+  padding-left: 24px;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
+.medical-copy li::before {
+  content: "";
+  position: absolute;
+  top: 0.78em;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.medical-visual {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border: 1px solid rgba(226, 199, 130, 0.24);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.medical-visual img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+}
+
 .procedure-image-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2150,6 +2219,15 @@ body.procedure-page {
   line-height: 1.05;
 }
 
+.procedure-directory-card small {
+  display: block;
+  max-width: 95%;
+  margin-top: 9px;
+  color: rgba(246, 239, 229, 0.76);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
 .procedure-directory-card:hover,
 .procedure-directory-card:focus-visible {
   border-color: rgba(226, 199, 130, 0.58);
@@ -2182,6 +2260,14 @@ body.procedure-page {
 
 .surgery-page .procedure-directory-card {
   min-height: 300px;
+}
+
+.general-surgery-page .general-surgery-zone-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.general-surgery-page .general-surgery-card-grid .procedure-directory-card {
+  min-height: 320px;
 }
 
 .surgery-page .surgery-directory:nth-of-type(even) {
@@ -2386,6 +2472,63 @@ body.procedure-page {
   text-align: right;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.price-name-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.price-vip-badge {
+  position: relative;
+  display: inline-flex;
+  min-height: 22px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border: 1px solid rgba(226, 199, 130, 0.62);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(226, 199, 130, 0.22), rgba(184, 138, 46, 0.32));
+  color: #ffe7a5;
+  font-size: 0.58rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 0 0 18px rgba(226, 199, 130, 0.16);
+}
+
+.price-vip-badge::after {
+  content: attr(data-vip-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 30;
+  width: min(260px, 72vw);
+  padding: 12px 14px;
+  border: 1px solid rgba(226, 199, 130, 0.42);
+  border-radius: 14px;
+  background: rgba(7, 6, 5, 0.96);
+  color: rgba(246, 239, 229, 0.92);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.45;
+  opacity: 0;
+  pointer-events: none;
+  text-align: left;
+  text-transform: none;
+  transform: translate(-50%, 8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.price-vip-badge:hover::after,
+.price-vip-badge:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .price-card.is-hidden,
@@ -6223,6 +6366,47 @@ body.zen-clean-page {
   grid-template-columns: 1fr;
 }
 
+.general-surgery-menu {
+  width: min(760px, calc(100vw - 36px));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.general-surgery-menu .zen-mega-group {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+}
+
+.desktop-nav .mega-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.desktop-nav .mega-toggle {
+  padding: 8px 0;
+  border-radius: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+
+.desktop-nav .mega-toggle:hover,
+.desktop-nav .mega-toggle:focus-visible,
+.desktop-nav .mega-toggle[aria-expanded="true"] {
+  background: transparent;
+  box-shadow: none;
+}
+
+.desktop-nav .mega-panel {
+  top: calc(100% + 14px);
+}
+
+.procedure-page .desktop-nav .mega-toggle {
+  color: rgba(255, 250, 240, 0.72);
+}
+
 .zen-mega-group {
   min-width: 0;
   padding: 14px;
@@ -8483,6 +8667,11 @@ body.zen-clean-page {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .general-surgery-menu {
+    width: min(760px, calc(100vw - 32px));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .zen-code-hero__inner {
     grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.82fr);
   }
@@ -8676,6 +8865,11 @@ body.zen-clean-page {
   .lux-mobile__panel a {
     padding: 13px 0;
     font-size: 1.34rem;
+  }
+
+  .general-surgery-menu {
+    width: min(360px, calc(100vw - 28px));
+    grid-template-columns: 1fr;
   }
 
   .lux-hero {
@@ -8923,5 +9117,846 @@ body.zen-clean-page {
 
   .lux-map-embed iframe {
     filter: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .general-surgery-page .general-surgery-zone-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.zen-social-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zen-social-link {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(200, 164, 93, 0.4);
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(200, 164, 93, 0.08));
+  color: #e2c782;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 26px rgba(0, 0, 0, 0.18);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.zen-social-link:hover,
+.zen-social-link:focus-visible {
+  border-color: rgba(255, 231, 165, 0.82);
+  background: linear-gradient(135deg, #d9ba70, #9f7425);
+  color: #0d0904;
+  transform: translateY(-2px);
+}
+
+.zen-social-link svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.zen-social-link--facebook svg,
+.zen-social-link--tiktok svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.zen-social-links--form {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  padding-top: 4px;
+}
+
+.zen-social-links--footer {
+  margin-top: 16px;
+}
+
+.zen-social-links--form,
+.zen-social-links--footer {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.zen-social-links--form .zen-social-link,
+.zen-social-links--footer .zen-social-link {
+  width: auto;
+  min-width: 126px;
+  height: 42px;
+  gap: 9px;
+  padding: 0 15px;
+  border-radius: 999px;
+  border-color: rgba(226, 199, 130, 0.62);
+  background:
+    linear-gradient(135deg, rgba(226, 199, 130, 0.16), rgba(5, 4, 3, 0.28)),
+    rgba(12, 10, 8, 0.34);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.zen-social-links--form .zen-social-link::after,
+.zen-social-links--footer .zen-social-link::after {
+  color: currentColor;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.zen-social-links--form .zen-social-link--instagram::after,
+.zen-social-links--footer .zen-social-link--instagram::after {
+  content: "Instagram";
+}
+
+.zen-social-links--form .zen-social-link--facebook::after,
+.zen-social-links--footer .zen-social-link--facebook::after {
+  content: "Facebook";
+}
+
+.zen-social-links--form .zen-social-link--tiktok::after,
+.zen-social-links--footer .zen-social-link--tiktok::after {
+  content: "TikTok";
+}
+
+.footer-grid .zen-social-links--footer,
+.lux-footer__grid .zen-social-links--footer,
+.zen-footer__contact .zen-social-links--footer {
+  display: flex;
+}
+
+.zen-promo-bump {
+  position: fixed;
+  right: clamp(18px, 3vw, 48px);
+  bottom: clamp(18px, 3vw, 46px);
+  z-index: 9500;
+  width: min(360px, calc(100vw - 36px));
+  overflow: hidden;
+  border: 1px solid rgba(226, 199, 130, 0.48);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 90% 16%, rgba(255, 231, 165, 0.18), transparent 28%),
+    radial-gradient(circle at 12% 92%, rgba(200, 164, 93, 0.18), transparent 32%),
+    linear-gradient(145deg, rgba(12, 10, 8, 0.98), rgba(3, 3, 2, 0.96));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #f6efe5;
+  transform: translateY(0);
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.zen-promo-bump::before {
+  content: "";
+  position: absolute;
+  inset: -24% -18% auto auto;
+  width: 72%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(226, 199, 130, 0.2);
+  border-radius: 50%;
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+
+.zen-promo-bump.is-hidden {
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: none;
+}
+
+.zen-promo-bump__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(226, 199, 130, 0.32);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.32);
+  color: #fff3ca;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.zen-promo-bump__body {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 30px 28px 24px;
+}
+
+.zen-promo-bump__badge {
+  width: max-content;
+  color: #e2c782;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.zen-promo-bump__body strong {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  color: #ffe7a5;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 4.9rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-shadow: 0 0 24px rgba(226, 199, 130, 0.26);
+}
+
+.zen-promo-bump__body strong small {
+  margin-bottom: 8px;
+  color: rgba(246, 239, 229, 0.9);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.zen-promo-bump__title {
+  margin: 0;
+  color: rgba(246, 239, 229, 0.94);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.4rem;
+  line-height: 1.18;
+}
+
+.zen-promo-bump__text {
+  display: block;
+  max-width: 280px;
+  color: rgba(246, 239, 229, 0.68);
+  font-size: 0.84rem;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.zen-promo-bump__cta {
+  display: inline-flex;
+  width: max-content;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  padding: 0 18px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #e2c782, #b98b36);
+  color: #120e08;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.zen-promo-bump__dots {
+  display: flex;
+  gap: 6px;
+  padding: 0 28px 22px;
+}
+
+.zen-promo-bump__dots button {
+  width: 18px;
+  height: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  padding: 0;
+}
+
+.zen-promo-bump__dots button.is-active {
+  background: #e2c782;
+}
+
+@media (max-width: 1160px) {
+  .zen-social-links--nav {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .zen-promo-bump {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100vw - 24px);
+    border-radius: 18px;
+  }
+
+  .zen-promo-bump__body {
+    grid-template-columns: auto 1fr;
+    gap: 6px 14px;
+    padding: 20px 54px 18px 20px;
+  }
+
+  .zen-promo-bump__badge,
+  .zen-promo-bump__title,
+  .zen-promo-bump__text,
+  .zen-promo-bump__cta {
+    grid-column: 2;
+  }
+
+  .zen-promo-bump__body strong {
+    grid-row: 1 / span 4;
+    align-self: center;
+    display: grid;
+    gap: 4px;
+    font-size: 2.7rem;
+  }
+
+  .zen-promo-bump__body strong small {
+    margin: 0;
+    font-size: 0.72rem;
+  }
+
+  .zen-promo-bump__title {
+    font-size: 1.05rem;
+  }
+
+  .zen-promo-bump__text {
+    display: none;
+  }
+
+  .zen-promo-bump__cta {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.64rem;
+  }
+
+  .zen-promo-bump__dots {
+    padding: 0 20px 16px;
+  }
+}
+
+.zen-header-meta a[href^="tel:"],
+.lux-header__meta a[href^="tel:"] {
+  color: #ff5656;
+  font-weight: 950;
+  text-shadow: 0 0 18px rgba(255, 86, 86, 0.34);
+}
+
+.price-fx-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(280px, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  margin: 22px 0 26px;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid rgba(200, 164, 93, 0.26);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 92% 10%, rgba(226, 199, 130, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(21, 17, 13, 0.92), rgba(5, 4, 3, 0.86));
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+}
+
+.price-fx-panel h2 {
+  margin: 0 0 10px;
+  font-size: 2rem;
+}
+
+.price-fx-panel p {
+  margin: 0;
+  color: rgba(246, 239, 229, 0.72);
+}
+
+.price-fx-panel p.is-error {
+  color: #ffb0a8;
+}
+
+.price-fx-panel__rates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.price-fx-panel__rates span {
+  display: grid;
+  min-height: 92px;
+  align-content: center;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(226, 199, 130, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.price-fx-panel__rates strong {
+  color: var(--champagne);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+}
+
+.price-fx-panel__rates small {
+  color: rgba(246, 239, 229, 0.58);
+  line-height: 1.35;
+}
+
+.price-fx-panel > a {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border: 1px solid rgba(226, 199, 130, 0.42);
+  border-radius: 999px;
+  color: var(--gold-soft);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.zen-promo-bump__body strong {
+  font-size: 4.9rem;
+}
+
+.zen-promo-bump__visual {
+  display: none;
+}
+
+.zen-promo-bump--vip {
+  width: min(420px, calc(100vw - 36px));
+}
+
+.zen-promo-bump--vip .zen-promo-bump__body {
+  gap: 14px;
+}
+
+.zen-promo-bump--vip .zen-promo-bump__deal {
+  font-size: 3.35rem;
+}
+
+.zen-promo-bump--vip .zen-promo-bump__visual {
+  display: block;
+}
+
+.zen-promo-bump__vip-card {
+  position: relative;
+  display: grid;
+  min-height: 142px;
+  align-content: center;
+  gap: 4px;
+  overflow: hidden;
+  padding: 22px;
+  border: 1px solid rgba(255, 231, 165, 0.5);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 76% 32%, rgba(226, 199, 130, 0.36), transparent 23%),
+    radial-gradient(circle at 85% 78%, rgba(255, 231, 165, 0.16), transparent 26%),
+    linear-gradient(145deg, #17130d, #050403);
+  box-shadow: inset 0 0 34px rgba(226, 199, 130, 0.08), 0 20px 44px rgba(0, 0, 0, 0.28);
+}
+
+.zen-promo-bump__vip-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.32;
+}
+
+.zen-promo-bump__vip-card::before {
+  content: "VIP";
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  z-index: 1;
+  color: #ffe7a5;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.zen-promo-bump__vip-card span,
+.zen-promo-bump__vip-card strong,
+.zen-promo-bump__vip-card em {
+  position: relative;
+  z-index: 1;
+}
+
+.zen-promo-bump__vip-card span,
+.zen-promo-bump__vip-card em {
+  color: #e2c782;
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.zen-promo-bump__vip-card strong {
+  display: block;
+  color: #ffe7a5;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 3.5rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.zen-promo-bump__dots {
+  display: none;
+}
+
+@media (max-width: 1020px) {
+  .price-fx-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .price-fx-panel__rates {
+    grid-template-columns: 1fr;
+  }
+
+  .price-fx-panel > a {
+    width: max-content;
+  }
+}
+
+@media (max-width: 680px) {
+  .zen-promo-bump__body strong {
+    font-size: 2.7rem;
+  }
+
+  .zen-promo-bump--vip .zen-promo-bump__body {
+    grid-template-columns: 1fr;
+    padding-right: 54px;
+  }
+
+  .zen-promo-bump--vip .zen-promo-bump__badge,
+  .zen-promo-bump--vip .zen-promo-bump__title,
+  .zen-promo-bump--vip .zen-promo-bump__text,
+  .zen-promo-bump--vip .zen-promo-bump__cta,
+  .zen-promo-bump--vip .zen-promo-bump__visual {
+    grid-column: 1;
+  }
+
+  .zen-promo-bump--vip .zen-promo-bump__deal {
+    display: none;
+  }
+
+  .zen-promo-bump__vip-card {
+    min-height: 110px;
+  }
+
+  .zen-promo-bump__vip-card strong {
+    font-size: 2.6rem;
+  }
+}
+
+@media (max-width: 520px) {
+  html {
+    scroll-padding-top: 92px;
+  }
+
+  .zen-shell,
+  .zen-header-shell,
+  .lux-shell,
+  .container {
+    width: min(var(--shell, var(--container, 1180px)), calc(100% - 22px));
+  }
+
+  .zen-top-bar,
+  .lux-announcement {
+    min-height: 26px;
+  }
+
+  .zen-top-bar a,
+  .lux-announcement a {
+    padding-inline: 8px;
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+  }
+
+  .zen-header-main,
+  .lux-header__main {
+    min-height: 62px;
+    gap: 12px;
+  }
+
+  .zen-brand img,
+  .lux-brand img,
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .zen-brand span,
+  .lux-brand span {
+    font-size: 0.98rem;
+  }
+
+  .zen-pill--ghost {
+    min-height: 36px;
+    padding-inline: 10px;
+    font-size: 0.58rem;
+  }
+
+  .zen-nav-toggle,
+  .lux-nav-toggle,
+  .nav-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .zen-mobile-menu {
+    inset: 88px 0 auto;
+    height: calc(100svh - 88px);
+    min-height: calc(100vh - 88px);
+    padding-top: 16px;
+  }
+
+  .lux-header {
+    --lux-mobile-offset: 88px;
+  }
+
+  .mobile-menu-panel,
+  .zen-mobile-menu nav,
+  .lux-header.menu-open .lux-mobile__panel {
+    width: min(390px, calc(100% - 22px));
+  }
+
+  .mobile-menu-panel a,
+  .zen-mobile-menu a,
+  .lux-mobile__panel a {
+    min-height: 48px;
+    padding-block: 10px;
+    font-size: 1.08rem;
+    line-height: 1.14;
+  }
+
+  .hero-home__inner {
+    padding: 44px 0 58px;
+  }
+
+  .hero-home h1,
+  .lux-hero h1,
+  .zen-code-hero h1,
+  .inner-hero h1,
+  .procedure-hero h1 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .hero-home__lead,
+  .lux-hero__lead,
+  .zen-code-hero__content > p:not(.lux-kicker),
+  .inner-hero p:not(.lux-kicker),
+  .procedure-hero__lead {
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  .hero-home__portrait,
+  .zen-code-hero__media,
+  .inner-hero__media {
+    min-height: 390px;
+    border-radius: 20px;
+  }
+
+  .lux-hero,
+  .procedure-hero,
+  .inner-hero,
+  .zen-service-hero,
+  .zen-code-hero {
+    min-height: auto;
+    padding-top: 126px;
+    padding-bottom: 58px;
+  }
+
+  .inner-hero--background {
+    min-height: auto;
+    padding-bottom: 64px;
+  }
+
+  .procedure-hero__content,
+  .inner-hero__content,
+  .zen-code-hero__content {
+    max-width: none;
+  }
+
+  .hero-home__actions,
+  .procedure-actions,
+  .inner-hero__actions,
+  .zen-code-hero__actions,
+  .zen-booking-form,
+  .form-grid,
+  .zen-form-grid,
+  .lux-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .zen-section,
+  .zen-popular-section,
+  .zen-process-section,
+  .zen-faq-section,
+  .zen-loyalty-section,
+  .zen-booking-section,
+  .zen-map-section,
+  .lux-section,
+  .inner-section,
+  .procedure-section {
+    padding-block: 64px;
+  }
+
+  .zen-section-head h2,
+  .lux-home h2,
+  .zen-why-light h2,
+  .procedure-section h2,
+  .inner-section h2 {
+    font-size: 2.35rem;
+    line-height: 1.04;
+  }
+
+  .zen-why-light {
+    min-height: auto;
+  }
+
+  .zen-why-light__visual {
+    min-height: 390px;
+    background-size: auto 108%;
+  }
+
+  .zen-why-light__content {
+    padding: 56px 18px;
+  }
+
+  .zen-why-light__cards,
+  .zen-popular-grid,
+  .zen-testimonials-home__grid,
+  .zen-footer__grid,
+  .lux-footer__grid,
+  .price-branches,
+  .procedure-grid,
+  .procedure-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .zen-why-light__cards article,
+  .procedure-card,
+  .zen-popular-card {
+    min-height: auto;
+  }
+
+  .zen-booking-form,
+  .privilege-form,
+  .booking-form,
+  .inner-form {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .zen-social-links--form,
+  .zen-social-links--footer {
+    gap: 10px;
+  }
+
+  .zen-social-links--form .zen-social-link,
+  .zen-social-links--footer .zen-social-link {
+    min-width: 116px;
+    min-height: 42px;
+    padding-inline: 12px;
+  }
+
+  .price-card {
+    height: 580px;
+    padding: 20px;
+  }
+
+  .price-fx-panel {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .price-fx-panel > a {
+    width: 100%;
+  }
+
+  .lux-map-embed,
+  .zen-map-embed,
+  .contact-map-embed {
+    min-height: 320px;
+  }
+
+  .zen-promo-bump {
+    right: 10px;
+    bottom: 10px;
+    width: calc(100vw - 20px);
+  }
+
+  .zen-promo-bump__body {
+    padding: 18px 52px 18px 18px;
+  }
+
+  .zen-promo-bump__close {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 380px) {
+  .zen-shell,
+  .zen-header-shell,
+  .lux-shell,
+  .container {
+    width: calc(100% - 18px);
+  }
+
+  .zen-brand span,
+  .lux-brand span {
+    font-size: 0.92rem;
+  }
+
+  .hero-home h1,
+  .lux-hero h1,
+  .zen-code-hero h1,
+  .inner-hero h1,
+  .procedure-hero h1 {
+    font-size: 2.62rem;
+  }
+
+  .zen-section-head h2,
+  .lux-home h2,
+  .zen-why-light h2,
+  .procedure-section h2,
+  .inner-section h2 {
+    font-size: 2.12rem;
+  }
+
+  .mobile-menu-panel a,
+  .zen-mobile-menu a,
+  .lux-mobile__panel a {
+    min-height: 44px;
+    font-size: 1rem;
+  }
+
+  .hero-home__portrait,
+  .zen-code-hero__media,
+  .inner-hero__media,
+  .zen-why-light__visual {
+    min-height: 340px;
+  }
+
+  .zen-button,
+  .button-primary,
+  .button-secondary,
+  .lux-button {
+    min-height: 46px;
+    padding-inline: 16px;
+  }
+
+  .zen-social-links--form .zen-social-link,
+  .zen-social-links--footer .zen-social-link {
+    flex: 1 1 100%;
   }
 }
