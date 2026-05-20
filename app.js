@@ -14,6 +14,12 @@
   var revealSelector = ".reveal, .reveal-up, .reveal-scale, .stagger-item, .zen-hero-benefits a, .zen-about-story__features article, .lux-procedure-list a, .lux-location__cards article, .lux-minimal__portrait, .lux-map-actions a";
   var zenConfig = window.ZEN_CONFIG || {};
   var turnstileReady = null;
+  var contactPhone = "+40720558515";
+  var contactPhoneLabel = "+40 720 558 515";
+  var contactWhatsapp = "40720558515";
+  var contactWhatsappText = "Bună ziua, aș dori o programare la ZEN Clinics.";
+  var siteFooter = document.querySelector(".zen-footer, .lux-footer, .site-footer, footer");
+  var floatingContactHidden = false;
 
   if (!scrollProgressBar) {
     scrollProgressBar = document.createElement("div");
@@ -22,6 +28,69 @@
     scrollProgressBar.setAttribute("aria-hidden", "true");
     document.body.appendChild(scrollProgressBar);
   }
+
+  function createFloatingContactLink(options) {
+    var link = document.createElement("a");
+    var label = document.createElement("span");
+
+    link.className = "floating-contact__button floating-contact__button--" + options.type;
+    link.href = options.href;
+    link.setAttribute("aria-label", options.ariaLabel);
+    link.innerHTML = options.icon;
+
+    if (options.target) {
+      link.target = options.target;
+      link.rel = "noopener";
+    }
+
+    label.textContent = options.label;
+    link.appendChild(label);
+
+    return link;
+  }
+
+  function ensureFloatingContact() {
+    var aside;
+    var items;
+
+    if (floatingContact || document.body.classList.contains("owner-login-page")) {
+      return floatingContact;
+    }
+
+    aside = document.createElement("aside");
+    aside.className = "floating-contact floating-contact--quick";
+    aside.setAttribute("data-floating-contact", "");
+    aside.setAttribute("aria-label", "Contact rapid");
+
+    items = document.createElement("div");
+    items.className = "floating-contact__items";
+
+    items.appendChild(createFloatingContactLink({
+      type: "phone",
+      href: "tel:" + contactPhone,
+      label: "Sună",
+      ariaLabel: "Sună acum la " + contactPhoneLabel,
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l3 3-2 2c1.5 3 3 4.5 6 6l2-2 3 3-1.5 3C10.5 19 5 13.5 4 6.5L7 5z"/></svg>'
+    }));
+
+    items.appendChild(createFloatingContactLink({
+      type: "whatsapp",
+      href: "https://wa.me/" + contactWhatsapp + "?text=" + encodeURIComponent(contactWhatsappText),
+      target: "_blank",
+      label: "WhatsApp",
+      ariaLabel: "Scrie pe WhatsApp",
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20l1.2-3.5A8 8 0 1 1 9 19.3L5 20z"/><path d="M8.8 8.7c.4 3.2 2.4 5.3 5.6 6.1l1.1-1.2-2-1-1 1c-1.3-.6-2.4-1.8-3-3.1l1-1.1-1-2-1.7 1.3z"/></svg>'
+    }));
+
+    aside.appendChild(items);
+    document.body.appendChild(aside);
+    document.body.classList.add("has-floating-contact");
+
+    return aside;
+  }
+
+  floatingContact = ensureFloatingContact();
+  floatingToggle = floatingContact ? floatingContact.querySelector("[data-floating-toggle]") : floatingToggle;
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -287,6 +356,8 @@
       var count = document.createElement("span");
       var summary = document.createElement("p");
       var list = document.createElement("ul");
+      var listId = "price-list-" + (category.id || "category-" + index);
+      var toggle;
 
       article.className = "price-card reveal-up";
       if (index < 2) {
@@ -308,6 +379,7 @@
 
       summary.textContent = category.summary || "";
       list.className = "price-list";
+      list.id = listId;
 
       visibleItems.forEach(function (entry) {
         var item = document.createElement("li");
@@ -357,6 +429,21 @@
       article.appendChild(head);
       article.appendChild(summary);
       article.appendChild(list);
+
+      if (visibleItems.length) {
+        toggle = document.createElement("button");
+        article.classList.add("price-card--collapsible");
+        toggle.className = "price-card__toggle";
+        toggle.type = "button";
+        toggle.setAttribute("data-price-toggle", "");
+        toggle.setAttribute("aria-controls", listId);
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.dataset.expandLabel = "Vezi lista (" + visibleItems.length + " servicii)";
+        toggle.dataset.collapseLabel = "Restrânge lista";
+        toggle.textContent = toggle.dataset.expandLabel;
+        article.appendChild(toggle);
+      }
+
       root.appendChild(article);
     });
   }
@@ -374,6 +461,7 @@
 
     updateScrollProgress();
     updateZenWhyTransition();
+    updateFloatingContact();
   }
 
   function updateScrollProgress() {
@@ -404,6 +492,44 @@
     zenWhySection.style.setProperty("--zen-why-overlay", (1 - progress * 0.72).toFixed(3));
   }
 
+  function setFloatingContactHidden(hidden) {
+    if (!floatingContact || floatingContactHidden === hidden) {
+      return;
+    }
+
+    floatingContactHidden = hidden;
+    floatingContact.setAttribute("aria-hidden", String(hidden));
+
+    floatingContact.querySelectorAll("a, button").forEach(function (control) {
+      if (hidden) {
+        control.setAttribute("tabindex", "-1");
+      } else {
+        control.removeAttribute("tabindex");
+      }
+    });
+  }
+
+  function updateFloatingContact() {
+    var viewport;
+    var footerTop;
+    var footerHidden = false;
+    var menuHidden = header && header.classList.contains("menu-open");
+
+    if (!floatingContact) {
+      return;
+    }
+
+    if (siteFooter) {
+      viewport = window.innerHeight || document.documentElement.clientHeight;
+      footerTop = siteFooter.getBoundingClientRect().top;
+      footerHidden = footerTop <= viewport - 8;
+    }
+
+    floatingContact.classList.toggle("is-footer-hidden", footerHidden);
+    floatingContact.classList.toggle("is-menu-hidden", menuHidden);
+    setFloatingContactHidden(footerHidden || menuHidden);
+  }
+
   function setMenu(open) {
     if (!navToggle || !mobileMenu || !header) {
       return;
@@ -413,6 +539,7 @@
     mobileMenu.hidden = !open;
     header.classList.toggle("menu-open", open);
     document.body.style.overflow = open ? "hidden" : "";
+    updateFloatingContact();
   }
 
   function getMegaItem(button) {
@@ -747,6 +874,45 @@
 
   renderPriceLists();
 
+  document.addEventListener("click", function (event) {
+    var toggle = event.target.closest ? event.target.closest("[data-price-toggle]") : null;
+    var card;
+    var expanded;
+
+    if (!toggle) {
+      return;
+    }
+
+    card = toggle.closest("[data-price-card]");
+
+    if (!card) {
+      return;
+    }
+
+    expanded = !card.classList.contains("is-expanded");
+
+    if (expanded && card.parentNode) {
+      card.parentNode.querySelectorAll("[data-price-card].is-expanded").forEach(function (openCard) {
+        var openToggle = openCard.querySelector("[data-price-toggle]");
+
+        if (openCard === card) {
+          return;
+        }
+
+        openCard.classList.remove("is-expanded");
+
+        if (openToggle) {
+          openToggle.setAttribute("aria-expanded", "false");
+          openToggle.textContent = openToggle.dataset.expandLabel;
+        }
+      });
+    }
+
+    card.classList.toggle("is-expanded", expanded);
+    toggle.setAttribute("aria-expanded", String(expanded));
+    toggle.textContent = expanded ? toggle.dataset.collapseLabel : toggle.dataset.expandLabel;
+  });
+
   document.querySelectorAll("[data-price-search]").forEach(function (input) {
     var cards = Array.prototype.slice.call(document.querySelectorAll("[data-price-card]"));
     var searchFrame = 0;
@@ -758,6 +924,8 @@
       cards.forEach(function (card) {
         var items = Array.prototype.slice.call(card.querySelectorAll("[data-price-item]"));
         var visibleItems = 0;
+
+        card.classList.toggle("is-searching", !!query);
 
         items.forEach(function (item) {
           var match = !query || normalizeText(item.textContent).indexOf(query) !== -1 || normalizeText(card.querySelector("h2").textContent).indexOf(query) !== -1;
