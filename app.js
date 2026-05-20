@@ -1783,10 +1783,11 @@
   }
 
   function openRequestChannels(subject, message) {
-    var email = "office@zenclinics.ro";
-    var whatsappPhone = "40720558515";
-    var mailtoUrl = "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(message);
-    var whatsappUrl = "https://wa.me/" + whatsappPhone + "?text=" + encodeURIComponent(message);
+  return {
+    mailto: "",
+    whatsapp: ""
+  };
+}
 
     window.open(whatsappUrl, "_blank", "noopener");
     window.setTimeout(function () {
@@ -1797,10 +1798,10 @@
       mailto: mailtoUrl,
       whatsapp: whatsappUrl
     };
-  }
+  
 
   function renderRequestLinks(status, links) {
-    var text = document.createTextNode("Cererea este pregătită pentru WhatsApp și email. Dacă nu s-au deschis automat, folosește linkurile: ");
+    var text = document.createTextNode("Cererea pentru cardul ZEN VIP a fost trimisă. Te rugăm să verifici inbox-ul.");
     var whatsappLink = document.createElement("a");
     var separator = document.createTextNode(" · ");
     var emailLink = document.createElement("a");
