@@ -1778,16 +1778,15 @@
     return {
       email: getFormDataValue(formData, ["email"]),
       full_name: getFormDataValue(formData, ["full_name", "name"]) || null,
-      marketing_consent: formData.get("marketing_consent") === "on"
+      marketing_consent: formData.get("marketing_consent") === "on" || formData.get("consent") === "on"
     };
   }
 
   function openRequestChannels(subject, message) {
-  return {
-    mailto: "",
-    whatsapp: ""
-  };
-}
+    var email = "office@zenclinics.ro";
+    var phone = "40720558515";
+    var mailtoUrl = "mailto:" + email + "?subject=" + encodeURIComponent(subject || "Cerere ZEN Clinics") + "&body=" + encodeURIComponent(message || "");
+    var whatsappUrl = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message || subject || "Cerere ZEN Clinics");
 
     window.open(whatsappUrl, "_blank", "noopener");
     window.setTimeout(function () {
@@ -1798,12 +1797,12 @@
       mailto: mailtoUrl,
       whatsapp: whatsappUrl
     };
-  
+  }
 
   function renderRequestLinks(status, links) {
-    var text = document.createTextNode("Cererea pentru cardul ZEN VIP a fost trimisă. Te rugăm să verifici inbox-ul.");
+    var text = document.createTextNode("Cererea de programare a fost pregatita. Am deschis canalele rapide: ");
     var whatsappLink = document.createElement("a");
-    var separator = document.createTextNode(" · ");
+    var separator = document.createTextNode(" | ");
     var emailLink = document.createElement("a");
 
     status.classList.remove("is-error");
@@ -1821,6 +1820,11 @@
     status.appendChild(whatsappLink);
     status.appendChild(separator);
     status.appendChild(emailLink);
+  }
+
+  function renderVipSuccess(status) {
+    status.classList.remove("is-error");
+    status.textContent = "Solicitarea pentru cardul ZEN VIP a fost trimisa. Clientul va primi emailul automatizat.";
   }
 
   document.querySelectorAll("[data-booking-form]").forEach(function (form) {
@@ -1940,7 +1944,6 @@
 
     form.addEventListener("submit", function (event) {
       var status = form.querySelector("[data-privilege-status], [data-vip-status]");
-      var links;
       var subject = "Solicitare ZEN VIP Card";
       var message;
       var payload;
@@ -1966,10 +1969,8 @@
       submitSupabaseInsert("vip_card_enrollments", vipPayload).then(function () {
         return submitSecureForm("submit-loyalty", payload);
       }).then(function () {
-        links = openRequestChannels(subject, message);
-
         if (status) {
-          renderRequestLinks(status, links);
+          renderVipSuccess(status);
         }
 
         form.reset();
