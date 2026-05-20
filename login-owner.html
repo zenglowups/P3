@@ -187,6 +187,9 @@
           var row = document.createElement("div");
           var nameInput = document.createElement("input");
           var priceInput = document.createElement("input");
+          var vipLabel = document.createElement("label");
+          var vipInput = document.createElement("input");
+          var vipText = document.createElement("span");
           var remove = document.createElement("button");
 
           row.className = "owner-price-row";
@@ -194,6 +197,11 @@
           priceInput.value = entry[1] || "";
           nameInput.setAttribute("aria-label", "Procedură");
           priceInput.setAttribute("aria-label", "Preț");
+          vipLabel.className = "owner-vip-toggle";
+          vipInput.type = "checkbox";
+          vipInput.checked = entry[2] === true;
+          vipInput.setAttribute("aria-label", "Activează VIP Badge");
+          vipText.textContent = "VIP Badge";
           remove.type = "button";
           remove.textContent = "Șterge";
 
@@ -205,6 +213,10 @@
             entry[1] = priceInput.value;
           });
 
+          vipInput.addEventListener("change", function () {
+            entry[2] = vipInput.checked;
+          });
+
           remove.addEventListener("click", function () {
             category.items.splice(index, 1);
             renderRows();
@@ -212,6 +224,9 @@
 
           row.appendChild(nameInput);
           row.appendChild(priceInput);
+          vipLabel.appendChild(vipInput);
+          vipLabel.appendChild(vipText);
+          row.appendChild(vipLabel);
           row.appendChild(remove);
           rowsRoot.appendChild(row);
         });
@@ -250,7 +265,7 @@
         }
 
         category.items = category.items || [];
-        category.items.unshift(["Procedură nouă", ""]);
+        category.items.unshift(["Procedură nouă", "", false]);
         renderRows();
       });
 

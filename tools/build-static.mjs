@@ -3,7 +3,7 @@ import { extname, join } from "node:path";
 
 const root = process.cwd();
 const dist = join(root, "dist");
-const copyDirs = ["assets", "gallery", "sections", "login-owner"];
+const copyDirs = ["assets", "gallery", "sections", "login-owner", "api"];
 const rootFiles = [
   "index.html",
   "contact.html",

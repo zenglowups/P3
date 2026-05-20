@@ -69,6 +69,173 @@
     return normalizeText(name).indexOf("cazare") !== -1;
   }
 
+  function isConsultationPriceItem(name) {
+    var text = normalizeText(name).replace(/[^a-z0-9]+/g, " ").trim();
+
+    return text.indexOf("consult") === 0 || text.indexOf("control") === 0 || text.indexOf("evaluare") === 0;
+  }
+
+  function hasManualVipBadge(entry) {
+    return Array.isArray(entry) && entry[2] === true;
+  }
+
+  function getVipBenefitNote(name, category) {
+    var service = normalizeText(name);
+    var categoryName = normalizeText((category && category.title) || "");
+
+    if (isConsultationPriceItem(name)) {
+      return "ZEN VIP Card: consulta\u021bie gratuit\u0103 \u00een primul an, conform condi\u021biilor cardului.";
+    }
+
+    if (/botox|toxina|hialuronic|volumizare buze|full face|rinocorectie|reconturare|cearcane|pomet|menton|gummy|smoker/.test(service)) {
+      return "ZEN VIP Card: reducere dedicat\u0103 pentru acid hialuronic / botox.";
+    }
+
+    if (/mezoterapie|skinbooster|dermapen|peeling|laser|co2|prp|vampir|polinucleotid|exozom|sculptra|radiesse|topirea|lipoliza|hiperhidroza|xantelasme/.test(service)) {
+      return "ZEN VIP Card: beneficiu pentru cosmetic\u0103 medical\u0103 \u0219i proceduri selectate.";
+    }
+
+    if (/anestezie locala|labioplastie|vaginoplastie|volumizare peniana|circumcizie|chist|lipom|scleroterapie|flebectomie/.test(service)) {
+      return "ZEN VIP Card: reducere pentru proceduri cu anestezie local\u0103, unde indica\u021bia permite.";
+    }
+
+    if (/chirurgie|implant|lifting|rinoplastie|blefaroplastie|abdominoplastie|lipo|ginecomastie|micsorare|reductie|bbl|postbariatrica|diastaza|stomac/.test(service + " " + categoryName)) {
+      return "ZEN VIP Card: reducere pentru proceduri chirurgicale cu anestezie general\u0103, conform planului medical.";
+    }
+
+    return "";
+  }
+
+  function addUniquePriceItem(list, entry) {
+    var key = normalizeText(entry && entry[0]);
+
+    if (!entry || !entry[0] || list.some(function (item) { return normalizeText(item[0]) === key; })) {
+      return;
+    }
+
+    list.push(entry);
+  }
+
+  function classifySurgeryPriceItem(entry) {
+    var name = normalizeText(entry && entry[0]);
+
+    if (/bustiera|ciorapi|analize|pansament/.test(name)) {
+      return "pregatire";
+    }
+
+    if (/flebectomie|evta|rfa|stripping|scleroterapie|ulcer|indice|glezna|vascular/.test(name)) {
+      return "vasculara";
+    }
+
+    if (/penis|circumcizie|labioplastie|vaginoplastie|volumizare peniana/.test(name)) {
+      return "intima";
+    }
+
+    if (/implant mamar|lifting mamar|lifting cu implant|reductie mamara|micsorare sani|lipofilling sani|schimbare implant|ginecomastie/.test(name)) {
+      return "san";
+    }
+
+    if (/abdominoplastie|lipoaspiratie|liposuctie|brahioplastie|bbl|fese|gambe|genunchi|coapse|brate|spate|zona pubiana|postbariatrica|diastaza|stomac/.test(name)) {
+      return "corp";
+    }
+
+    if (/rinoplastie|blefaroplastie|lifting facial|mini lifting|sprancene|otoplastie|urechi|bichectomie|cervicala/.test(name)) {
+      return "fata";
+    }
+
+    return "generala";
+  }
+
+  function splitSurgeryPriceCategory(category, items) {
+    var buckets = {
+      fata: [],
+      san: [],
+      corp: [],
+      intima: [],
+      vasculara: [],
+      generala: [],
+      pregatire: []
+    };
+    var order = [
+      ["fata", "chirurgie", "Chirurgia fe\u021bei", "Proceduri pentru profil, pleoape, expresie \u0219i contur facial."],
+      ["san", "chirurgie-san", "Chirurgia s\u00e2nului", "Interven\u021bii pentru volum, pozi\u021bie \u0219i propor\u021bie."],
+      ["corp", "chirurgie-corp", "Chirurgia corpului", "Contur corporal, abdomen, lipoaspira\u021bie \u0219i remodelare."],
+      ["intima", "chirurgie-intima", "Estetic\u0103 intim\u0103 chirurgical\u0103", "Proceduri intime feminine \u0219i masculine, abordate discret."],
+      ["vasculara", "chirurgie-vasculara", "Chirurgie vascular\u0103", "Proceduri vasculare \u0219i servicii asociate."],
+      ["generala", "chirurgie-generala-preturi", "Chirurgie general\u0103", "Interven\u021bii \u0219i servicii chirurgicale stabilite dup\u0103 evaluare."],
+      ["pregatire", "pregatire-postoperatorie", "Preg\u0103tire \u0219i consumabile", "Elemente asociate procedurilor \u0219i recuper\u0103rii."]
+    ];
+
+    items.forEach(function (entry) {
+      buckets[classifySurgeryPriceItem(entry)].push(entry);
+    });
+
+    return order
+      .filter(function (group) { return buckets[group[0]].length; })
+      .map(function (group) {
+        return {
+          id: group[1],
+          title: group[2],
+          summary: group[3],
+          items: buckets[group[0]]
+        };
+      });
+  }
+
+  function organizePriceCategories(categories) {
+    var consultations = [
+      ["Consulta\u021bie chirurgie estetic\u0103", "500 RON"],
+      ["Consulta\u021bie chirurgie general\u0103", "500 RON"],
+      ["Consulta\u021bie estetic\u0103 ginecologic\u0103", "500 RON"],
+      ["Consulta\u021bie dermatologie", "500 RON"],
+      ["Consulta\u021bie ORL", "500 RON"],
+      ["Consulta\u021bie cosmetologie", "500 RON"]
+    ];
+    var organized = [];
+
+    categories.forEach(function (category) {
+      var items = ((category && category.items) || []).filter(function (entry) {
+        if (!entry || isExcludedPriceItem(entry[0] || "")) {
+          return false;
+        }
+
+        if (isConsultationPriceItem(entry[0] || "")) {
+          addUniquePriceItem(consultations, entry);
+          return false;
+        }
+
+        return true;
+      });
+
+      if (!category || category.id === "stomatologie") {
+        return;
+      }
+
+      if (category.id === "chirurgie") {
+        splitSurgeryPriceCategory(category, items).forEach(function (group) {
+          organized.push(group);
+        });
+        return;
+      }
+
+      organized.push({
+        id: category.id,
+        title: category.title,
+        summary: category.summary,
+        items: items
+      });
+    });
+
+    return [{
+      id: "consultatii",
+      title: "Consulta\u021bii",
+      summary: "Consulta\u021biile sunt primul pas \u0219i sunt gratuite \u00een primul an pentru de\u021bin\u0103torii ZEN VIP Card, conform condi\u021biilor cardului.",
+      items: consultations
+    }].concat(organized.filter(function (category) {
+      return category.items && category.items.length;
+    }));
+  }
+
   function createVipPriceBadge() {
     var badge = document.createElement("a");
 
@@ -109,9 +276,7 @@
       return;
     }
 
-    categories = categories.filter(function (category) {
-      return category && category.id !== "stomatologie";
-    });
+    categories = organizePriceCategories(categories);
 
     root.innerHTML = "";
 
@@ -156,12 +321,34 @@
         nameText.textContent = serviceName;
         name.appendChild(nameText);
 
-        if (isConsultationLabel(serviceName)) {
+        var vipNote = hasManualVipBadge(entry)
+          ? "ZEN VIP Card: beneficiu VIP activat pentru această procedură."
+          : getVipBenefitNote(serviceName, category);
+
+        if (vipNote) {
           item.classList.add("price-list__consultation");
           name.appendChild(createVipPriceBadge());
         }
 
-        price.textContent = formatPriceValue(serviceName, entry[1] || "");
+        if (isConsultationPriceItem(serviceName)) {
+          var freeLabel = document.createElement("span");
+          var oldPrice = document.createElement("del");
+
+          price.className = "price-consultation-value";
+          freeLabel.className = "price-consultation-free";
+          freeLabel.textContent = "Gratuit";
+          oldPrice.textContent = /\d/.test(String(entry[1] || "")) ? formatPriceValue(serviceName, entry[1] || "") : "500 RON";
+          price.appendChild(freeLabel);
+          price.appendChild(oldPrice);
+        } else {
+          price.textContent = formatPriceValue(serviceName, entry[1] || "");
+        }
+        if (vipNote) {
+          var note = document.createElement("small");
+          note.className = "price-vip-note";
+          note.textContent = vipNote;
+          name.appendChild(note);
+        }
         item.appendChild(name);
         item.appendChild(price);
         list.appendChild(item);
@@ -659,7 +846,9 @@
     "micsorare-stomac": { branch: "Chirurgie estetică", procedure: "Micșorare stomac" },
     "transplant-de-par-fue-advance": { branch: "Chirurgie estetică", procedure: "Consultație chirurgie estetică" },
     "labioplastie": { branch: "Estetică ginecologică", procedure: "Labioplastie" },
-    "rejuvenare-intima": { branch: "Estetică ginecologică", procedure: "Rejuvenare intimă" }
+    "rejuvenare-intima": { branch: "Estetică ginecologică", procedure: "Rejuvenare intimă" },
+    "vaginoplastie": { branch: "Estetică ginecologică", procedure: "Vaginoplastie" },
+    "volumizare-peniana": { branch: "Estetică ginecologică", procedure: "Volumizare peniană" }
   };
 
   function findSelectOption(select, value) {
@@ -1014,7 +1203,7 @@
         title: "Acid hialuronic & Botox",
         text: "Reducere dedicată pacienților cu ZEN VIP Card, confirmată în clinică.",
         cta: "Solicită oferta →",
-        href: "card-loialitate.html#activare"
+        href: "sections/estompare-riduri.html"
       },
       {
         badge: "Proceduri selectate",
@@ -1022,17 +1211,17 @@
         amountLabel: "reducere",
         title: "Blefaroplastie și intervenții locale",
         text: "Beneficiu VIP pentru proceduri cu anestezie locală, în funcție de indicație.",
-        cta: "Vezi beneficiile →",
-        href: "card-loialitate.html#activare"
+        cta: "Vezi blefaroplastie \u2192",
+        href: "sections/blefaroplastie.html"
       },
       {
         badge: "Chirurgie estetică",
         amount: "-5%",
         amountLabel: "reducere",
-        title: "Implant mamar & abdominoplastie",
+        title: "Implant mamar",
         text: "Avantaj VIP pentru proceduri cu anestezie generală, stabilit individual.",
-        cta: "Solicită oferta →",
-        href: "card-loialitate.html#activare"
+        cta: "Vezi implant mamar \u2192",
+        href: "sections/implanturi-cu-silicon.html"
       }
     ];
     var STORAGE_KEY = "zen-promo-bump-next-index";
