@@ -101,7 +101,7 @@ export async function verifyTurnstile(token: string | undefined, request: Reques
 
 export async function insertRow(table: string, row: Record<string, unknown>) {
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const serviceRole = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  const serviceRole = Deno.env.get("SERVICE_ROLE_KEY");
 
   if (!supabaseUrl || !serviceRole) {
     throw new Error("Supabase service credentials are missing");

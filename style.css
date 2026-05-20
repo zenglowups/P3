@@ -5366,10 +5366,6 @@ body.zen-clean-page {
   max-width: min(250px, 100%);
 }
 
-.zen-anpc-link--sol img {
-  max-width: min(201px, 100%);
-}
-
 .zen-footer__bottom p {
   max-width: 760px;
   margin: 0;
