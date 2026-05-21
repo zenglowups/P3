@@ -2533,6 +2533,7 @@ body.procedure-page {
 .price-vip-badge::after {
   content: attr(data-vip-tooltip);
   position: absolute;
+  display: none;
   left: 50%;
   bottom: calc(100% + 10px);
   z-index: 30;
@@ -2559,6 +2560,45 @@ body.procedure-page {
 .price-vip-badge:focus-visible::after {
   opacity: 1;
   transform: translate(-50%, 0);
+}
+
+.price-vip-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 13000;
+  width: min(280px, calc(100vw - 24px));
+  padding: 12px 14px;
+  border: 1px solid rgba(226, 199, 130, 0.48);
+  border-radius: 14px;
+  background: rgba(7, 6, 5, 0.98);
+  color: rgba(246, 239, 229, 0.94);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.45;
+  opacity: 0;
+  pointer-events: none;
+  text-align: left;
+  text-transform: none;
+  transform: translateY(6px) scale(0.98);
+  transition: opacity 160ms ease, transform 160ms ease;
+  visibility: hidden;
+}
+
+.price-vip-tooltip.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+}
+
+.price-vip-tooltip[data-placement="bottom"] {
+  transform: translateY(-6px) scale(0.98);
+}
+
+.price-vip-tooltip[data-placement="bottom"].is-visible {
+  transform: translateY(0) scale(1);
 }
 
 .price-card.is-hidden,

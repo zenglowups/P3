@@ -20,6 +20,9 @@
   var contactWhatsappText = "Bună ziua, aș dori o programare la ZEN Clinics.";
   var siteFooter = document.querySelector(".zen-footer, .lux-footer, .site-footer, footer");
   var floatingContactHidden = false;
+  var vipTooltipNode = null;
+  var activeVipBadge = null;
+  var vipTooltipFrame = 0;
 
   if (!scrollProgressBar) {
     scrollProgressBar = document.createElement("div");
@@ -307,17 +310,207 @@
 
   function createVipPriceBadge() {
     var badge = document.createElement("a");
+    var tooltipText = "ZEN VIP Card îți poate activa beneficii dedicate. Solicită accesul pentru avantaje personalizate.";
 
     badge.className = "price-vip-badge";
     badge.href = getLocalHref("card-loialitate.html#activare");
-    badge.title = "Activează ZEN VIP Card pentru beneficii dedicate la consultații și servicii selectate.";
-    badge.setAttribute("data-vip-tooltip", "ZEN VIP Card îți poate activa beneficii dedicate. Solicită accesul pentru avantaje personalizate.");
+    badge.setAttribute("aria-label", "Activează ZEN VIP Card pentru beneficii dedicate la consultații și servicii selectate.");
+    badge.setAttribute("data-vip-tooltip", tooltipText);
     badge.textContent = "VIP";
 
     return badge;
   }
 
-  function renderPriceLists() {
+  function ensureVipTooltip() {
+    if (vipTooltipNode) {
+      return vipTooltipNode;
+    }
+
+    vipTooltipNode = document.createElement("div");
+    vipTooltipNode.className = "price-vip-tooltip";
+    vipTooltipNode.id = "price-vip-tooltip";
+    vipTooltipNode.setAttribute("role", "tooltip");
+    vipTooltipNode.setAttribute("aria-hidden", "true");
+    document.body.appendChild(vipTooltipNode);
+
+    return vipTooltipNode;
+  }
+
+  function positionVipTooltip(badge) {
+    var tooltip = vipTooltipNode;
+    var badgeRect;
+    var tooltipRect;
+    var left;
+    var top;
+    var gap = 10;
+    var viewportGap = 12;
+
+    if (!tooltip || !badge) {
+      return;
+    }
+
+    badgeRect = badge.getBoundingClientRect();
+    tooltipRect = tooltip.getBoundingClientRect();
+    left = badgeRect.left + badgeRect.width / 2 - tooltipRect.width / 2;
+    left = clamp(left, viewportGap, window.innerWidth - tooltipRect.width - viewportGap);
+    top = badgeRect.top - tooltipRect.height - gap;
+
+    if (top < viewportGap) {
+      top = badgeRect.bottom + gap;
+      tooltip.setAttribute("data-placement", "bottom");
+    } else {
+      tooltip.setAttribute("data-placement", "top");
+    }
+
+    tooltip.style.left = left + "px";
+    tooltip.style.top = clamp(top, viewportGap, window.innerHeight - tooltipRect.height - viewportGap) + "px";
+  }
+
+  function showVipTooltip(badge) {
+    var tooltipText;
+    var tooltip;
+
+    if (!badge) {
+      return;
+    }
+
+    tooltipText = badge.getAttribute("data-vip-tooltip") || "";
+    if (!tooltipText) {
+      return;
+    }
+
+    activeVipBadge = badge;
+    tooltip = ensureVipTooltip();
+    tooltip.textContent = tooltipText;
+    tooltip.setAttribute("aria-hidden", "false");
+    badge.setAttribute("aria-describedby", tooltip.id);
+
+    window.requestAnimationFrame(function () {
+      positionVipTooltip(badge);
+      tooltip.classList.add("is-visible");
+    });
+  }
+
+  function hideVipTooltip(badge) {
+    if (badge && activeVipBadge && badge !== activeVipBadge) {
+      return;
+    }
+
+    if (activeVipBadge) {
+      activeVipBadge.removeAttribute("aria-describedby");
+    }
+
+    activeVipBadge = null;
+
+    if (vipTooltipNode) {
+      vipTooltipNode.classList.remove("is-visible");
+      vipTooltipNode.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  function queueVipTooltipPosition() {
+    if (!activeVipBadge || vipTooltipFrame) {
+      return;
+    }
+
+    vipTooltipFrame = window.requestAnimationFrame(function () {
+      vipTooltipFrame = 0;
+      positionVipTooltip(activeVipBadge);
+    });
+  }
+
+  function initVipBadgeTooltips() {
+    if (document.documentElement.getAttribute("data-vip-tooltips-ready") === "true") {
+      return;
+    }
+
+    document.documentElement.setAttribute("data-vip-tooltips-ready", "true");
+
+    document.addEventListener("pointerover", function (event) {
+      var badge = event.target.closest ? event.target.closest(".price-vip-badge") : null;
+
+      if (badge) {
+        showVipTooltip(badge);
+      }
+    });
+
+    document.addEventListener("pointerout", function (event) {
+      var badge = event.target.closest ? event.target.closest(".price-vip-badge") : null;
+
+      if (badge && (!event.relatedTarget || !badge.contains(event.relatedTarget))) {
+        hideVipTooltip(badge);
+      }
+    });
+
+    document.addEventListener("focusin", function (event) {
+      var badge = event.target.closest ? event.target.closest(".price-vip-badge") : null;
+
+      if (badge) {
+        showVipTooltip(badge);
+      }
+    });
+
+    document.addEventListener("focusout", function (event) {
+      var badge = event.target.closest ? event.target.closest(".price-vip-badge") : null;
+
+      if (badge) {
+        hideVipTooltip(badge);
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        hideVipTooltip();
+      }
+    });
+
+    window.addEventListener("scroll", queueVipTooltipPosition, true);
+    window.addEventListener("resize", queueVipTooltipPosition);
+  }
+
+  function getPricesApiUrl() {
+    return zenConfig.pricesApiUrl || (window.location.protocol.indexOf("http") === 0 ? window.location.origin + "/api/prices" : "");
+  }
+
+  function fetchRemotePrices() {
+    var endpoint = getPricesApiUrl();
+
+    if (!endpoint) {
+      return Promise.resolve(null);
+    }
+
+    return fetch(endpoint, { cache: "no-store" }).then(function (response) {
+      if (response.status === 404) {
+        return null;
+      }
+
+      if (!response.ok) {
+        throw new Error("Remote prices unavailable");
+      }
+
+      return response.json();
+    }).then(function (payload) {
+      if (!payload) {
+        return null;
+      }
+
+      if (Array.isArray(payload)) {
+        return payload;
+      }
+
+      if (Array.isArray(payload.prices)) {
+        return payload.prices;
+      }
+
+      if (Array.isArray(payload.categories)) {
+        return payload.categories;
+      }
+
+      return null;
+    });
+  }
+
+  function renderPriceLists(sourceCategories) {
     var dataNode = document.querySelector("[data-price-data]");
     var root = document.querySelector("[data-price-root]");
     var storedData;
@@ -327,6 +520,9 @@
       return;
     }
 
+    if (Array.isArray(sourceCategories)) {
+      categories = sourceCategories;
+    } else {
     try {
       storedData = window.localStorage && window.localStorage.getItem("zen-owner-price-data");
       categories = storedData ? JSON.parse(storedData) : null;
@@ -339,6 +535,8 @@
     } catch (error) {
       root.textContent = "Lista de prețuri nu a putut fi încărcată.";
       return;
+    }
+
     }
 
     if (!Array.isArray(categories)) {
@@ -872,8 +1070,6 @@
     });
   });
 
-  renderPriceLists();
-
   document.addEventListener("click", function (event) {
     var toggle = event.target.closest ? event.target.closest("[data-price-toggle]") : null;
     var card;
@@ -913,51 +1109,72 @@
     toggle.textContent = expanded ? toggle.dataset.collapseLabel : toggle.dataset.expandLabel;
   });
 
-  document.querySelectorAll("[data-price-search]").forEach(function (input) {
-    var cards = Array.prototype.slice.call(document.querySelectorAll("[data-price-card]"));
-    var searchFrame = 0;
-    var searchTimer = 0;
+  function initPriceSearch() {
+    document.querySelectorAll("[data-price-search]").forEach(function (input) {
+      var searchFrame = 0;
+      var searchTimer = 0;
 
-    function filterPrices() {
-      var query = normalizeText(input.value.replace(/[<>{}[\]$]/g, "").slice(0, 80));
+      if (input.getAttribute("data-price-search-ready") === "true") {
+        return;
+      }
 
-      cards.forEach(function (card) {
-        var items = Array.prototype.slice.call(card.querySelectorAll("[data-price-item]"));
-        var visibleItems = 0;
+      input.setAttribute("data-price-search-ready", "true");
 
-        card.classList.toggle("is-searching", !!query);
+      function filterPrices() {
+        var query = normalizeText(input.value.replace(/[<>{}[\]$]/g, "").slice(0, 80));
+        var cards = Array.prototype.slice.call(document.querySelectorAll("[data-price-card]"));
 
-        items.forEach(function (item) {
-          var match = !query || normalizeText(item.textContent).indexOf(query) !== -1 || normalizeText(card.querySelector("h2").textContent).indexOf(query) !== -1;
-          item.classList.toggle("is-hidden", !match);
-          visibleItems += match ? 1 : 0;
+        cards.forEach(function (card) {
+          var items = Array.prototype.slice.call(card.querySelectorAll("[data-price-item]"));
+          var visibleItems = 0;
+
+          card.classList.toggle("is-searching", !!query);
+
+          items.forEach(function (item) {
+            var match = !query || normalizeText(item.textContent).indexOf(query) !== -1 || normalizeText(card.querySelector("h2").textContent).indexOf(query) !== -1;
+            item.classList.toggle("is-hidden", !match);
+            visibleItems += match ? 1 : 0;
+          });
+
+          card.classList.toggle("is-hidden", visibleItems === 0);
         });
-
-        card.classList.toggle("is-hidden", visibleItems === 0);
-      });
-      searchFrame = 0;
-    }
-
-    input.addEventListener("input", function () {
-      var sanitized = input.value.replace(/[<>{}[\]$]/g, "").slice(0, 80);
-
-      if (sanitized !== input.value) {
-        input.value = sanitized;
+        searchFrame = 0;
       }
 
-      if (searchFrame) {
-        window.cancelAnimationFrame(searchFrame);
-      }
+      input.addEventListener("input", function () {
+        var sanitized = input.value.replace(/[<>{}[\]$]/g, "").slice(0, 80);
 
-      window.clearTimeout(searchTimer);
-      searchTimer = window.setTimeout(function () {
-        if (getFunctionUrl("price-search") && sanitized.length >= 2) {
-          submitSecureForm("price-search", { query: sanitized }).catch(function () {});
+        if (sanitized !== input.value) {
+          input.value = sanitized;
         }
-      }, 900);
 
-      searchFrame = window.requestAnimationFrame(filterPrices);
+        if (searchFrame) {
+          window.cancelAnimationFrame(searchFrame);
+        }
+
+        window.clearTimeout(searchTimer);
+        searchTimer = window.setTimeout(function () {
+          if (getFunctionUrl("price-search") && sanitized.length >= 2) {
+            submitSecureForm("price-search", { query: sanitized }).catch(function () {});
+          }
+        }, 900);
+
+        searchFrame = window.requestAnimationFrame(filterPrices);
+      });
     });
+  }
+
+  renderPriceLists();
+  initPriceSearch();
+  initVipBadgeTooltips();
+  fetchRemotePrices().then(function (prices) {
+    if (Array.isArray(prices) && prices.length) {
+      renderPriceLists(prices);
+      initPriceSearch();
+      initVipBadgeTooltips();
+    }
+  }).catch(function () {
+    // The embedded price list remains available when the remote blob is not configured yet.
   });
 
   var bookingContextBySlug = {

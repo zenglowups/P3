@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ro">
 <head>
   <meta charset="utf-8">
@@ -7,6 +7,7 @@
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#050403">
   <link rel="stylesheet" href="style.css">
+  <script src="zen-config.js"></script>
 </head>
 <body class="inner-page lux-home owner-login-page">
   <main class="owner-admin" id="continut">
@@ -17,8 +18,8 @@
         <h1 data-auth-title>Login owner</h1>
         <form class="owner-form" data-owner-auth-form>
           <label><span>User</span><input type="text" name="username" autocomplete="username" required></label>
-          <label><span>Parolă</span><input type="password" name="password" autocomplete="current-password" minlength="6" required></label>
-          <button class="lux-button lux-button--gold" type="submit" data-auth-submit>Intră în panel</button>
+          <label><span>ParolÄ</span><input type="password" name="password" autocomplete="current-password" minlength="6" required></label>
+          <button class="lux-button lux-button--gold" type="submit" data-auth-submit>IntrÄ Ă®n panel</button>
           <p class="owner-status" data-auth-status aria-live="polite"></p>
         </form>
       </div>
@@ -28,25 +29,25 @@
       <div class="lux-shell owner-panel__head">
         <div>
           <p class="lux-kicker">ZEN Clinics</p>
-          <h1>Panel administrativ prețuri</h1>
-          <p>Modificările se aplică local în browser și sunt citite de pagina de prețuri prin aceeași sursă salvată.</p>
+          <h1>Panel administrativ preČ›uri</h1>
+          <p>ModificÄrile se aplicÄ local Ă®n browser Č™i sunt citite de pagina de preČ›uri prin aceeaČ™i sursÄ salvatÄ.</p>
         </div>
         <button class="lux-button lux-button--ghost" type="button" data-owner-logout>Logout</button>
       </div>
 
       <div class="lux-shell owner-panel__grid">
         <aside class="owner-tools">
-          <label><span>Ramură</span><select data-category-select></select></label>
-          <button class="lux-button lux-button--gold" type="button" data-save-prices>Salvează prețurile</button>
-          <button class="lux-button lux-button--ghost" type="button" data-add-price>Adaugă procedură</button>
-          <button class="lux-button lux-button--ghost" type="button" data-export-prices>Exportă JSON</button>
-          <button class="owner-danger" type="button" data-reset-prices>Șterge modificările locale</button>
+          <label><span>RamurÄ</span><select data-category-select></select></label>
+          <button class="lux-button lux-button--gold" type="button" data-save-prices>SalveazÄ preČ›urile</button>
+          <button class="lux-button lux-button--ghost" type="button" data-add-price>AdaugÄ procedurÄ</button>
+          <button class="lux-button lux-button--ghost" type="button" data-export-prices>ExportÄ JSON</button>
+          <button class="owner-danger" type="button" data-reset-prices>Čterge modificÄrile locale</button>
           <p class="owner-status" data-owner-status aria-live="polite"></p>
         </aside>
 
         <div class="owner-price-editor">
           <div class="owner-price-editor__top">
-            <h2 data-current-category>Prețuri</h2>
+            <h2 data-current-category>PreČ›uri</h2>
             <span data-price-count>0 servicii</span>
           </div>
           <div class="owner-price-rows" data-price-rows></div>
@@ -60,6 +61,8 @@
       var ACCOUNT_KEY = "zen-owner-account";
       var AUTH_KEY = "zen-owner-auth";
       var PRICES_KEY = "zen-owner-price-data";
+      var TOKEN_KEY = "zen-owner-price-token";
+      var PRICE_API_URL = window.ZEN_CONFIG && window.ZEN_CONFIG.pricesApiUrl || "api/prices";
       var DEFAULT_OWNER_ACCOUNT = {
         username: "owner",
         passwordHash: "088845b39902f1d6fc0c752d16b19b7b41703eed6a80b81bafad971de9cc2614"
@@ -84,6 +87,105 @@
         }
         node.classList.toggle("is-error", Boolean(isError));
         node.textContent = message || "";
+      }
+
+      function getStoredOwnerToken() {
+        try {
+          return window.sessionStorage.getItem(TOKEN_KEY) || "";
+        } catch (error) {
+          return "";
+        }
+      }
+
+      function requestOwnerToken() {
+        var token = getStoredOwnerToken();
+
+        if (!token) {
+          token = window.prompt("Token admin pentru salvarea preČ›urilor Ă®n Vercel Blob:");
+        }
+
+        token = String(token || "").trim();
+
+        if (token) {
+          try {
+            window.sessionStorage.setItem(TOKEN_KEY, token);
+          } catch (error) {}
+        }
+
+        return token;
+      }
+
+      function normalizeRemotePrices(payload) {
+        if (Array.isArray(payload)) {
+          return payload;
+        }
+
+        if (payload && Array.isArray(payload.prices)) {
+          return payload.prices;
+        }
+
+        if (payload && Array.isArray(payload.categories)) {
+          return payload.categories;
+        }
+
+        return null;
+      }
+
+      async function fetchCloudPrices() {
+        var response;
+        var payload;
+
+        try {
+          response = await fetch(PRICE_API_URL, { cache: "no-store" });
+
+          if (response.status === 404) {
+            return null;
+          }
+
+          if (!response.ok) {
+            throw new Error("PreČ›urile cloud nu sunt disponibile.");
+          }
+
+          payload = await response.json();
+          return normalizeRemotePrices(payload);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      async function saveCloudPrices() {
+        var token = requestOwnerToken();
+        var response;
+        var payload;
+
+        if (!token) {
+          throw new Error("Tokenul admin lipseČ™te.");
+        }
+
+        response = await fetch(PRICE_API_URL, {
+          method: "POST",
+          headers: {
+            "authorization": "Bearer " + token,
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({ prices: priceData })
+        });
+
+        payload = await response.json().catch(function () {
+          return {};
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            try {
+              window.sessionStorage.removeItem(TOKEN_KEY);
+            } catch (error) {}
+          }
+
+          throw new Error(payload.error || "PreČ›urile nu au putut fi salvate Ă®n Vercel Blob.");
+        }
+
+        return payload;
       }
 
       function getStoredAccount() {
@@ -112,7 +214,7 @@
       function setMode() {
         account = getStoredAccount();
         authTitle.textContent = "Login owner";
-        authSubmit.textContent = "Intră în panel";
+        authSubmit.textContent = "IntrÄ Ă®n panel";
       }
 
       function showPanel() {
@@ -136,8 +238,22 @@
 
       async function loadPrices() {
         var stored = window.localStorage.getItem(PRICES_KEY);
+        var cloudData;
         var response;
         var html;
+
+        cloudData = await fetchCloudPrices();
+
+        if (Array.isArray(cloudData) && cloudData.length) {
+          priceData = cloudData;
+          try {
+            window.localStorage.setItem(PRICES_KEY, JSON.stringify(priceData));
+          } catch (error) {}
+          setStatus(ownerStatus, "PreČ›urile au fost Ă®ncÄrcate din Vercel Blob.");
+          renderCategorySelect();
+          renderRows();
+          return;
+        }
 
         try {
           priceData = stored ? JSON.parse(stored) : [];
@@ -151,7 +267,7 @@
             html = await response.text();
             priceData = parsePriceHtml(html);
           } catch (error) {
-            setStatus(ownerStatus, "Nu am putut încărca lista de prețuri.", true);
+            setStatus(ownerStatus, "Nu am putut Ă®ncÄrca lista de preČ›uri.", true);
             priceData = [];
           }
         }
@@ -165,7 +281,7 @@
         priceData.forEach(function (category, index) {
           var option = document.createElement("option");
           option.value = String(index);
-          option.textContent = category.title || "Ramură";
+          option.textContent = category.title || "RamurÄ";
           categorySelect.appendChild(option);
         });
       }
@@ -175,12 +291,12 @@
         rowsRoot.innerHTML = "";
 
         if (!category) {
-          categoryTitle.textContent = "Prețuri";
+          categoryTitle.textContent = "PreČ›uri";
           priceCount.textContent = "0 servicii";
           return;
         }
 
-        categoryTitle.textContent = category.title || "Prețuri";
+        categoryTitle.textContent = category.title || "PreČ›uri";
         priceCount.textContent = (category.items || []).length + " servicii";
 
         (category.items || []).forEach(function (entry, index) {
@@ -195,15 +311,15 @@
           row.className = "owner-price-row";
           nameInput.value = entry[0] || "";
           priceInput.value = entry[1] || "";
-          nameInput.setAttribute("aria-label", "Procedură");
-          priceInput.setAttribute("aria-label", "Preț");
+          nameInput.setAttribute("aria-label", "ProcedurÄ");
+          priceInput.setAttribute("aria-label", "PreČ›");
           vipLabel.className = "owner-vip-toggle";
           vipInput.type = "checkbox";
           vipInput.checked = entry[2] === true;
-          vipInput.setAttribute("aria-label", "Activează VIP Badge");
+          vipInput.setAttribute("aria-label", "ActiveazÄ VIP Badge");
           vipText.textContent = "VIP Badge";
           remove.type = "button";
-          remove.textContent = "Șterge";
+          remove.textContent = "Čterge";
 
           nameInput.addEventListener("input", function () {
             entry[0] = nameInput.value;
@@ -241,7 +357,7 @@
         event.preventDefault();
 
         if (!username || password.length < 6) {
-          setStatus(authStatus, "Completează userul și o parolă de minimum 6 caractere.", true);
+          setStatus(authStatus, "CompleteazÄ userul Č™i o parolÄ de minimum 6 caractere.", true);
           return;
         }
 
@@ -251,7 +367,7 @@
           authForm.reset();
           showPanel();
         } else {
-          setStatus(authStatus, "User sau parolă incorectă.", true);
+          setStatus(authStatus, "User sau parolÄ incorectÄ.", true);
         }
       });
 
@@ -265,13 +381,22 @@
         }
 
         category.items = category.items || [];
-        category.items.unshift(["Procedură nouă", "", false]);
+        category.items.unshift(["ProcedurÄ nouÄ", "", false]);
         renderRows();
       });
 
-      document.querySelector("[data-save-prices]").addEventListener("click", function () {
+      document.querySelector("[data-save-prices]").addEventListener("click", async function () {
         window.localStorage.setItem(PRICES_KEY, JSON.stringify(priceData));
-        setStatus(ownerStatus, "Prețurile au fost salvate local. Deschide pagina de prețuri în același browser pentru verificare.");
+        setStatus(ownerStatus, "Se salveazÄ preČ›urile Ă®n Vercel Blob...");
+
+        try {
+          await saveCloudPrices();
+          setStatus(ownerStatus, "PreČ›urile au fost salvate Ă®n Vercel Blob Č™i vor fi vizibile public pe site.");
+          return;
+        } catch (error) {
+          setStatus(ownerStatus, error.message + " Modificările au rămas salvate doar local în acest browser.", true);
+          return;
+        }
       });
 
       document.querySelector("[data-export-prices]").addEventListener("click", function () {
@@ -285,7 +410,7 @@
 
       document.querySelector("[data-reset-prices]").addEventListener("click", function () {
         window.localStorage.removeItem(PRICES_KEY);
-        setStatus(ownerStatus, "Modificările locale au fost șterse.");
+        setStatus(ownerStatus, "ModificÄrile locale au fost Č™terse.");
         loadPrices();
       });
 
