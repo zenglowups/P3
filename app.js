@@ -23,6 +23,7 @@
   var vipTooltipNode = null;
   var activeVipBadge = null;
   var vipTooltipFrame = 0;
+  var pageTransitionTimer = 0;
 
   if (!scrollProgressBar) {
     scrollProgressBar = document.createElement("div");
@@ -755,6 +756,63 @@
     });
   }
 
+  function resetTransientPageState(showContent) {
+    if (pageTransitionTimer) {
+      window.clearTimeout(pageTransitionTimer);
+      pageTransitionTimer = 0;
+    }
+
+    document.body.classList.remove("is-page-leaving", "is-intro-active");
+    document.body.style.overflow = "";
+    closeMegaMenus();
+    setMenu(false);
+    hideVipTooltip();
+
+    document.querySelectorAll(".site-intro").forEach(function (intro) {
+      if (intro.parentNode) {
+        intro.parentNode.removeChild(intro);
+      }
+    });
+
+    if (showContent) {
+      document.querySelectorAll(revealSelector).forEach(function (element) {
+        element.classList.add("is-visible");
+      });
+
+      if (processSection) {
+        processSection.classList.add("is-process-visible");
+      }
+
+      handleScroll();
+    }
+  }
+
+  function initPageRestoreGuards() {
+    if (document.documentElement.getAttribute("data-page-restore-ready") === "true") {
+      return;
+    }
+
+    document.documentElement.setAttribute("data-page-restore-ready", "true");
+
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted || document.body.classList.contains("is-page-leaving")) {
+        window.requestAnimationFrame(function () {
+          resetTransientPageState(true);
+        });
+      }
+    });
+
+    window.addEventListener("pagehide", function () {
+      resetTransientPageState(false);
+    });
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible" && document.body.classList.contains("is-page-leaving")) {
+        resetTransientPageState(true);
+      }
+    });
+  }
+
   function applyStaggerIndexes() {
     var groups = document.querySelectorAll(
       ".zen-hero-benefits, .zen-welcome-bridge__grid, .zen-why-light__cards, .zen-popular-grid--visual, .zen-loyalty-benefits, .zen-about-story__features, .lux-hero__quick, .lux-values, .lux-location__cards, .lux-minimal__visual, .lux-procedure-list, .lux-pricing__cards, .lux-privilege__benefits, .lux-reasons__grid, .zen-principles-grid, .lux-timeline, .lux-map-actions"
@@ -853,7 +911,12 @@
       setMenu(false);
       document.body.classList.add("is-page-leaving");
 
-      window.setTimeout(function () {
+      if (pageTransitionTimer) {
+        window.clearTimeout(pageTransitionTimer);
+      }
+
+      pageTransitionTimer = window.setTimeout(function () {
+        pageTransitionTimer = 0;
         window.location.href = targetUrl.href;
       }, 280);
     });
@@ -2416,6 +2479,7 @@
 
   applyStaggerIndexes();
   initSiteIntro();
+  initPageRestoreGuards();
   initPageTransitions();
 
   if (processSection) {
