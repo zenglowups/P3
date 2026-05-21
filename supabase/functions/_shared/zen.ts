@@ -4,13 +4,25 @@ export const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-type GmailMessage = {
+type EmailMessage = {
   to: string;
   subject: string;
   text: string;
   html?: string;
   replyTo?: string;
 };
+
+function getFromAddress() {
+  return Deno.env.get("SMTP_FROM_EMAIL") ||
+    Deno.env.get("GMAIL_FROM") ||
+    Deno.env.get("GMAIL_USER") ||
+    Deno.env.get("SMTP_USER") ||
+    "office@zenclinics.ro";
+}
+
+function getFromName() {
+  return Deno.env.get("SMTP_FROM_NAME") || "ZEN Clinics";
+}
 
 export function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -158,12 +170,46 @@ function base64Url(value: string) {
     .replace(/=+$/g, "");
 }
 
-export async function sendGmail(message: GmailMessage) {
+async function sendSmtp(message: EmailMessage) {
+  const host = Deno.env.get("SMTP_HOST");
+  const port = Number(Deno.env.get("SMTP_PORT") || "587");
+  const user = Deno.env.get("SMTP_USER");
+  const pass = Deno.env.get("SMTP_PASS");
+  const secureValue = (Deno.env.get("SMTP_SECURE") || "").toLowerCase();
+  const secure = secureValue ? ["1", "true", "yes", "ssl"].includes(secureValue) : port === 465;
+
+  if (!host || !user || !pass) {
+    throw new Error("SMTP credentials are missing");
+  }
+
+  const nodemailer = await import("npm:nodemailer@6.9.16");
+  const createTransport = nodemailer.default?.createTransport || nodemailer.createTransport;
+  const transporter = createTransport({
+    host,
+    port,
+    secure,
+    auth: {
+      user,
+      pass,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `"${getFromName()}" <${getFromAddress()}>`,
+    to: message.to,
+    replyTo: message.replyTo,
+    subject: message.subject,
+    text: message.text,
+    html: message.html || `<pre>${escapeHtml(message.text)}</pre>`,
+  });
+}
+
+async function sendViaGmail(message: EmailMessage) {
   const user = Deno.env.get("GMAIL_USER") || "me";
-  const from = Deno.env.get("GMAIL_FROM") || user;
+  const from = getFromAddress();
   const accessToken = await getGmailAccessToken();
   const raw = [
-    `From: ZEN Clinics <${from}>`,
+    `From: ${getFromName()} <${from}>`,
     `To: ${message.to}`,
     message.replyTo ? `Reply-To: ${message.replyTo}` : "",
     `Subject: ${message.subject}`,
@@ -185,4 +231,12 @@ export async function sendGmail(message: GmailMessage) {
   if (!response.ok) {
     throw new Error(`Gmail send failed: ${response.status}`);
   }
+}
+
+export async function sendGmail(message: EmailMessage) {
+  if (Deno.env.get("SMTP_HOST")) {
+    return sendSmtp(message);
+  }
+
+  return sendViaGmail(message);
 }
