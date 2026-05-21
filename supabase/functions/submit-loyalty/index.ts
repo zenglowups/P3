@@ -2,7 +2,6 @@ import {
   cleanText,
   corsHeaders,
   escapeHtml,
-  fieldsToHtml,
   fieldsToText,
   handleOptions,
   insertRow,
@@ -28,12 +27,14 @@ Deno.serve(async (request) => {
     const token = fields.turnstileToken;
     const page = cleanText(payload.page, 500);
     const clientEmail = cleanText(fields.email, 320);
-    const clinicEmail = Deno.env.get("CLINIC_EMAIL") || "office@zenclinics.ro";
-    const subject = "Solicitare ZEN VIP Card";
     const text = fieldsToText(fields);
 
     await verifyTurnstile(token, request);
     delete fields.turnstileToken;
+
+    if (!clientEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail)) {
+      return jsonResponse({ error: "Client email is required" }, 400);
+    }
 
     await insertRow("loyalty_requests", {
       page,
@@ -43,38 +44,34 @@ Deno.serve(async (request) => {
       user_agent: cleanText(request.headers.get("user-agent"), 500),
     });
 
+    const clientName = fields.full_name || fields.name;
+    const clientGreeting = clientName ? `, ${escapeHtml(clientName)}` : "";
+    const clientText = [
+      "Buna,",
+      "",
+      "Iti multumim pentru inscrierea in programul ZEN VIP Card.",
+      "",
+      "Am inregistrat adresa ta de email si solicitarea pentru cardul de loialitate.",
+      "",
+      "Pentru a primi cardul fizic, este necesar sa efectuezi cel putin o consultatie, operatie sau procedura in cadrul ZEN Clinics. Cardul se confirma si se inmaneaza fizic in clinica, dupa validarea eligibilitatii.",
+      "",
+      "Pasii urmatori:",
+      "1. Programeaza o consultatie sau procedura la ZEN Clinics.",
+      "2. Mentioneaza in clinica faptul ca te-ai inscris pentru ZEN VIP Card.",
+      "3. Dupa efectuarea consultatiei/procedurii, echipa confirma eligibilitatea.",
+      "4. Cardul fizic se poate ridica din clinica.",
+      "",
+      "Prin ZEN VIP Card poti primi beneficii dedicate si extra discount fata de preturile deja reduse, in functie de procedura aleasa, istoricul tau in clinica si recomandarile medicale aplicabile.",
+      "",
+      "ZEN Clinics",
+    ].join("\n");
+
     await sendGmail({
-      to: clinicEmail,
-      subject,
-      replyTo: clientEmail,
-      text: `${text}\n\nPagina: ${page}`,
-      html: `<h1>${subject}</h1>${fieldsToHtml(fields)}<p><strong>Pagina:</strong> ${page}</p>`,
+      to: clientEmail,
+      subject: "Confirmare inscriere ZEN VIP Card",
+      text: clientText,
+      html: `<p>Buna${clientGreeting},</p><p>Iti multumim pentru inscrierea in programul <strong>ZEN VIP Card</strong>.</p><p>Am inregistrat adresa ta de email si solicitarea pentru cardul de loialitate.</p><p>Pentru a primi cardul fizic, este necesar sa efectuezi cel putin o consultatie, operatie sau procedura in cadrul ZEN Clinics. Cardul se confirma si se inmaneaza fizic in clinica, dupa validarea eligibilitatii.</p><p><strong>Pasii urmatori:</strong></p><ol><li>Programeaza o consultatie sau procedura la ZEN Clinics.</li><li>Mentioneaza in clinica faptul ca te-ai inscris pentru ZEN VIP Card.</li><li>Dupa efectuarea consultatiei/procedurii, echipa confirma eligibilitatea.</li><li>Cardul fizic se poate ridica din clinica.</li></ol><p>Prin ZEN VIP Card poti primi beneficii dedicate si <strong>extra discount fata de preturile deja reduse</strong>, in functie de procedura aleasa, istoricul tau in clinica si recomandarile medicale aplicabile.</p><p>ZEN Clinics</p>`,
     });
-
-    if (clientEmail) {
-      const clientName = fields.full_name || fields.name;
-      const clientGreeting = clientName ? `, ${escapeHtml(clientName)}` : "";
-      const clientText = [
-        "Buna,",
-        "",
-        "Iti multumim pentru solicitarea ZEN VIP Card.",
-        "",
-        "Cardul de loialitate se primeste fizic in clinica, dupa minimum o consultatie sau o procedura efectuata la ZEN Clinics.",
-        "",
-        "Cu ZEN VIP Card poti beneficia de avantaje dedicate, inclusiv discount extra peste preturile deja reduse, in functie de istoricul tau de consultatii/proceduri si de recomandarile medicale aplicabile.",
-        "",
-        "Echipa ZEN Clinics te va contacta pentru confirmarea detaliilor.",
-        "",
-        "ZEN Clinics"
-      ].join("\n");
-
-      await sendGmail({
-        to: clientEmail,
-        subject: "Am primit solicitarea ta pentru ZEN VIP Card",
-        text: clientText,
-        html: `<p>Bună${clientGreeting},</p><p>Îți mulțumim pentru solicitarea <strong>ZEN VIP Card</strong>.</p><p>Cardul de loialitate se primește fizic în clinică, după minimum o consultație sau o procedură efectuată la ZEN Clinics.</p><p>Cu ZEN VIP Card poți beneficia de avantaje dedicate, inclusiv discount extra peste prețurile deja reduse, în funcție de istoricul tău de consultații/proceduri și de recomandările medicale aplicabile.</p><p>Echipa ZEN Clinics te va contacta pentru confirmarea detaliilor.</p><p>ZEN Clinics</p>`,
-      });
-    }
 
     return jsonResponse({ ok: true }, 200);
   } catch (error) {
