@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve", "-l", "5180", "."],
       "port": 5180
+    },
+    {
+      "name": "static-literal",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "5181"],
+      "port": 5181
     }
   ]
 }
