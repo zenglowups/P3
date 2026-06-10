@@ -645,6 +645,20 @@
 
       root.appendChild(article);
     });
+
+    // Ensure newly created price cards are observed for reveal effects
+    if (window.revealObserver) {
+      document.querySelectorAll(".price-card.reveal-up").forEach(function(card) {
+        if (!card.classList.contains("is-visible")) {
+          window.revealObserver.observe(card);
+        }
+      });
+    } else if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+      // Fallback: add is-visible immediately if observer isn't available
+      document.querySelectorAll(".price-card.reveal-up").forEach(function(card) {
+        card.classList.add("is-visible");
+      });
+    }
   }
 
   function updateHeader() {
@@ -2507,11 +2521,11 @@
       element.classList.add("is-visible");
     });
   } else if ("IntersectionObserver" in window) {
-    var observer = new IntersectionObserver(function (entries) {
+    window.revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+          window.revealObserver.unobserve(entry.target);
         }
       });
     }, {
@@ -2520,7 +2534,7 @@
     });
 
     document.querySelectorAll(revealSelector).forEach(function (element) {
-      observer.observe(element);
+      window.revealObserver.observe(element);
     });
   } else {
     document.querySelectorAll(revealSelector).forEach(function (element) {

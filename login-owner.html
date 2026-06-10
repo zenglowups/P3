@@ -134,7 +134,7 @@
     .oa-search .oa-input { padding-left: 38px; min-height: 44px; }
     .oa-count { color: var(--gold-soft); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
 
-    .oa-rows { display: grid; gap: 9px; }
+    .oa-rows { display: grid; gap: 9px; max-height: 520px; overflow-y: auto; padding-right: 4px; }
     .oa-item { display: grid; grid-template-columns: minmax(0,1fr) 140px auto; gap: 9px; align-items: center; padding: 8px; border: 1px solid var(--border-soft); border-radius: 14px; background: rgba(255,255,255,.015); }
     .oa-item:hover { border-color: rgba(200,164,93,.3); }
     .oa-item .oa-input { min-height: 44px; }
@@ -295,9 +295,9 @@
             </p>
             <div class="oa-form">
               <p class="oa-tokenstate"><span class="oa-dot" data-token-dot></span><span data-token-state>Nicio cheie salvată</span></p>
-              <label class="oa-field oa-pass">
-                <span>Cheie de publicare</span>
-                <input class="oa-input" type="password" data-token-input placeholder="Lipește cheia OWNER_PRICE_TOKEN" autocomplete="off">
+              <label class="oa-field">
+                <span>Cheie de publicare (copy-paste din Vercel)</span>
+                <textarea class="oa-input" data-token-input placeholder="Lipește cheia OWNER_PRICE_TOKEN din Vercel → Settings → Environment Variables" autocomplete="off" spellcheck="false" style="min-height:72px;font-family:monospace;font-size:.9rem"></textarea>
               </label>
               <div class="oa-form__actions">
                 <button class="oa-btn oa-btn--gold oa-btn--sm" type="button" data-token-save>Salvează cheia</button>
@@ -940,6 +940,7 @@
           input.focus();
         });
       }());
+
 
       /* ---------- tabs ---------- */
       function switchTab(name) {
