@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Manrope:wght@200..800&display=swap');
+
 :root {
   --bg: #f6f2eb;
   --bg-soft: #fbf8f2;
@@ -2759,13 +2761,15 @@ body.zen-clean-page {
   --zen-border: rgba(200, 164, 93, 0.24);
   --zen-border-soft: rgba(255, 255, 255, 0.08);
   --zen-shell: 1600px;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Manrope", Inter, "Segoe UI", Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   background:
     radial-gradient(circle at 70% 18%, rgba(200, 164, 93, 0.12), transparent 26rem),
     linear-gradient(180deg, #050403 0%, #080706 100%);
   color: var(--zen-text);
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-body);
 }
 
 .zen-clean-page a {
@@ -10533,5 +10537,900 @@ body.zen-clean-page {
   .price-vip-badge {
     max-width: 100%;
     white-space: normal;
+  }
+}
+
+/* ========================================================================
+   PREMIUM POLISH — refined buttons, navigation & micro-interactions
+   Additive layer on top of the zen-clean-page design system.
+   ======================================================================== */
+
+/* Gold-accented scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(226, 199, 130, 0.5) #0b0907;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #0b0907;
+}
+
+html::-webkit-scrollbar-thumb {
+  border: 2px solid #0b0907;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e2c782, #b88a2e);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f3dca0, #c8a45d);
+}
+
+.zen-clean-page ::selection {
+  background: rgba(226, 199, 130, 0.32);
+  color: #fffaf0;
+}
+
+/* Top bar — slow gold shimmer */
+.zen-top-bar {
+  background-size: 220% 100%;
+  animation: zen-bar-shine 10s ease-in-out infinite;
+}
+
+@keyframes zen-bar-shine {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Brand mark */
+.zen-brand img {
+  transition: box-shadow 360ms ease, border-color 360ms ease, transform 360ms var(--ease-premium, ease);
+}
+
+.zen-brand:hover img {
+  border-color: rgba(226, 199, 130, 0.85);
+  box-shadow: 0 0 0 5px rgba(226, 199, 130, 0.1), 0 0 36px rgba(226, 199, 130, 0.4);
+  transform: rotate(-4deg) scale(1.05);
+}
+
+/* Pills & buttons — shine sweep + lifted depth */
+.zen-pill,
+.zen-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 320ms var(--ease-premium, ease),
+    box-shadow 320ms ease,
+    border-color 240ms ease,
+    background 240ms ease,
+    color 240ms ease;
+}
+
+.zen-pill::before,
+.zen-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.5) 50%, transparent 65%);
+  transform: translateX(-130%);
+  transition: transform 750ms ease;
+  pointer-events: none;
+}
+
+.zen-pill:hover::before,
+.zen-pill:focus-visible::before,
+.zen-button:hover::before,
+.zen-button:focus-visible::before {
+  transform: translateX(130%);
+}
+
+.zen-pill--gold,
+.zen-button--gold {
+  box-shadow: 0 12px 34px rgba(200, 164, 93, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.zen-pill--gold:hover,
+.zen-pill--gold:focus-visible,
+.zen-button--gold:hover,
+.zen-button--gold:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 48px rgba(200, 164, 93, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  filter: brightness(1.04);
+}
+
+.zen-pill--ghost:hover,
+.zen-pill--ghost:focus-visible,
+.zen-button--outline:hover,
+.zen-button--outline:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(226, 199, 130, 0.65);
+  background: rgba(226, 199, 130, 0.1);
+  color: var(--zen-gold-soft, #e2c782);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.3);
+}
+
+/* Main navigation — unified hover/active treatment */
+.zen-main-nav a:hover,
+.zen-main-nav a:focus-visible {
+  background: rgba(226, 199, 130, 0.08);
+  color: var(--zen-gold-soft);
+  box-shadow: inset 0 0 0 1px rgba(226, 199, 130, 0.16);
+}
+
+/* Mega menus — deeper shadow, gold-edged on open */
+.mega-panel {
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(226, 199, 130, 0.05) inset;
+  transition:
+    opacity 260ms var(--ease-premium, ease),
+    transform 260ms var(--ease-premium, ease),
+    border-color 260ms ease;
+}
+
+.mega-item:hover .mega-panel,
+.mega-item.is-open .mega-panel {
+  border-color: rgba(226, 199, 130, 0.4);
+}
+
+.zen-mega-group {
+  transition: border-color 240ms ease, background 240ms ease;
+}
+
+.zen-mega-group:hover {
+  border-color: rgba(226, 199, 130, 0.28);
+  background: rgba(226, 199, 130, 0.04);
+}
+
+/* Procedure tiles — gold glow on hover */
+.zen-procedure-tile:hover,
+.zen-procedure-tile:focus-within {
+  box-shadow:
+    0 36px 120px rgba(0, 0, 0, 0.42),
+    0 0 70px -18px rgba(226, 199, 130, 0.45),
+    0 0 0 1px rgba(226, 199, 130, 0.12);
+}
+
+.zen-procedure-tile__number {
+  transition:
+    background 320ms ease,
+    border-color 320ms ease,
+    color 320ms ease,
+    transform 320ms var(--ease-premium, ease);
+}
+
+.zen-procedure-tile:hover .zen-procedure-tile__number,
+.zen-procedure-tile:focus-within .zen-procedure-tile__number {
+  background: linear-gradient(135deg, #e2c782, #b88a2e);
+  border-color: transparent;
+  color: #1a140c;
+  transform: scale(1.08);
+}
+
+.zen-procedure-tile:hover .zen-procedure-tile__button,
+.zen-procedure-tile:focus-within .zen-procedure-tile__button {
+  background: linear-gradient(135deg, #e2c782, #c8a45d);
+  border-color: transparent;
+  color: #1a140c;
+  box-shadow: 0 10px 28px rgba(200, 164, 93, 0.35);
+}
+
+/* FAQ — gold accent on the open item */
+.zen-faq-item {
+  border-left: 3px solid transparent;
+  transition: border-color 320ms ease, box-shadow 320ms ease;
+}
+
+.zen-faq-item.is-open {
+  border-left-color: var(--zen-gold-soft, #e2c782);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.zen-faq-item button span {
+  transition: border-color 280ms ease, background 280ms ease;
+}
+
+.zen-faq-item:hover button span {
+  border-color: rgba(226, 199, 130, 0.7);
+}
+
+.zen-faq-item.is-open button span {
+  background: rgba(226, 199, 130, 0.16);
+  border-color: var(--zen-gold-soft, #e2c782);
+}
+
+/* Welcome notes & review cards — soft gold glow on hover */
+.zen-welcome-note,
+.zen-review-card {
+  transition: border-color 360ms ease, box-shadow 360ms ease;
+}
+
+.zen-welcome-note:hover {
+  border-color: rgba(226, 199, 130, 0.4);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.3), 0 0 50px -16px rgba(226, 199, 130, 0.3);
+}
+
+.zen-review-card:hover {
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.38), 0 0 60px -16px rgba(226, 199, 130, 0.32);
+}
+
+/* Forms — refined focus + shine-sweep submit buttons */
+.zen-booking-form input:focus,
+.zen-booking-form select:focus,
+.zen-booking-form textarea:focus,
+.zen-loyalty-form input:focus {
+  box-shadow: 0 0 0 4px rgba(226, 199, 130, 0.12), 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.zen-booking-form button,
+.zen-loyalty-form button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.zen-booking-form button::before,
+.zen-loyalty-form button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  transform: translateX(-130%);
+  transition: transform 750ms ease;
+}
+
+.zen-booking-form button:hover::before,
+.zen-booking-form button:focus-visible::before,
+.zen-loyalty-form button:hover::before,
+.zen-loyalty-form button:focus-visible::before {
+  transform: translateX(130%);
+}
+
+/* Back to top — lift + glow */
+.zen-clean-page .back-to-top {
+  transition:
+    opacity 200ms ease,
+    transform 280ms var(--ease-premium, ease),
+    box-shadow 280ms ease,
+    border-color 280ms ease,
+    background 280ms ease;
+}
+
+.zen-clean-page .back-to-top:hover,
+.zen-clean-page .back-to-top:focus-visible {
+  border-color: rgba(226, 199, 130, 0.7);
+  background: rgba(226, 199, 130, 0.12);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4), 0 0 30px -8px rgba(226, 199, 130, 0.5);
+  transform: translateY(-3px);
+}
+
+/* =====================================================================
+   NEXT-LEVEL MOTION & MEGA-MENU OVERHAUL
+   ===================================================================== */
+
+/* --- Atmosphere: film grain -------------------------------------------- */
+body.zen-clean-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  opacity: 0.05;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  pointer-events: none;
+}
+
+/* --- Reveal system: focus-pull blur ------------------------------------ */
+.zen-clean-page .reveal-up,
+.zen-clean-page .reveal-scale,
+.zen-clean-page .stagger-item {
+  filter: blur(6px);
+  transition:
+    opacity 720ms ease,
+    transform 760ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 640ms ease;
+}
+
+.zen-clean-page .reveal-up.is-visible,
+.zen-clean-page .reveal-scale.is-visible,
+.zen-clean-page .stagger-item.is-visible {
+  filter: blur(0);
+}
+
+/* --- Hero: ambient drift, kicker accent, gold shimmer, Ken Burns -------- */
+.hero-home {
+  background-repeat: no-repeat, no-repeat;
+  background-size: 180% 180%, 100% 100%;
+  animation: zen-hero-drift 32s ease-in-out infinite alternate;
+}
+
+@keyframes zen-hero-drift {
+  from { background-position: 86% 24%, 0 0; }
+  to   { background-position: 58% 52%, 0 0; }
+}
+
+.zen-kicker {
+  position: relative;
+  padding-left: 28px;
+}
+
+.zen-kicker::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 18px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--zen-gold-soft));
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left center;
+  animation: zen-kicker-draw 900ms var(--ease-premium, ease) 300ms forwards;
+}
+
+@keyframes zen-kicker-draw {
+  to { transform: translateY(-50%) scaleX(1); }
+}
+
+.hero-home h1 .text-gold {
+  background: linear-gradient(110deg, #c8a45d 20%, #f6e3b4 45%, #e2c782 55%, #c8a45d 80%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: zen-text-shimmer 8s ease-in-out infinite;
+}
+
+@supports not (background-clip: text) {
+  .hero-home h1 .text-gold {
+    color: var(--zen-gold-soft);
+    -webkit-text-fill-color: initial;
+  }
+}
+
+@keyframes zen-text-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-home__portrait img {
+  transform-origin: 60% 40%;
+  animation: zen-kenburns 24s ease-in-out infinite alternate;
+}
+
+@keyframes zen-kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+
+.hero-benefit__icon {
+  transition:
+    transform 420ms var(--ease-premium, ease),
+    background 420ms ease,
+    border-color 420ms ease,
+    box-shadow 420ms ease;
+}
+
+.hero-benefit:hover .hero-benefit__icon {
+  transform: scale(1.08) rotate(-6deg);
+  background: rgba(226, 199, 130, 0.12);
+  border-color: var(--zen-gold-soft);
+  box-shadow: 0 10px 28px -6px rgba(200, 164, 93, 0.55);
+}
+
+.hero-contact-rail a::before {
+  transition:
+    border-color 320ms ease,
+    background 320ms ease,
+    box-shadow 320ms ease,
+    transform 320ms var(--ease-premium, ease);
+}
+
+.hero-contact-rail a:hover::before,
+.hero-contact-rail a:focus-visible::before {
+  border-color: var(--zen-gold-soft);
+  background: rgba(226, 199, 130, 0.16);
+  box-shadow: 0 0 28px rgba(226, 199, 130, 0.45);
+  transform: scale(1.08);
+}
+
+/* --- Mega menu: caret, panel entrance, edge glow ------------------------ */
+.mega-toggle::after {
+  transition: transform 320ms var(--ease-premium, ease);
+}
+
+.mega-item:hover .mega-toggle::after,
+.mega-item.is-open .mega-toggle::after,
+.mega-toggle[aria-expanded="true"]::after {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.mega-panel {
+  transform-origin: top center;
+  filter: blur(8px);
+  transform: translateY(14px) scale(0.94);
+  transition:
+    opacity 420ms var(--ease-premium, ease),
+    transform 420ms var(--ease-premium, ease),
+    filter 360ms ease;
+}
+
+.mega-item:nth-last-child(-n + 3) .mega-panel {
+  transform-origin: top right;
+}
+
+.mega-item:hover .mega-panel,
+.mega-item.is-open .mega-panel {
+  filter: blur(0);
+}
+
+.mega-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 14%;
+  right: 14%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--zen-gold-soft), transparent);
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+.mega-item:hover .mega-panel::before,
+.mega-item.is-open .mega-panel::before {
+  opacity: 0.85;
+}
+
+/* --- Mega menu: cascading link reveal ----------------------------------- */
+.mega-panel a {
+  opacity: 0;
+  filter: blur(3px);
+  transition:
+    opacity 320ms ease,
+    filter 320ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    transform 220ms var(--ease-premium, ease);
+}
+
+.mega-item:hover .mega-panel a,
+.mega-item.is-open .mega-panel a {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.mega-panel h2,
+.zen-mega-group h2 {
+  opacity: 0;
+  transition: opacity 360ms ease;
+}
+
+.mega-item:hover .mega-panel h2,
+.mega-item:hover .zen-mega-group h2,
+.mega-item.is-open .mega-panel h2,
+.mega-item.is-open .zen-mega-group h2 {
+  opacity: 1;
+}
+
+.mega-panel > h2 { transition-delay: 20ms; }
+
+.zen-mega-menu--compact > a:nth-child(1) { transition-delay: 30ms; }
+.zen-mega-menu--compact > a:nth-child(2) { transition-delay: 65ms; }
+.zen-mega-menu--compact > a:nth-child(3) { transition-delay: 100ms; }
+.zen-mega-menu--compact > a:nth-child(4) { transition-delay: 135ms; }
+.zen-mega-menu--compact > a:nth-child(5) { transition-delay: 170ms; }
+.zen-mega-menu--compact > a:nth-child(6) { transition-delay: 205ms; }
+
+.zen-mega-menu > .zen-mega-group:nth-child(1) h2 { transition-delay: 30ms; }
+.zen-mega-menu > .zen-mega-group:nth-child(2) h2 { transition-delay: 90ms; }
+.zen-mega-menu > .zen-mega-group:nth-child(3) h2 { transition-delay: 150ms; }
+.zen-mega-menu > .zen-mega-group:nth-child(4) h2 { transition-delay: 210ms; }
+
+.zen-mega-group:nth-child(1) a:nth-of-type(1) { transition-delay: 50ms; }
+.zen-mega-group:nth-child(1) a:nth-of-type(2) { transition-delay: 80ms; }
+.zen-mega-group:nth-child(1) a:nth-of-type(3) { transition-delay: 110ms; }
+.zen-mega-group:nth-child(1) a:nth-of-type(4) { transition-delay: 140ms; }
+.zen-mega-group:nth-child(2) a:nth-of-type(1) { transition-delay: 110ms; }
+.zen-mega-group:nth-child(2) a:nth-of-type(2) { transition-delay: 140ms; }
+.zen-mega-group:nth-child(2) a:nth-of-type(3) { transition-delay: 170ms; }
+.zen-mega-group:nth-child(2) a:nth-of-type(4) { transition-delay: 200ms; }
+.zen-mega-group:nth-child(3) a:nth-of-type(1) { transition-delay: 170ms; }
+.zen-mega-group:nth-child(3) a:nth-of-type(2) { transition-delay: 200ms; }
+.zen-mega-group:nth-child(3) a:nth-of-type(3) { transition-delay: 230ms; }
+.zen-mega-group:nth-child(3) a:nth-of-type(4) { transition-delay: 260ms; }
+
+/* --- Mobile menu: cascading link entrance -------------------------------- */
+.zen-mobile-menu:not([hidden]) nav a {
+  opacity: 0;
+  transform: translateX(28px);
+  animation: zen-mobile-link-in 520ms var(--ease-premium, ease) forwards;
+}
+
+.zen-mobile-menu:not([hidden]) nav a:nth-child(1)  { animation-delay: 60ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(2)  { animation-delay: 95ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(3)  { animation-delay: 130ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(4)  { animation-delay: 165ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(5)  { animation-delay: 200ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(6)  { animation-delay: 235ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(7)  { animation-delay: 270ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(8)  { animation-delay: 305ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(9)  { animation-delay: 340ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(10) { animation-delay: 375ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(11) { animation-delay: 410ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(12) { animation-delay: 445ms; }
+.zen-mobile-menu:not([hidden]) nav a:nth-child(13) { animation-delay: 480ms; }
+
+@keyframes zen-mobile-link-in {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* --- Procedure tiles: slow image zoom on hover --------------------------- */
+.zen-procedure-tile img {
+  transition: transform 900ms var(--ease-premium, ease), filter 600ms ease;
+}
+
+.zen-procedure-tile a:hover img,
+.zen-procedure-tile a:focus-visible img {
+  transform: scale(1.08);
+  filter: saturate(1.08) contrast(1.04) brightness(0.92);
+}
+
+/* --- FAQ: blur-fade panel reveal ------------------------------------------ */
+.zen-faq-panel {
+  filter: blur(4px);
+  transition:
+    max-height 560ms cubic-bezier(0.2, 0.72, 0.2, 1),
+    opacity 420ms ease,
+    padding 320ms ease,
+    filter 420ms ease;
+}
+
+.zen-faq-item.is-open .zen-faq-panel {
+  filter: blur(0);
+}
+
+/* --- Reduced motion: stop continuous decorative loops --------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-home,
+  .hero-home__portrait img,
+  .hero-home h1 .text-gold,
+  .zen-kicker::before {
+    animation: none !important;
+  }
+}
+
+/* =====================================================================
+   COUTURE LAYER — editorial typography, section-by-section redesign
+   Fraunces (display) + Manrope (body). Structure, not just colour.
+   ===================================================================== */
+
+/* --- Typography application ------------------------------------------- */
+.zen-clean-page {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.zen-clean-page h1,
+.zen-clean-page h2,
+.zen-clean-page h3,
+.zen-clean-page blockquote,
+.zen-clean-page .zen-footer__brand {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+
+.zen-clean-page h1,
+.zen-clean-page h2 {
+  letter-spacing: -0.018em;
+}
+
+/* Keep small label-style headings in the refined sans for consistency */
+.zen-clean-page .zen-footer h3,
+.zen-clean-page .zen-mega-group h2,
+.zen-clean-page .zen-mega-menu h2,
+.zen-clean-page .zen-booking-address span {
+  font-family: var(--font-body);
+}
+
+/* --- Hero: orchestrated page-load entrance ---------------------------- */
+.hero-home .zen-kicker {
+  animation: zen-rise-in 820ms var(--ease-premium, ease) 120ms both;
+}
+.hero-home h1 {
+  animation: zen-rise-in 980ms var(--ease-premium, ease) 260ms both;
+}
+.hero-home__lead {
+  animation: zen-rise-in 900ms var(--ease-premium, ease) 440ms both;
+}
+.hero-home__actions {
+  animation: zen-rise-in 900ms var(--ease-premium, ease) 600ms both;
+}
+.hero-home__benefits {
+  animation: zen-rise-in 920ms var(--ease-premium, ease) 740ms both;
+}
+
+@keyframes zen-rise-in {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Gold buttons: glossy bevel & depth (keeps Phase-1 shine sweep) ---- */
+.zen-clean-page .zen-pill--gold,
+.zen-clean-page .zen-button--gold,
+.zen-clean-page .zen-loyalty-form button,
+.zen-clean-page .zen-why-light__cta {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0) 46%),
+    linear-gradient(135deg, #f1d68a 0%, #dcb86f 38%, #c8a45d 68%, #b6862f 100%);
+  border-color: rgba(245, 222, 162, 0.92);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -11px 18px -13px rgba(94, 64, 14, 0.7),
+    0 12px 28px rgba(184, 138, 46, 0.3);
+}
+
+.zen-clean-page .zen-pill--gold:hover,
+.zen-clean-page .zen-pill--gold:focus-visible,
+.zen-clean-page .zen-button--gold:hover,
+.zen-clean-page .zen-button--gold:focus-visible,
+.zen-clean-page .zen-loyalty-form button:hover,
+.zen-clean-page .zen-why-light__cta:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -11px 18px -13px rgba(94, 64, 14, 0.66),
+    0 18px 44px rgba(184, 138, 46, 0.42);
+}
+
+/* --- Section titles: cohesive gold accent rule ------------------------ */
+.zen-clean-page .zen-section-head h2::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 2px;
+  margin-top: 20px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--zen-gold-soft), rgba(226, 199, 130, 0.08));
+}
+
+/* --- Welcome notes: oversized editorial numeral + lit edge ------------ */
+.zen-clean-page .zen-welcome-note {
+  position: relative;
+  overflow: hidden;
+}
+.zen-clean-page .zen-welcome-note span {
+  position: absolute;
+  top: -0.26em;
+  right: 0.06em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 8.5vw, 8.2rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: transparent;
+  background: linear-gradient(180deg, rgba(226, 199, 130, 0.26), rgba(226, 199, 130, 0.03));
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* --- Procedure tiles: serif index chip + pointer spotlight ------------ */
+.zen-clean-page .zen-procedure-tile {
+  position: relative;
+  --mx: 50%;
+  --my: 50%;
+}
+.zen-clean-page .zen-procedure-tile__number {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, rgba(20, 16, 11, 0.6), rgba(5, 4, 3, 0.42));
+  border-color: rgba(245, 225, 170, 0.55);
+}
+.zen-clean-page .zen-procedure-tile a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(240px circle at var(--mx) var(--my), rgba(226, 199, 130, 0.18), transparent 62%);
+  opacity: 0;
+  transition: opacity 320ms ease;
+  pointer-events: none;
+}
+.zen-clean-page .zen-procedure-tile:hover a::after {
+  opacity: 1;
+}
+
+/* --- Editorial break: rotating emblem seal ---------------------------- */
+.zen-clean-page .zen-editorial-break__mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 66px;
+  border: 1px solid rgba(226, 199, 130, 0.28);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(226, 199, 130, 0.16), transparent 66%);
+}
+.zen-clean-page .zen-editorial-break__mark::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-top-color: rgba(245, 225, 170, 0.85);
+  border-right-color: rgba(245, 225, 170, 0.28);
+  animation: zen-emblem-spin 6.5s linear infinite;
+}
+.zen-clean-page .zen-editorial-break__mark::after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  background: linear-gradient(135deg, #f1d68a, #c8a45d);
+  transform: rotate(45deg);
+  box-shadow: 0 0 14px rgba(226, 199, 130, 0.65);
+}
+@keyframes zen-emblem-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Why-ZEN (light): filled gradient-ring icons ---------------------- */
+.zen-clean-page .zen-why-light__cards span {
+  background: radial-gradient(circle at 32% 26%, rgba(255, 252, 246, 0.95), rgba(247, 236, 214, 0.62));
+  border-color: rgba(184, 138, 46, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 8px 18px rgba(184, 138, 46, 0.12);
+  transition: transform 340ms var(--ease-premium, ease), background 340ms ease, color 340ms ease, box-shadow 340ms ease;
+}
+.zen-clean-page .zen-why-light__cards article:hover span {
+  transform: translateY(-3px) rotate(-4deg) scale(1.06);
+  background: linear-gradient(135deg, #d7b56d, #b88a2e);
+  color: #fffaf2;
+  box-shadow: 0 14px 26px rgba(184, 138, 46, 0.32);
+}
+
+/* --- Process steps: refined glowing timeline nodes -------------------- */
+.zen-clean-page .zen-process-step span {
+  top: 18px;
+  width: 54px;
+  height: 54px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: radial-gradient(circle at 50% 36%, #15110d, #050403);
+  border-color: rgba(226, 199, 130, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: box-shadow 620ms ease, border-color 620ms ease, transform 620ms var(--ease-premium, ease);
+}
+.zen-process-section.is-process-visible .zen-clean-page .zen-process-step span,
+.zen-clean-page .zen-process-section.is-process-visible .zen-process-step span {
+  border-color: rgba(245, 225, 170, 0.9);
+  box-shadow: 0 0 24px -2px rgba(226, 199, 130, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* --- VIP card: holographic foil glint --------------------------------- */
+.zen-clean-page .zen-vip-card__front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.38) 47%, rgba(255, 255, 255, 0.04) 53%, transparent 70%);
+  background-size: 280% 100%;
+  background-position: 130% 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: background-position 1000ms var(--ease-premium, ease);
+}
+.zen-clean-page .zen-vip-card:hover .zen-vip-card__front::after,
+.zen-clean-page .zen-vip-card:focus-visible .zen-vip-card__front::after {
+  background-position: -50% 0;
+}
+
+/* --- Footer: animated underlines + crowning diamond ------------------- */
+.zen-clean-page .zen-footer {
+  position: relative;
+}
+.zen-clean-page .zen-footer::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translateX(-50%) rotate(45deg);
+  background: linear-gradient(135deg, #f1d68a, #c8a45d);
+  box-shadow: 0 0 16px rgba(226, 199, 130, 0.6);
+}
+.zen-clean-page .zen-footer__nav a,
+.zen-clean-page .zen-footer__contact a {
+  position: relative;
+  width: fit-content;
+}
+.zen-clean-page .zen-footer__nav a::after,
+.zen-clean-page .zen-footer__contact a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--zen-gold-soft), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 340ms var(--ease-premium, ease);
+}
+.zen-clean-page .zen-footer__nav a:hover,
+.zen-clean-page .zen-footer__nav a:focus-visible,
+.zen-clean-page .zen-footer__contact a:hover,
+.zen-clean-page .zen-footer__contact a:focus-visible {
+  transform: none;
+}
+.zen-clean-page .zen-footer__nav a:hover::after,
+.zen-clean-page .zen-footer__nav a:focus-visible::after,
+.zen-clean-page .zen-footer__contact a:hover::after,
+.zen-clean-page .zen-footer__contact a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* --- Scroll progress bar (driven by premium.js) ----------------------- */
+.zen-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #b88a2e, #f1d68a 60%, #e2c782);
+  box-shadow: 0 0 12px rgba(226, 199, 130, 0.55);
+  pointer-events: none;
+  will-change: width;
+}
+
+/* --- Gradient hairline "lit edge" on hero cards ----------------------- */
+@supports ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {
+  .zen-clean-page .zen-procedure-tile::after,
+  .zen-clean-page .zen-review-card::after,
+  .zen-clean-page .zen-welcome-note::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(245, 225, 170, 0.72), rgba(226, 199, 130, 0.05) 34%, rgba(226, 199, 130, 0.04) 66%, rgba(245, 225, 170, 0.58));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    opacity: 0.6;
+    transition: opacity 320ms ease;
+    pointer-events: none;
+  }
+  .zen-clean-page .zen-procedure-tile:hover::after,
+  .zen-clean-page .zen-review-card:hover::after,
+  .zen-clean-page .zen-welcome-note:hover::after {
+    opacity: 1;
+  }
+}
+
+/* --- Reduced motion: keep the couture layer calm ---------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-home .zen-kicker,
+  .hero-home h1,
+  .hero-home__lead,
+  .hero-home__actions,
+  .hero-home__benefits,
+  .zen-editorial-break__mark::before {
+    animation: none !important;
+  }
+  .zen-clean-page .zen-vip-card__front::after {
+    transition: none !important;
   }
 }
