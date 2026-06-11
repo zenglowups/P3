@@ -8768,6 +8768,27 @@ body.zen-clean-page {
   }
 }
 
+/* Disclaimer evidențiat în footer (nuanță aurie deschisă) */
+.footer-disclaimer {
+  max-width: min(1000px, calc(100% - 32px));
+  margin: 28px auto 4px;
+  padding: 15px 24px;
+  border: 1px solid rgba(226, 199, 130, 0.36);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(226, 199, 130, 0.12), rgba(226, 199, 130, 0.05));
+  color: #ead8b8;
+  font-size: 0.82rem;
+  line-height: 1.66;
+  text-align: center;
+}
+
+.footer-disclaimer strong {
+  color: #f3e2b0;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
 .lux-home .reveal,
 .lux-home .reveal-up,
 .lux-home .reveal-scale,
