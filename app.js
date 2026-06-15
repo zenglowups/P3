@@ -255,58 +255,26 @@
       });
   }
 
+  // Render price branches exactly as stored (panel = single source of truth).
+  // No auto-splitting or auto-grouping; the owner panel controls every branch.
   function organizePriceCategories(categories) {
-    var consultations = [
-      ["Consulta\u021bie chirurgie estetic\u0103", "1000 RON"],
-      ["Consulta\u021bie chirurgie general\u0103", "1000 RON"],
-      ["Consulta\u021bie estetic\u0103 ginecologic\u0103", "1000 RON"],
-      ["Consulta\u021bie dermatologie", "1000 RON"],
-      ["Consulta\u021bie ORL", "1000 RON"],
-      ["Consulta\u021bie cosmetologie", "1000 RON"]
-    ];
-    var organized = [];
-
-    categories.forEach(function (category) {
-      var items = ((category && category.items) || []).filter(function (entry) {
-        if (!entry || isExcludedPriceItem(entry[0] || "")) {
-          return false;
-        }
-
-        if (isConsultationPriceItem(entry[0] || "")) {
-          addUniquePriceItem(consultations, entry);
-          return false;
-        }
-
-        return true;
+    return (categories || [])
+      .filter(function (category) {
+        return category && category.id !== "stomatologie";
+      })
+      .map(function (category) {
+        return {
+          id: category.id,
+          title: category.title,
+          summary: category.summary,
+          items: ((category.items) || []).filter(function (entry) {
+            return entry && entry[0] && !isExcludedPriceItem(entry[0]);
+          })
+        };
+      })
+      .filter(function (category) {
+        return category.items.length;
       });
-
-      if (!category || category.id === "stomatologie") {
-        return;
-      }
-
-      if (category.id === "chirurgie") {
-        splitSurgeryPriceCategory(category, items).forEach(function (group) {
-          organized.push(group);
-        });
-        return;
-      }
-
-      organized.push({
-        id: category.id,
-        title: category.title,
-        summary: category.summary,
-        items: items
-      });
-    });
-
-    return [{
-      id: "consultatii",
-      title: "Consulta\u021bii",
-      summary: "Consulta\u021biile sunt primul pas \u0219i sunt gratuite \u00een primul an pentru de\u021bin\u0103torii ZEN VIP Card, conform condi\u021biilor cardului.",
-      items: consultations
-    }].concat(organized.filter(function (category) {
-      return category.items && category.items.length;
-    }));
   }
 
   function createVipPriceBadge() {

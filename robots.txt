@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /login-owner.html
+Disallow: /login-owner/
+
+Sitemap: https://zenclinics.ro/sitemap.xml
