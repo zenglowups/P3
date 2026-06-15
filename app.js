@@ -119,7 +119,7 @@
     var withoutPrefix;
 
     if (isConsultationLabel(name)) {
-      return "500 RON";
+      return "1000 RON";
     }
 
     if (!raw) {
@@ -231,7 +231,7 @@
     };
     var order = [
       ["fata", "chirurgie", "Chirurgia fe\u021bei", "Proceduri pentru profil, pleoape, expresie \u0219i contur facial."],
-      ["san", "chirurgie-san", "Chirurgia s\u00e2nului", "Interven\u021bii pentru volum, pozi\u021bie \u0219i propor\u021bie."],
+      ["san", "chirurgie-san", "Chirurgia oncologic\u0103", "Interven\u021bii pentru volum, pozi\u021bie \u0219i propor\u021bie."],
       ["corp", "chirurgie-corp", "Chirurgia corpului", "Contur corporal, abdomen, lipoaspira\u021bie \u0219i remodelare."],
       ["intima", "chirurgie-intima", "Estetic\u0103 intim\u0103 chirurgical\u0103", "Proceduri intime feminine \u0219i masculine, abordate discret."],
       ["vasculara", "chirurgie-vasculara", "Chirurgie vascular\u0103", "Proceduri vasculare \u0219i servicii asociate."],
@@ -257,12 +257,12 @@
 
   function organizePriceCategories(categories) {
     var consultations = [
-      ["Consulta\u021bie chirurgie estetic\u0103", "500 RON"],
-      ["Consulta\u021bie chirurgie general\u0103", "500 RON"],
-      ["Consulta\u021bie estetic\u0103 ginecologic\u0103", "500 RON"],
-      ["Consulta\u021bie dermatologie", "500 RON"],
-      ["Consulta\u021bie ORL", "500 RON"],
-      ["Consulta\u021bie cosmetologie", "500 RON"]
+      ["Consulta\u021bie chirurgie estetic\u0103", "1000 RON"],
+      ["Consulta\u021bie chirurgie general\u0103", "1000 RON"],
+      ["Consulta\u021bie estetic\u0103 ginecologic\u0103", "1000 RON"],
+      ["Consulta\u021bie dermatologie", "1000 RON"],
+      ["Consulta\u021bie ORL", "1000 RON"],
+      ["Consulta\u021bie cosmetologie", "1000 RON"]
     ];
     var organized = [];
 
@@ -608,9 +608,11 @@
           price.className = "price-consultation-value";
           freeLabel.className = "price-consultation-free";
           freeLabel.textContent = "Gratuit";
-          oldPrice.textContent = /\d/.test(String(entry[1] || "")) ? formatPriceValue(serviceName, entry[1] || "") : "500 RON";
+          oldPrice.textContent = "1000 RON";
           price.appendChild(freeLabel);
           price.appendChild(oldPrice);
+        } else if (category.id === "terapii-iv") {
+          price.textContent = String(entry[1] || "").trim();
         } else {
           price.textContent = formatPriceValue(serviceName, entry[1] || "");
         }
@@ -1465,7 +1467,7 @@
       {
         key: "tiktok",
         label: "TikTok ZEN Clinics",
-        href: configured.tiktok || "https://www.tiktok.com/@zenclinics.ro"
+        href: configured.tiktok || "https://www.tiktok.com/@zen.clinicsbucuresti"
       }
     ].filter(function (item) {
       return item.href;
@@ -1659,6 +1661,16 @@
         href: "card-loialitate.html#activare"
       },
       {
+        badge: "Doar luna aceasta",
+        amount: "GRATIS",
+        amountLabel: "consultații",
+        title: "Consultații gratuite luna aceasta",
+        text: "Programează o consultație în această lună și evaluarea inițială este gratuită, în limita locurilor disponibile.",
+        cta: "Programează gratuit →",
+        kind: "offer",
+        href: "contact.html#formular"
+      },
+      {
         badge: "Ofertă estetică",
         amount: "-10%",
         amountLabel: "reducere",
@@ -1686,6 +1698,41 @@
         href: "sections/implanturi-cu-silicon.html"
       }
     ];
+
+    var socialPromoMeta = {
+      instagram: {
+        title: "ZEN Clinics pe Instagram",
+        text: "Fotografii, transformări și momente din clinică, direct pe Instagram.",
+        cta: "Deschide Instagram →"
+      },
+      facebook: {
+        title: "ZEN Clinics pe Facebook",
+        text: "Noutăți, campanii și informații utile pe pagina de Facebook.",
+        cta: "Deschide Facebook →"
+      },
+      tiktok: {
+        title: "ZEN Clinics pe TikTok",
+        text: "Clipuri din clinică, rezultate reale și noutăți, pe TikTok.",
+        cta: "Deschide TikTok →"
+      }
+    };
+
+    getSocialLinks().forEach(function (item) {
+      var meta = socialPromoMeta[item.key];
+
+      if (meta && item.href) {
+        promotions.push({
+          kind: "social",
+          key: item.key,
+          badge: "Urmărește-ne",
+          title: meta.title,
+          text: meta.text,
+          cta: meta.cta,
+          href: item.href
+        });
+      }
+    });
+
     var STORAGE_KEY = "zen-promo-bump-next-index";
     var REOPEN_DELAY = 40000;
     var panel;
@@ -1736,17 +1783,43 @@
       var promo = promotions[index % promotions.length];
 
       activeIndex = index % promotions.length;
-      panel.classList.toggle("zen-promo-bump--vip", promo.kind === "vip");
+      panel.classList.remove(
+        "zen-promo-bump--vip",
+        "zen-promo-bump--offer",
+        "zen-promo-bump--social",
+        "zen-promo-bump--instagram",
+        "zen-promo-bump--facebook",
+        "zen-promo-bump--tiktok"
+      );
       badge.textContent = promo.badge;
-      amount.textContent = promo.amount;
-      amountLabel.textContent = promo.amountLabel || "reducere";
       title.textContent = promo.title;
       text.textContent = promo.text;
       panel.querySelector(".zen-promo-bump__cta").textContent = promo.cta || "Solicită oferta →";
-      bodyLink.href = getLocalHref(promo.href);
-      visual.innerHTML = promo.kind === "vip"
-        ? '<span class="zen-promo-bump__vip-card"><img src="' + getLocalHref("assets/optimized/card-1000.jpg") + '" alt="" loading="lazy" decoding="async"><span>VIP CARD</span><strong>ZEN</strong><em>CLINICS</em></span>'
-        : "";
+
+      if (promo.kind === "social") {
+        panel.classList.add("zen-promo-bump--social", "zen-promo-bump--" + promo.key);
+        amount.textContent = "";
+        amountLabel.textContent = "";
+        bodyLink.href = promo.href;
+        bodyLink.target = "_blank";
+        bodyLink.rel = "noopener";
+        visual.innerHTML = '<span class="zen-promo-bump__social-icon">' + getSocialIcon(promo.key) + "</span>";
+      } else {
+        if (promo.kind === "vip") {
+          panel.classList.add("zen-promo-bump--vip");
+        }
+        if (promo.kind === "offer") {
+          panel.classList.add("zen-promo-bump--offer");
+        }
+        amount.textContent = promo.amount;
+        amountLabel.textContent = promo.amountLabel || "reducere";
+        bodyLink.href = getLocalHref(promo.href);
+        bodyLink.removeAttribute("target");
+        bodyLink.removeAttribute("rel");
+        visual.innerHTML = promo.kind === "vip"
+          ? '<span class="zen-promo-bump__vip-card"><img src="' + getLocalHref("assets/optimized/card-1000.jpg") + '" alt="" loading="lazy" decoding="async"><span>VIP CARD</span><strong>ZEN</strong><em>CLINICS</em></span>'
+          : "";
+      }
     }
 
     function getNextIndex() {
@@ -1835,8 +1908,9 @@
     panel.innerHTML = [
       '<a href="' + getLocalHref("chirurgie-estetica.html") + '"><strong>Pagina principală</strong><small>Față, sân și corp într-un cadru estetic</small></a>',
       '<a href="' + getLocalHref("chirurgie-estetica.html#fata") + '"><strong>Chirurgia feței</strong><small>Evaluare și plan personalizat</small></a>',
-      '<a href="' + getLocalHref("chirurgie-estetica.html#san") + '"><strong>Chirurgia sânului</strong><small>Volum, poziție și proporții</small></a>',
-      '<a href="' + getLocalHref("chirurgie-estetica.html#corp") + '"><strong>Chirurgia corpului</strong><small>Contur corporal discutat medical</small></a>'
+      '<a href="' + getLocalHref("chirurgie-estetica.html#san") + '"><strong>Chirurgia oncologică</strong><small>Volum, poziție și proporții</small></a>',
+      '<a href="' + getLocalHref("chirurgie-estetica.html#corp") + '"><strong>Chirurgia corpului</strong><small>Contur corporal discutat medical</small></a>',
+      '<a href="' + getLocalHref("chirurgie-estetica.html#minim-invazive") + '"><strong>Minim invazive</strong><small>Injectări și proceduri de cabinet</small></a>'
     ].join("");
   }
 
@@ -1849,7 +1923,7 @@
     panel.classList.remove("general-surgery-menu");
     panel.innerHTML = [
       '<a href="' + getLocalHref("chirurgie-generala.html") + '"><strong>Pagina principală</strong><small>Chirurgie generală explicată clar</small></a>',
-      '<a href="' + getLocalHref("chirurgie-generala.html#minim-invazive") + '"><strong>Minim invazive</strong><small>Injectări și proceduri de cabinet</small></a>',
+      '<a href="' + getLocalHref("chirurgie-generala.html#cabinet") + '"><strong>Proceduri de cabinet</strong><small>Gesturi medicale cu traumă redusă</small></a>',
       '<a href="' + getLocalHref("chirurgie-generala.html#chirurgie") + '"><strong>Chirurgie</strong><small>Intervenții și direcții chirurgicale</small></a>'
     ].join("");
   }
@@ -1988,6 +2062,38 @@
   initSocialLinks();
   initBnrRates();
   initPromoBump();
+  initMiniContact();
+
+  function initMiniContact() {
+    var form = document.querySelector("[data-mini-contact]");
+    var WHATSAPP_NUMBER = "40720558515";
+    var EMAIL = "office@zenclinics.ro";
+
+    if (!form) {
+      return;
+    }
+
+    form.addEventListener("submit", function (event) {
+      var nameField = form.querySelector("[data-mini-name]");
+      var messageField = form.querySelector("[data-mini-message]");
+      var channelField = form.querySelector("[data-mini-channel]:checked");
+      var name = nameField ? nameField.value.trim() : "";
+      var message = messageField ? messageField.value.trim() : "";
+      var channel = channelField ? channelField.value : "whatsapp";
+      var intro = "Bună ziua! Sunt " + (name || "[numele tău]") + " și aș dori o programare la ZEN Clinics.";
+      var fullMessage = message ? intro + "\n\n" + message : intro;
+
+      event.preventDefault();
+
+      if (channel === "email") {
+        window.location.href = "mailto:" + EMAIL +
+          "?subject=" + encodeURIComponent("Solicitare programare ZEN Clinics") +
+          "&body=" + encodeURIComponent(fullMessage);
+      } else {
+        window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(fullMessage), "_blank", "noopener");
+      }
+    });
+  }
 
   function getFieldLabel(field) {
     var label = field.closest("label");

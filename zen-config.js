@@ -7,7 +7,7 @@ window.ZEN_CONFIG = {
   socialLinks: {
     instagram: "https://www.instagram.com/zen.clinics/",
     facebook: "https://www.facebook.com/ZENClinics",
-    tiktok: "https://www.tiktok.com/@zenclinics.ro"
+    tiktok: "https://www.tiktok.com/@zen.clinicsbucuresti"
   },
   bnrRatesProxyUrl: "/api/bnr-rates",
   pricesApiUrl: "/api/prices"
