@@ -64,8 +64,8 @@
     </section>
 
     <section class="inner-section contact-booking-section" id="formular">
-      <div class="lux-shell inner-grid inner-grid--two">
-        <div class="inner-panel contact-panel reveal-up">
+      <div class="lux-shell">
+        <div class="inner-panel contact-panel reveal-up" style="max-width: 680px; margin-inline: auto;">
           <p class="lux-kicker">ZEN Clinics</p>
           <h2>Date contact</h2>
           <p>Telefon: <a href="tel:+40720558515">+40 720 558 515</a></p>
@@ -80,109 +80,6 @@
             <em>Deschide traseul</em>
           </a>
         </div>
-
-        <form class="inner-form inner-form--premium reveal-up" action="#" method="post" novalidate data-booking-form>
-          <div class="form-grid">
-            <label><span>Nume și prenume</span><input type="text" name="full_name" autocomplete="name" required></label>
-            <label><span>Telefon</span><input type="tel" name="phone" autocomplete="tel" required></label>
-          </div>
-          <div class="form-grid">
-            <label><span>Vârstă</span><input type="number" name="age" inputmode="numeric" min="16" max="100" placeholder="Ex. 34"></label>
-            <label><span>Email</span><input type="email" name="email" autocomplete="email"></label>
-          </div>
-          <div class="form-grid">
-            <label>
-              <span>Ramură</span>
-              <select name="branch" data-branch-select>
-                <option value="">Toate ramurile</option>
-                <option>Medicină estetică</option>
-                <option>Chirurgie estetică</option>
-                <option>Chirurgie generală</option>
-                <option>Estetică ginecologică</option>
-                <option>Dermatologie estetică</option>
-                <option>Cosmetologie</option>
-                <option>ORL</option>
-                <option>Terapii IV</option>
-                <option>Stomatologie</option>
-              </select>
-            </label>
-            <label>
-              <span>Procedură de interes</span>
-              <select name="procedure" data-procedure-select required>
-                <option value="">Alege procedura</option>
-                <option data-branch="Medicină estetică">Consultație estetică</option>
-                <option data-branch="Medicină estetică">Full face cu acid hialuronic</option>
-                <option data-branch="Medicină estetică">Volumizare buze</option>
-                <option data-branch="Medicină estetică">Estompare riduri / Botox</option>
-                <option data-branch="Medicină estetică">Rinocorecție cu acid hialuronic</option>
-                <option data-branch="Medicină estetică">Mezoterapie</option>
-                <option data-branch="Medicină estetică">Skinbooster</option>
-                <option data-branch="Medicină estetică">PRP / terapia vampir</option>
-                <option data-branch="Medicină estetică">Microneedling / Dermapen</option>
-                <option data-branch="Medicină estetică">Topirea grăsimii</option>
-                <option data-branch="Medicină estetică">Conturare mandibulară</option>
-                <option data-branch="Medicină estetică">Mărirea pomeților</option>
-                <option data-branch="Medicină estetică">Mărirea mentonului</option>
-                <option data-branch="Medicină estetică">Estompare cearcăne</option>
-                <option data-branch="Chirurgie estetică">Consultație chirurgie estetică</option>
-                <option data-branch="Chirurgie estetică">Rinoplastie</option>
-                <option data-branch="Chirurgie estetică">Rinoplastie ultrasonică</option>
-                <option data-branch="Chirurgie estetică">Blefaroplastie</option>
-                <option data-branch="Chirurgie estetică">Lifting facial</option>
-                <option data-branch="Chirurgie estetică">Otoplastie</option>
-                <option data-branch="Chirurgie estetică">Bichectomie</option>
-                <option data-branch="Chirurgie estetică">Implant mamar</option>
-                <option data-branch="Chirurgie estetică">Ridicare sâni</option>
-                <option data-branch="Chirurgie estetică">Micșorare sâni</option>
-                <option data-branch="Chirurgie estetică">Ginecomastie</option>
-                <option data-branch="Chirurgie estetică">Liposucție</option>
-                <option data-branch="Chirurgie estetică">Liposucție cervicală</option>
-                <option data-branch="Chirurgie estetică">Abdominoplastie</option>
-                <option data-branch="Chirurgie estetică">Lifting brațe</option>
-                <option data-branch="Chirurgie estetică">Lifting coapse</option>
-                <option data-branch="Chirurgie estetică">Lifting brazilian</option>
-                <option data-branch="Chirurgie estetică">Remodelare postnatală</option>
-                <option data-branch="Chirurgie estetică">Operație postbariatrică</option>
-                <option data-branch="Chirurgie estetică">Diastază abdominală</option>
-                <option data-branch="Chirurgie estetică">Micșorare stomac</option>
-                <option data-branch="Chirurgie generală">Consultație chirurgie generală</option>
-                <option data-branch="Chirurgie generală">Hernii</option>
-                <option data-branch="Chirurgie generală">Colecistectomie</option>
-                <option data-branch="Chirurgie generală">Apendicectomie</option>
-                <option data-branch="Chirurgie generală">Hemoroizi / fisuri anale</option>
-                <option data-branch="Chirurgie generală">Chist sebaceu / lipom</option>
-                <option data-branch="Chirurgie generală">Biopsii</option>
-                <option data-branch="Chirurgie generală">Varice / flebectomie</option>
-                <option data-branch="Estetică ginecologică">Labioplastie</option>
-                <option data-branch="Estetică ginecologică">Rejuvenare intimă</option>
-              <option data-branch="Estetică ginecologică">Vaginoplastie</option>
-              <option data-branch="Estetică ginecologică">Volumizare peniană</option>
-                <option data-branch="Estetică ginecologică">Consultație estetică ginecologică</option>
-                <option data-branch="Dermatologie estetică">Laser fracționar CO2</option>
-                <option data-branch="Dermatologie estetică">Peeling facial</option>
-                <option data-branch="Dermatologie estetică">Xantelasme</option>
-                <option data-branch="Dermatologie estetică">Hiperhidroză</option>
-                <option data-branch="Dermatologie estetică">Zâmbet gingival</option>
-                <option data-branch="Cosmetologie">Consultație cosmetologie</option>
-                <option data-branch="Cosmetologie">Curățare facială</option>
-                <option data-branch="Cosmetologie">Epilare laser</option>
-                <option data-branch="Cosmetologie">Biostimulatoare</option>
-                <option data-branch="ORL">Consultație ORL</option>
-                <option data-branch="Terapii IV">Terapie IV</option>
-                <option data-branch="Stomatologie">Consultație stomatologie</option>
-                <option>Altă procedură</option>
-              </select>
-            </label>
-          </div>
-          <div class="form-grid">
-            <label><span>Metodă preferată</span><select name="contact_method"><option>Telefon</option><option>WhatsApp</option><option>Email</option></select></label>
-            <label><span>Tip solicitare</span><select name="request_type"><option>Consultație inițială</option><option>Control / follow-up</option></select></label>
-          </div>
-          <label><span>Mesaj</span><textarea name="message" rows="5" placeholder="Spune-ne pe scurt ce te interesează sau ce interval de programare preferi."></textarea></label>
-          <label class="inner-form__check"><input type="checkbox" required><span>Accept să fiu contactat(ă) pentru programare.</span></label>
-          <button class="lux-button lux-button--gold" type="submit">Trimite solicitarea</button>
-          <p class="inner-form__status" data-form-status aria-live="polite"></p>
-        </form>
       </div>
     </section>
   </main>

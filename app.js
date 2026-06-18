@@ -1273,9 +1273,9 @@
     "lifting-coapse": { branch: "Chirurgie estetică", procedure: "Lifting coapse" },
     "lifting-brazilian": { branch: "Chirurgie estetică", procedure: "Lifting brazilian" },
     "remodelare-postnatala": { branch: "Chirurgie estetică", procedure: "Remodelare postnatală" },
-    "operatie-postbariatrica": { branch: "Chirurgie estetică", procedure: "Operație postbariatrică" },
-    "diastaza-abdominala": { branch: "Chirurgie estetică", procedure: "Diastază abdominală" },
-    "micsorare-stomac": { branch: "Chirurgie estetică", procedure: "Micșorare stomac" },
+    "operatie-postbariatrica": { branch: "Chirurgie generală", procedure: "Operație postbariatrică" },
+    "diastaza-abdominala": { branch: "Chirurgie generală", procedure: "Diastază abdominală" },
+    "micsorare-stomac": { branch: "Chirurgie generală", procedure: "Micșorare stomac" },
     "transplant-de-par-fue-advance": { branch: "Chirurgie estetică", procedure: "Consultație chirurgie estetică" },
     "labioplastie": { branch: "Estetică ginecologică", procedure: "Labioplastie" },
     "rejuvenare-intima": { branch: "Estetică ginecologică", procedure: "Rejuvenare intimă" },
@@ -1430,7 +1430,7 @@
       {
         key: "facebook",
         label: "Facebook ZEN Clinics",
-        href: configured.facebook || "https://www.facebook.com/ZENClinics"
+        href: configured.facebook || "https://www.facebook.com/share/1MDxxfXbxU/"
       },
       {
         key: "tiktok",

@@ -6,7 +6,7 @@ window.ZEN_CONFIG = {
   turnstileSiteKey: "0x4AAAAAADTGON2EwTAiwSxm",
   socialLinks: {
     instagram: "https://www.instagram.com/zen.clinics/",
-    facebook: "https://www.facebook.com/ZENClinics",
+    facebook: "https://www.facebook.com/share/1MDxxfXbxU/",
     tiktok: "https://www.tiktok.com/@zen.clinicsbucuresti"
   },
   bnrRatesProxyUrl: "/api/bnr-rates",

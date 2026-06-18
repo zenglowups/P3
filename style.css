@@ -8846,6 +8846,19 @@ textarea.zen-mini-contact__field {
   transform: translateY(-3px);
 }
 
+.floating-contact__button--phone {
+  border-color: rgba(220, 80, 60, 0.5);
+  background: rgba(192, 57, 43, 0.18);
+  color: #e74c3c;
+}
+
+.floating-contact__button--phone:hover,
+.floating-contact__button--phone:focus-visible {
+  border-color: rgba(220, 80, 60, 0.72);
+  background: rgba(192, 57, 43, 0.28);
+  color: #f1948a;
+}
+
 .floating-contact svg {
   width: 21px;
   height: 21px;
@@ -10643,9 +10656,9 @@ textarea.zen-mini-contact__field {
   }
 
   .floating-contact--quick .floating-contact__button--phone {
-    border-color: rgba(255, 241, 184, 0.54);
-    background: linear-gradient(135deg, #f1d88f, #c8a45d);
-    color: #120e08;
+    border-color: rgba(220, 80, 60, 0.6);
+    background: linear-gradient(135deg, #c0392b, #922b21);
+    color: #fffaf0;
   }
 
   .floating-contact--quick .floating-contact__button--whatsapp {
