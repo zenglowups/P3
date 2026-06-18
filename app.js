@@ -1874,7 +1874,7 @@
 
     panel.classList.add("zen-mega-menu", "zen-mega-menu--compact");
     panel.innerHTML = [
-      '<a href="' + getLocalHref("chirurgie-estetica.html") + '"><strong>Pagina principală</strong><small>Față, sân și corp într-un cadru estetic</small></a>',
+      '<a href="' + getLocalHref("index.html") + '"><strong>Pagina principală</strong><small>Față, sân și corp într-un cadru estetic</small></a>',
       '<a href="' + getLocalHref("chirurgie-estetica.html#fata") + '"><strong>Chirurgia feței</strong><small>Evaluare și plan personalizat</small></a>',
       '<a href="' + getLocalHref("chirurgie-estetica.html#san") + '"><strong>Chirurgia oncologică</strong><small>Volum, poziție și proporții</small></a>',
       '<a href="' + getLocalHref("chirurgie-estetica.html#corp") + '"><strong>Chirurgia corpului</strong><small>Contur corporal discutat medical</small></a>',
@@ -1890,7 +1890,7 @@
     panel.classList.add("zen-mega-menu", "zen-mega-menu--compact");
     panel.classList.remove("general-surgery-menu");
     panel.innerHTML = [
-      '<a href="' + getLocalHref("chirurgie-generala.html") + '"><strong>Pagina principală</strong><small>Chirurgie generală explicată clar</small></a>',
+      '<a href="' + getLocalHref("index.html") + '"><strong>Pagina principală</strong><small>Chirurgie generală explicată clar</small></a>',
       '<a href="' + getLocalHref("chirurgie-generala.html#cabinet") + '"><strong>Proceduri de cabinet</strong><small>Gesturi medicale cu traumă redusă</small></a>',
       '<a href="' + getLocalHref("chirurgie-generala.html#chirurgie") + '"><strong>Chirurgie</strong><small>Intervenții și direcții chirurgicale</small></a>'
     ].join("");
