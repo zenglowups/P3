@@ -81,22 +81,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://zenclinics.ro/sections/chirurgie-estetica.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://zenclinics.ro/sections/contact.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://zenclinics.ro/sections/conturare-tample.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://zenclinics.ro/sections/despre-noi.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -201,11 +186,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://zenclinics.ro/sections/medicina-estetica.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://zenclinics.ro/sections/mezoterapia.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -237,11 +217,6 @@
   </url>
   <url>
     <loc>https://zenclinics.ro/sections/peeling-facial.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://zenclinics.ro/sections/preturi-rate.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -297,11 +272,6 @@
   </url>
   <url>
     <loc>https://zenclinics.ro/sections/terapia-vampir.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://zenclinics.ro/sections/testimoniale.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
