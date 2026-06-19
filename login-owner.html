@@ -47,6 +47,7 @@
       border: 0; background: transparent; color: var(--gold-soft); cursor: pointer; border-radius: 9px;
     }
     .oa-pass__toggle:hover { background: rgba(200,164,93,.12); }
+    .oa-turnstile { display: flex; justify-content: center; min-height: 65px; }
     .oa-status { min-height: 22px; margin: 0; color: var(--gold-soft); line-height: 1.5; font-size: .92rem; }
     .oa-status.is-error { color: #f1b3a9; }
 
@@ -215,6 +216,7 @@
             </button>
           </span>
         </label>
+        <div class="oa-turnstile" data-owner-turnstile></div>
         <button class="oa-btn oa-btn--gold" type="submit" data-auth-submit>Intră în panou</button>
         <p class="oa-status" data-auth-status aria-live="polite"></p>
       </form>
@@ -972,6 +974,29 @@
         renderRows();
       }
 
+      /* ---------- turnstile ---------- */
+      var turnstileToken = "";
+      var turnstileSiteKey = (window.ZEN_CONFIG && window.ZEN_CONFIG.turnstileSiteKey) || "";
+      (function loadTurnstile() {
+        if (!turnstileSiteKey) { return; }
+        var container = $("[data-owner-turnstile]");
+        if (!container) { return; }
+        var script = document.createElement("script");
+        script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+        script.async = true;
+        script.onload = function () {
+          if (!window.turnstile) { return; }
+          window.turnstile.render(container, {
+            sitekey: turnstileSiteKey,
+            theme: "dark",
+            callback: function (token) { turnstileToken = token; },
+            "expired-callback": function () { turnstileToken = ""; },
+            "error-callback": function () { turnstileToken = ""; }
+          });
+        };
+        document.head.appendChild(script);
+      })();
+
       /* ---------- auth ---------- */
       var authView = $("[data-auth-view]");
       var authForm = $("[data-owner-auth-form]");
@@ -999,6 +1024,11 @@
         var username = String(data.get("username") || "").trim();
         var password = String(data.get("password") || "");
 
+        if (turnstileSiteKey && !turnstileToken) {
+          setStatus(authStatus, "Completează verificarea de securitate.", true);
+          return;
+        }
+
         if (!username || password.length < 6) {
           setStatus(authStatus, "Completează userul și o parolă de minimum 6 caractere.", true);
           return;
@@ -1011,6 +1041,7 @@
           showPanel();
         } else {
           setStatus(authStatus, "User sau parolă incorectă.", true);
+          if (window.turnstile) { turnstileToken = ""; window.turnstile.reset(); }
         }
       });
 
