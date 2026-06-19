@@ -9,6 +9,6 @@ window.ZEN_CONFIG = {
     facebook: "https://www.facebook.com/share/1MDxxfXbxU/",
     tiktok: "https://www.tiktok.com/@zen.clinicsbucuresti"
   },
-  bnrRatesProxyUrl: "/api/bnr-rates",
-  pricesApiUrl: "/api/prices"
+  bnrRatesProxyUrl: "/api/bnr-rates.php",
+  pricesApiUrl: ""
 };
