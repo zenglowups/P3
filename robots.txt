@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
+
+# Zone private / ne-indexabile
 Disallow: /login-owner.html
 Disallow: /login-owner/
+Disallow: /api/
+Disallow: /tools/
 
 Sitemap: https://zenclinics.ro/sitemap.xml

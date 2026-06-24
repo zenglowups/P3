@@ -1,7 +1,111 @@
-Options -Indexes
-DirectoryIndex index.html
+# ===========================================================================
+# ZEN Clinics — Apache/cPanel (în spatele Cloudflare)
+# Performanță, securitate, URL canonic și redirecturi SEO
+# ===========================================================================
 
-RewriteEngine On
-RewriteRule ^preturi-rate\.html$ /contact.html [R=302,L]
-RewriteRule ^login-owner/?$ /login-owner.html [R=302,L]
-RewriteRule ^api/prices/?$ api/prices.php [L]
+AddDefaultCharset UTF-8
+DirectoryIndex index.html
+Options -Indexes
+
+# ---------------------------------------------------------------------------
+# 1. Rescrieri & redirecturi
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Forțează HTTPS (funcționează în spatele Cloudflare prin X-Forwarded-Proto)
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Forțează non-www (host canonic: zenclinics.ro)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # --- Redirecturi specifice ZEN (păstrate de pe server) ---
+  RewriteRule ^preturi-rate\.html$ /contact.html [R=302,L]
+  RewriteRule ^login-owner/?$ /login-owner.html [R=302,L]
+  RewriteRule ^api/prices/?$ api/prices.php [L]
+
+  # --- 301: pagini duplicate orfane din /sections -> versiunea canonică ---
+  RewriteRule ^sections/contact\.html$            /contact.html [R=301,L]
+  RewriteRule ^sections/despre-noi\.html$          /despre-noi.html [R=301,L]
+  RewriteRule ^sections/testimoniale\.html$        /testimoniale.html [R=301,L]
+  RewriteRule ^sections/preturi-rate\.html$        /contact.html [R=301,L]
+  RewriteRule ^sections/medicina-estetica\.html$   /medicina-estetica.html [R=301,L]
+  RewriteRule ^sections/chirurgie-estetica\.html$  /chirurgie-estetica.html [R=301,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 2. Pagină de eroare
+# ---------------------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# ---------------------------------------------------------------------------
+# 3. Compresie (mod_deflate / mod_brotli)
+# ---------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript text/javascript
+  AddOutputFilterByType DEFLATE application/json application/ld+json
+  AddOutputFilterByType DEFLATE application/xml application/rss+xml
+  AddOutputFilterByType DEFLATE image/svg+xml application/vnd.ms-fontobject
+  AddOutputFilterByType DEFLATE font/ttf font/otf font/woff font/woff2 application/font-woff
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json application/ld+json
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 4. Cache browser (mod_expires)
+# ---------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 month"
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType text/javascript           "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/gif                 "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+  ExpiresByType font/woff                 "access plus 1 year"
+  ExpiresByType application/manifest+json "access plus 1 week"
+  ExpiresByType application/ld+json       "access plus 0 seconds"
+  ExpiresByType application/xml           "access plus 1 day"
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 5. Antete de securitate & cache (mod_headers)
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
+
+  # Cache lung & imutabil pentru resurse statice
+  <FilesMatch "\.(css|js|jpg|jpeg|png|webp|gif|svg|ico|woff2?|ttf|otf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # HTML mereu revalidat
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 6. Protejează fișierele sensibile
+# ---------------------------------------------------------------------------
+<FilesMatch "(^\.|config\.php|composer\.(json|lock)|package(-lock)?\.json|\.(env|md|sql|log|bak))$">
+  Require all denied
+</FilesMatch>
