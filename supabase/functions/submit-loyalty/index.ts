@@ -49,28 +49,30 @@ Deno.serve(async (request) => {
     const clientText = [
       "Buna,",
       "",
-      "Iti multumim pentru inscrierea in programul ZEN VIP Card.",
+      "Iti multumim pentru solicitarea trimisa pentru ZEN VIP Card.",
       "",
       "Am inregistrat adresa ta de email si solicitarea pentru cardul de loialitate.",
       "",
-      "Pentru a primi cardul fizic, este necesar sa efectuezi cel putin o consultatie, operatie sau procedura in cadrul ZEN Clinics. Cardul se confirma si se inmaneaza fizic in clinica, dupa validarea eligibilitatii.",
+      "IMPORTANT: ZEN VIP Card se acorda DOAR dupa o procedura efectuata la ZEN Clinics.",
+      "Consultatia simpla NU activeaza cardul si NU garanteaza primirea lui.",
+      "Completarea formularului NU inseamna emiterea automata a cardului.",
       "",
       "Pasii urmatori:",
-      "1. Programeaza o consultatie sau procedura la ZEN Clinics.",
-      "2. Mentioneaza in clinica faptul ca te-ai inscris pentru ZEN VIP Card.",
-      "3. Dupa efectuarea consultatiei/procedurii, echipa confirma eligibilitatea.",
+      "1. Poti programa consultatia pentru evaluare, daca este necesara medical.",
+      "2. Alege si efectueaza procedura recomandata in cadrul ZEN Clinics.",
+      "3. Dupa efectuarea procedurii, echipa confirma eligibilitatea pentru ZEN VIP Card.",
       "4. Cardul fizic se poate ridica din clinica.",
       "",
-      "Prin ZEN VIP Card poti primi beneficii dedicate si extra discount fata de preturile deja reduse, in functie de procedura aleasa, istoricul tau in clinica si recomandarile medicale aplicabile.",
+      "Beneficiile ZEN VIP Card se aplica dupa activarea cardului si se confirma in functie de procedura aleasa, istoricul tau in clinica si recomandarile medicale aplicabile.",
       "",
       "ZEN Clinics",
     ].join("\n");
 
     await sendGmail({
       to: clientEmail,
-      subject: "Confirmare inscriere ZEN VIP Card",
+      subject: "Confirmare ZEN VIP Card - doar dupa procedura efectuata",
       text: clientText,
-      html: `<p>Buna${clientGreeting},</p><p>Iti multumim pentru inscrierea in programul <strong>ZEN VIP Card</strong>.</p><p>Am inregistrat adresa ta de email si solicitarea pentru cardul de loialitate.</p><p>Pentru a primi cardul fizic, este necesar sa efectuezi cel putin o consultatie, operatie sau procedura in cadrul ZEN Clinics. Cardul se confirma si se inmaneaza fizic in clinica, dupa validarea eligibilitatii.</p><p><strong>Pasii urmatori:</strong></p><ol><li>Programeaza o consultatie sau procedura la ZEN Clinics.</li><li>Mentioneaza in clinica faptul ca te-ai inscris pentru ZEN VIP Card.</li><li>Dupa efectuarea consultatiei/procedurii, echipa confirma eligibilitatea.</li><li>Cardul fizic se poate ridica din clinica.</li></ol><p>Prin ZEN VIP Card poti primi beneficii dedicate si <strong>extra discount fata de preturile deja reduse</strong>, in functie de procedura aleasa, istoricul tau in clinica si recomandarile medicale aplicabile.</p><p>ZEN Clinics</p>`,
+      html: `<p>Buna${clientGreeting},</p><p>Iti multumim pentru solicitarea trimisa pentru <strong>ZEN VIP Card</strong>.</p><p>Am inregistrat adresa ta de email si solicitarea pentru cardul de loialitate.</p><div style="border:2px solid #b42318;background:#fff4f2;color:#4b0b08;padding:16px 18px;margin:18px 0;font-family:Arial,sans-serif;"><p style="margin:0 0 8px;font-size:16px;font-weight:800;text-transform:uppercase;">Important: ZEN VIP Card se acorda DOAR dupa o procedura efectuata la ZEN Clinics.</p><p style="margin:0;font-size:14px;line-height:1.55;">Consultatia simpla NU activeaza cardul si NU garanteaza primirea lui. Completarea formularului NU inseamna emiterea automata a cardului.</p></div><p><strong>Pasii urmatori:</strong></p><ol><li>Poti programa consultatia pentru evaluare, daca este necesara medical.</li><li>Alege si efectueaza procedura recomandata in cadrul ZEN Clinics.</li><li>Dupa efectuarea procedurii, echipa confirma eligibilitatea pentru ZEN VIP Card.</li><li>Cardul fizic se poate ridica din clinica.</li></ol><p>Beneficiile ZEN VIP Card se aplica dupa activarea cardului si se confirma in functie de procedura aleasa, istoricul tau in clinica si recomandarile medicale aplicabile.</p><p>ZEN Clinics</p>`,
     });
 
     return jsonResponse({ ok: true }, 200);

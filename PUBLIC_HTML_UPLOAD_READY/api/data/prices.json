@@ -1,0 +1,1441 @@
+[
+  {
+    "id": "consultatii",
+    "title": "Consultații",
+    "summary": "Consultatiile pot deveni gratuite doar dupa activarea ZEN VIP Card. Cardul se acorda dupa o procedura efectuata, nu dupa simpla consultatie.",
+    "items": [
+      [
+        "Consultație chirurgie estetică",
+        "1000 RON"
+      ],
+      [
+        "Consultație chirurgie generală",
+        "1000 RON"
+      ],
+      [
+        "Consultație estetică ginecologică",
+        "1000 RON"
+      ],
+      [
+        "Consultație dermatologie",
+        "1000 RON"
+      ],
+      [
+        "Consultație ORL",
+        "1000 RON"
+      ],
+      [
+        "Consultație cosmetologie",
+        "1000 RON"
+      ],
+      [
+        "CONSULTATIE CHIRURGIE VASCULARA",
+        "400 EURO"
+      ],
+      [
+        "CONSULTATIE OBSTETRICA-GINECOLOGIE",
+        "300 RON"
+      ],
+      [
+        "CONSULTATIE PROCEDURI ESTETICE DE REJUVENARE VAGINALA",
+        "GRATUIT"
+      ],
+      [
+        "CONSULTATIE IN URGENTA",
+        "300 RON"
+      ],
+      [
+        "EVALUARE VESTIBULARĂ COMPLEXĂ",
+        "2000 RON"
+      ],
+      [
+        "CONSULT ORL",
+        "300 RON"
+      ],
+      [
+        "CONSULTAȚIA DE CONTROL",
+        "GRATUIT"
+      ],
+      [
+        "CONSULTAȚIE LA DOMICILIU, MANEVRE ȘI PROCEDURI INCLUSE",
+        "2000 RON"
+      ],
+      [
+        "CONTROL POSTOPERATOR",
+        "GRATUIT"
+      ],
+      [
+        "EVALUARE MEDICALĂ LA DISTANȚĂ",
+        "300 RON"
+      ]
+    ]
+  },
+  {
+    "id": "non-chirurgical",
+    "title": "Non Chirurgical",
+    "summary": "Proceduri minim invazive și tratamente estetice cu indicație stabilită în urma evaluării.",
+    "items": [
+      [
+        "BABY BOTOX 3 ZONE",
+        "1050 RON"
+      ],
+      [
+        "BOTOX IN MENTON",
+        "800 RON"
+      ],
+      [
+        "BOTOX IN PLATISMA",
+        "1550 RON"
+      ],
+      [
+        "BUNNY LINES",
+        "800 RON"
+      ],
+      [
+        "CATEYE FIRE",
+        "1800 RON"
+      ],
+      [
+        "CONTUR BUZE FIRE PDO",
+        "800 RON"
+      ],
+      [
+        "CONTUR FIRE BUZE",
+        "800 RON"
+      ],
+      [
+        "DEPIGMENTARE CEARCANE",
+        "800 RON"
+      ],
+      [
+        "FIR PDO COG",
+        "400 RON"
+      ],
+      [
+        "FIR PDO MONO",
+        "100 RON"
+      ],
+      [
+        "FULL FACE 3 ML AH NEXFILL/STARFILL/LEXIAL/UNION +",
+        "2999 RON"
+      ],
+      [
+        "FULL FACE 3 ML AH REVOLAX + 3 ZONE BOTOX",
+        "3399 RON"
+      ],
+      [
+        "FULL FACE 5 ML AH NEXFILL/STARFILL/LEXIAL/UNION +",
+        "4699 RON"
+      ],
+      [
+        "FULL FACE 5 ML AH REVOLAX + 3 ZONE BOTOX",
+        "5199 RON"
+      ],
+      [
+        "FULL FACE BOTOX",
+        "2000 RON"
+      ],
+      [
+        "FULL FACE BOTOX + SLIMMING FACE",
+        "2400 RON"
+      ],
+      [
+        "GUMMY SMILE",
+        "800 RON"
+      ],
+      [
+        "HIALURONIDAZA PARTIALA",
+        "450 RON"
+      ],
+      [
+        "HIALURONIDAZA TOTALA",
+        "800 RON"
+      ],
+      [
+        "HIPERHIDROZA",
+        "1550 RON"
+      ],
+      [
+        "HYALMASS 50",
+        "1550 RON"
+      ],
+      [
+        "HYALMASS CAHA+ INLOCUITOR HARMONYCA",
+        "3500 RON"
+      ],
+      [
+        "IMPLANT DE PAR PANA LA 5000 DE GREFE METODA",
+        "10000 RON"
+      ],
+      [
+        "LIFTING SPRANCENE CU BOTOX",
+        "800 RON"
+      ],
+      [
+        "LIFTING SPRANCENE CU FIRE",
+        "800 RON"
+      ],
+      [
+        "LIPLIFT BUZE CU TOXINA BOTULINICA",
+        "800 RON"
+      ],
+      [
+        "MEZOBOTOX",
+        "1400 RON"
+      ],
+      [
+        "MEZOTERAPIE DERMAQUAL/FILORGA",
+        "1300 RON"
+      ],
+      [
+        "MEZOTERAPIE PINK GLOW",
+        "1100 RON"
+      ],
+      [
+        "PACHET 1 ZONA BOTOX + 1 ML AH NEXFILL/STARFILL/LEXIAL/UNION",
+        "1199 RON"
+      ],
+      [
+        "PACHET 1 ZONA BOTOX + 1 ML AH REVOLAX",
+        "1299 RON"
+      ],
+      [
+        "PACHET 20 FIRE LIFTING FACIAL PDO MONO",
+        "1799 RON"
+      ],
+      [
+        "PACHET 3 ZONE BOTOX + 1 ML AH NEXFILL/STARFILL/UNION/LEXIAL",
+        "1599 RON"
+      ],
+      [
+        "PACHET 3 ZONE BOTOX + 1 ML AH REVOLAX",
+        "1799 RON"
+      ],
+      [
+        "PACHET 30 FIRE LIFTING FACIAL PDO MONO",
+        "2699 RON"
+      ],
+      [
+        "PACHET 4 FIRE LIFTING FACIAL PDO COG",
+        "3500 RON"
+      ],
+      [
+        "PACHET 6 FIRE LIFTING FACIAL PDO COG",
+        "5000 RON"
+      ],
+      [
+        "PACHET DEPIGMENTARE CEARCANE 4 SEDINTE",
+        "2879 RON"
+      ],
+      [
+        "PACHET MEZOTERAPIE DERMAQUAL/FILORGA 4 +1 GRATIS",
+        "5199 RON"
+      ],
+      [
+        "PACHET MEZOTERAPIE DERMAQUAL/FILORGA+ DERMAPEN",
+        "1449 RON"
+      ],
+      [
+        "PACHET MEZOTERAPIE PINK GLOW + DERMAPEN",
+        "1250 RON"
+      ],
+      [
+        "PACHET MEZOTERAPIE PINK GLOW 4+1 GRATIS",
+        "4400 RON"
+      ],
+      [
+        "PACHET TERAPIA VAMPIR + DERMAPEN",
+        "1150 RON"
+      ],
+      [
+        "PACHET TERAPIA VAMPIR 5 SEDINTE",
+        "3369 RON"
+      ],
+      [
+        "PACHET TOPIREA GRASIMII 4 SEDINTE/4 FLACOANE",
+        "2699 RON"
+      ],
+      [
+        "PACHET TOPIREA GRASIMII 5 SEDINTE/5 FLACOANE",
+        "3369 RON"
+      ],
+      [
+        "PACHET VOLUMIZARE BUZE 1 ML AH JUVEDERM + CONTUR BUZE FIRE PDO",
+        "1899 RON"
+      ],
+      [
+        "PACHET VOLUMIZARE BUZE 1 ML AH NEXFILL/STARFILL/LEXIAL/UNION + CONTUR BUZE FIRE PDO",
+        "1199 RON"
+      ],
+      [
+        "PEELING PRX - T",
+        "800 RON"
+      ],
+      [
+        "RECONTURARE MANDIBULARA 3 ML (LEXIAL/NEXFILL)",
+        "2299 RON"
+      ],
+      [
+        "RECONTURARE MANDIBULARA 3 ML (REVOLAX)",
+        "2599 RON"
+      ],
+      [
+        "RECONTURARE MANDIBULARA 4 ML (LEXIAL/NEXFILL)",
+        "3099 RON"
+      ],
+      [
+        "RECONTURARE MANDIBULARA 4 ML (REVOLAX)",
+        "3499 RON"
+      ],
+      [
+        "RECONTURARE MANDIBULARA CU FIRE PDO",
+        "2100 RON"
+      ],
+      [
+        "REJUVENARE CEARCANE CU JUVVELOOK",
+        "1500 RON"
+      ],
+      [
+        "REJUVENARE FACIALA HARMONYCA PROTOCOL COMPLET",
+        "4500 RON"
+      ],
+      [
+        "RINOCORECTIE CU ACID HIALURONIC",
+        "1550 RON"
+      ],
+      [
+        "RINOCORECTIE CU BOTOX",
+        "1050 RON"
+      ],
+      [
+        "RINOCORECTIE CU FIR PDO",
+        "1085 RON"
+      ],
+      [
+        "RRS",
+        "2500 RON"
+      ],
+      [
+        "SCLEROTERAPIE VASE",
+        "1500 RON"
+      ],
+      [
+        "SKINBOOSTER PROFHILO 2 ML",
+        "1550 RON"
+      ],
+      [
+        "SKINBOOSTER PROFHILO 4 ML",
+        "3100 RON"
+      ],
+      [
+        "SLIMMING FACE",
+        "1800 RON"
+      ],
+      [
+        "SLIMMING FACE CU BOTOX SI FIRE PDO",
+        "2100 RON"
+      ],
+      [
+        "SMOKER LINES CU BOTOX",
+        "800 RON"
+      ],
+      [
+        "SUBTIERE GAMBE CU TOXINA BOTULINICA",
+        "2,000 RON"
+      ],
+      [
+        "TERAPIA VAMPIR",
+        "1000 RON"
+      ],
+      [
+        "TERAPIE CU EXOZOMI DA-X / XSOME",
+        "1450 RON"
+      ],
+      [
+        "TERAPIE CU POLINUCLEOTIDE",
+        "1450 RON"
+      ],
+      [
+        "TOPIREA GRASIMII - LIPOLIZA - 1 FLACON",
+        "1000 RON"
+      ],
+      [
+        "TRATAMENT CU POLINUCLEOTIDE OCHI",
+        "1450 RON"
+      ],
+      [
+        "TRATAMENT POLINUCLEOTIDE - DECOLTEU",
+        "1450 RON"
+      ],
+      [
+        "TRATAMENT POLINUCLEOTIDE - FATA",
+        "1450 RON"
+      ],
+      [
+        "TRATAMENT POLINUCLEOTIDE - GAT",
+        "1450 RON"
+      ],
+      [
+        "TRATAMENT POLINUCLEOTIDE - MAINI",
+        "1450 RON"
+      ],
+      [
+        "TRATAMENT SCULPTRA PENTRU PIERDEREA VOLUMULUI",
+        "3100 RON"
+      ],
+      [
+        "TRATAMENT STIMULARE COLAGEN RADIESSE",
+        "1950 RON"
+      ],
+      [
+        "TRATAMENT TEOSYAL REDENSITY 1",
+        "1550 RON"
+      ],
+      [
+        "TRATAMENT TOXINA BOTULINICA 1 ZONA",
+        "800 RON"
+      ],
+      [
+        "TRATAMENT TOXINA BOTULINICA 2 ZONE",
+        "1300 RON"
+      ],
+      [
+        "TRATAMENT TOXINA BOTULINICA 3 ZONE",
+        "1550 RON"
+      ],
+      [
+        "TRATAMENT TOXINA BOTULINICA 4 ZONE",
+        "1800 RON"
+      ],
+      [
+        "TRATAMENT VOLITE",
+        "1750 RON"
+      ],
+      [
+        "UMPLERE CEARCANE CU ACID HIALURONIC",
+        "1550 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE JUVEDERM ULTRA 0.5 ML",
+        "900 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE JUVEDERM ULTRA 1 ML",
+        "1600 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE JUVEDERM VYCROSS 0.5 ML",
+        "1000 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE JUVEDERM VYCROSS 1 ML",
+        "1800 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE NEXFILL/UNION 0.5 ML",
+        "750 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE NEXFILL/UNIONFILL 1 ML",
+        "1300 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE RESTYLANE KISSE 0.5 ML",
+        "1000 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE RESTYLANE KISSE 1 ML",
+        "1800 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE REVOLAX 0.5 ML",
+        "850 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE REVOLAX 1 ML",
+        "1450 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE STYLAGE 0.5 ML",
+        "900 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE STYLAGE 1 ML",
+        "1600 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE TEOSYAL 0.5ML",
+        "1000 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE TEOSYAL 1 ML",
+        "1800 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE VYOIRE 0.5 ML",
+        "950 RON"
+      ],
+      [
+        "VOLUMIZARE BUZE VYOIRE 1 ML",
+        "1500 RON"
+      ],
+      [
+        "VOLUMIZARE FESE CU AH 400 ML",
+        "28500 RON"
+      ]
+    ]
+  },
+  {
+    "id": "chirurgie",
+    "title": "Chirurgia feței",
+    "summary": "Proceduri pentru profil, pleoape, expresie și contur facial.",
+    "items": [
+      [
+        "BLEFAROPLASTIE TOTALA CU ANESTEZIE GENERALA",
+        "3900 EURO"
+      ],
+      [
+        "LIFTING CHIRURGICAL SPRANCENE ANESTEZIE GENERALA",
+        "de la 2500 EURO"
+      ],
+      [
+        "LIFTING FACIAL TOTAL",
+        "de la 5070 EURO"
+      ],
+      [
+        "MINI LIFTING FACIAL",
+        "5000 EURO"
+      ],
+      [
+        "OTOPLASTIE CU ANESTEZIE GENERALA",
+        "2200 EURO"
+      ],
+      [
+        "RINOPLASTIE ESTETICA",
+        "4350 EURO"
+      ],
+      [
+        "RINOPLASTIE SECUNDARA",
+        "6000 EURO"
+      ],
+      [
+        "RINOSEPTOPLASTIE / RINOPLASTIE CU DEVIATIE",
+        "5000 EURO"
+      ]
+    ]
+  },
+  {
+    "id": "chirurgie-corp",
+    "title": "Chirurgia corpului",
+    "summary": "Sân, contur corporal, abdomen, lipoaspirație și remodelare.",
+    "items": [
+      [
+        "GINECOMASTIE",
+        "de la 3500 EURO"
+      ],
+      [
+        "IMPLANT MAMAR ANATOMIC ARION",
+        "4500 EURO"
+      ],
+      [
+        "IMPLANT MAMAR ANATOMIC MENTOR",
+        "4700 EURO"
+      ],
+      [
+        "IMPLANT MAMAR ANATOMIC MOTIVA",
+        "5650 EURO"
+      ],
+      [
+        "IMPLANT MAMAR BI-LITE",
+        "5350 EURO"
+      ],
+      [
+        "IMPLANT MAMAR CEREFORM",
+        "4100 EURO"
+      ],
+      [
+        "IMPLANT MAMAR POLYTECH",
+        "4300 EURO"
+      ],
+      [
+        "IMPLANT MAMAR ROTUND ARION",
+        "4300 EURO"
+      ],
+      [
+        "IMPLANT MAMAR ROTUND MENTOR",
+        "4500 EURO"
+      ],
+      [
+        "IMPLANT MAMAR ROTUND MOTIVA",
+        "4500 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ANATOMIC ARION",
+        "5500 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ANATOMIC BI-LITE",
+        "6450 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ANATOMIC MOTIVA",
+        "5650 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ANATOMIC POLYTECH",
+        "5500 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ROTUND ARION",
+        "5150 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ROTUND CEREFORM",
+        "4950 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ROTUND MOTIVA",
+        "5500 EURO"
+      ],
+      [
+        "LIFTING CU IMPLANT MAMAR ROTUND POLYTECH",
+        "5150 EURO"
+      ],
+      [
+        "LIFTING MAMAR CU IMPLANT ANATOMIC MENTOR",
+        "5650 EURO"
+      ],
+      [
+        "LIFTING MAMAR CU IMPLANT MAMAR ROTUND BI-LITE",
+        "6150 EURO"
+      ],
+      [
+        "LIFTING MAMAR CU IMPLANT MOTIVA",
+        "5500 EURO"
+      ],
+      [
+        "LIFTING MAMAR CU IMPLANT POLYTECH",
+        "5150 EURO"
+      ],
+      [
+        "LIFTING MAMAR CU IMPLANT ROTUND MENTOR",
+        "5500 EURO"
+      ],
+      [
+        "LIPOFILLING SANI",
+        "4000 EURO"
+      ],
+      [
+        "REDUCTIE MAMARA",
+        "4500 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ANATOMIC ARION",
+        "4500 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ANATOMIC BI-LITE",
+        "5350 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ANATOMIC MENTOR",
+        "4700 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ANATOMIC POLYTECH",
+        "4500 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR CEREFORM",
+        "4100 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ROTUND ARION",
+        "4300 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ROTUND BI-LITE",
+        "5100 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ROTUND MENTOR",
+        "4500 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ROTUND MOTIVA",
+        "4500 EURO"
+      ],
+      [
+        "SCHIMBARE IMPLANT MAMAR ROTUND POLYTECH",
+        "4300 EURO"
+      ],
+      [
+        "ABDOMINOPLASTIE + LIPOASPIRATIE",
+        "5000 EURO"
+      ],
+      [
+        "ABDOMINOPLASTIE TOTALA",
+        "4500 EURO"
+      ],
+      [
+        "BRAHIOPLASTIE",
+        "2000 EURO"
+      ],
+      [
+        "LIPOASPIRATIE ABDOMEN",
+        "4100 EURO"
+      ],
+      [
+        "LIPOASPIRATIE ABDOMEN VASER",
+        "5000 EURO"
+      ],
+      [
+        "LIPOASPIRATIE BRATE VASER",
+        "2600 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA BRATE",
+        "2100 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA COAPSE EXTERNE/INTERNE",
+        "3000 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA COAPSE EXTERNE/INTERNE VASER",
+        "4070 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA CU BBL",
+        "5000 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA GAMBE",
+        "2500 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA GAMBE VASER",
+        "3200 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA GENUNCHI",
+        "2500 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA GENUNCHI VASER",
+        "3200 EURO"
+      ],
+      [
+        "LIPOASPIRATIE CLASICA SPATE",
+        "2500 EURO"
+      ],
+      [
+        "LIPOASPIRATIE VASER CU BBL",
+        "6000 EURO"
+      ],
+      [
+        "LIPOASPIRATIE VASER SPATE",
+        "3200 EURO"
+      ],
+      [
+        "LIPOASPIRATIE ZONA PUBIANA",
+        "1020 EURO"
+      ]
+    ]
+  },
+  {
+    "id": "chirurgie-intima",
+    "title": "Estetică intimă chirurgicală",
+    "summary": "Proceduri intime feminine și masculine, abordate discret.",
+    "items": [
+      [
+        "ALUNGIRE PENIS",
+        "2500 EURO"
+      ],
+      [
+        "ALUNGIRE PENIS + INGROSARE",
+        "5500 EURO"
+      ],
+      [
+        "CIRCUMCIZIE CU ANESTEZIE GENERALA",
+        "1800 EURO"
+      ],
+      [
+        "INGROSARE PENIS CU GRASIME PROPRIE",
+        "de la 3000 EURO"
+      ],
+      [
+        "LABIOPLASTIE CU ANESTEZIE GENERALA",
+        "2380 EURO"
+      ]
+    ]
+  },
+  {
+    "id": "chirurgie-vasculara",
+    "title": "Chirurgie vasculară",
+    "summary": "Proceduri vasculare și servicii asociate.",
+    "items": [
+      [
+        "FLEBECTOMIE",
+        "9000 EURO"
+      ],
+      [
+        "INDICILE GLEZNA-BRAT IGB",
+        "150 EURO"
+      ],
+      [
+        "PACHET EVTA - RFA UNILATERAL",
+        "11000 EURO"
+      ],
+      [
+        "PACHET RFA UNILATERAL CONSULT",
+        "12000 EURO"
+      ],
+      [
+        "PACHET STRIPPING",
+        "17000 EURO"
+      ],
+      [
+        "SCLEROTERAPIE ZONA MARE",
+        "1500 EURO"
+      ],
+      [
+        "SCLEROTERAPIE ZONA MEDIE",
+        "1000 EURO"
+      ],
+      [
+        "SCLEROTERAPIE ZONA MICA",
+        "800 EURO"
+      ],
+      [
+        "TRATAMENT CHIRURGICAL PRIN STRIPPING",
+        "15000 EURO"
+      ]
+    ]
+  },
+  {
+    "id": "chirurgie-generala-preturi",
+    "title": "Chirurgie generală",
+    "summary": "Intervenții și servicii chirurgicale stabilite după evaluare.",
+    "items": [
+      [
+        "LIFTING FARA IMPLANT",
+        "de la 3800 EURO"
+      ]
+    ]
+  },
+  {
+    "id": "pregatire-postoperatorie",
+    "title": "Pregătire și consumabile",
+    "summary": "Elemente asociate procedurilor și recuperării.",
+    "items": [
+      [
+        "BUSTIERA COMPRESIVA",
+        "300 RON"
+      ],
+      [
+        "CIORAPI COMPRESIV MĂSURA+CIORAPI",
+        "400 EURO"
+      ],
+      [
+        "PACHET ANALIZE PREOPERATOR (CUPRINDE ANALIZELE DE SANGE SI EXUDATUL NAZAL)",
+        "750 RON"
+      ],
+      [
+        "PANSAMENT ULCER",
+        "300 EURO"
+      ]
+    ]
+  },
+  {
+    "id": "ginecologie",
+    "title": "Estetică ginecologică",
+    "summary": "Consultații și proceduri intime abordate discret, cu recomandare individuală.",
+    "items": [
+      [
+        "ALBIRE LABIALA",
+        "2300 RON"
+      ],
+      [
+        "ANALIZE INFECTII CU TRANSMITERE SEXUALA",
+        "400 RON"
+      ],
+      [
+        "ATROFIE VAGINALA (USCACIUNE, DURERE CONTACT SEXUALA, ARSURA VAGINALA, PRURIT GENITAL)",
+        "2300 RON"
+      ],
+      [
+        "AUGMENTARE PLACERE SEXUALA",
+        "2300 RON"
+      ],
+      [
+        "CICATRICI PERIANALE",
+        "2300 RON"
+      ],
+      [
+        "DEPIGMENTARE ZONA INTIMA",
+        "1450 RON"
+      ],
+      [
+        "ECOGRAFIE GINECOLOGICA",
+        "350 RON"
+      ],
+      [
+        "ECOGRAFIE MONITORIZARE SARCINA",
+        "300 RON"
+      ],
+      [
+        "ECOGRAFIE TRANSABDOMINALA - VIRGO INTACTE",
+        "300 RON"
+      ],
+      [
+        "ECOGRAFIE TRANSVAGINALA",
+        "375 RON"
+      ],
+      [
+        "EXAMEN BACTERIOLOGIC SECRETIE VAGINALA (CULTURI COL)",
+        "150 RON"
+      ],
+      [
+        "EXAMEN MICROBIOLOGIC SECRETIE VAGINALA (CULTURI COL)",
+        "130 RON"
+      ],
+      [
+        "EXTRACTIE STERILET",
+        "200 RON"
+      ],
+      [
+        "EXZICIE CONDILOAME, NEVI, HEMANGIOAME",
+        "2300 RON"
+      ],
+      [
+        "G SHOT",
+        "2300 RON"
+      ],
+      [
+        "INFECTII GENITALE",
+        "2300 RON"
+      ],
+      [
+        "INTERPRETARE ANALIZE",
+        "100 RON"
+      ],
+      [
+        "LABIOPLASTIE ANESTEZIE LOCALA",
+        "10000 RON"
+      ],
+      [
+        "LAXITATE VAGINALA SI REJUVENARE( URMARE A NASTERILOR)",
+        "2300 RON"
+      ],
+      [
+        "LICHEN SCLEROS",
+        "2300 RON"
+      ],
+      [
+        "VAGINOPLASTIE",
+        "Preț la consultație"
+      ],
+      [
+        "VOLUMIZARE PENIANĂ",
+        "Preț la consultație"
+      ],
+      [
+        "MONTARE STERILET + ECOGRAFIE DE CONTROL",
+        "450 RON"
+      ],
+      [
+        "O SHOT",
+        "1450 RON"
+      ],
+      [
+        "PAPANICOLAU",
+        "120 RON"
+      ],
+      [
+        "PRP ZONA GENITALA",
+        "800-1600 RON"
+      ],
+      [
+        "REJUVENARE LABII MARI",
+        "2300 RON"
+      ],
+      [
+        "SCOS FIRE/PANSAMENT",
+        "100 RON"
+      ],
+      [
+        "SINDROM GENITO-URINAR ASOCIAT MENOPAUZEI",
+        "2300 RON"
+      ],
+      [
+        "SINDROM VULVOVESTIBULAR (SVV)",
+        "2300 RON"
+      ],
+      [
+        "TRATAMENT ZONA INTIMA CU LASER CO2 INTERN/EXTERN",
+        "2300 RON"
+      ],
+      [
+        "TRATARE INCONTINENTA URINARA CU LASER CO2",
+        "2300 RON"
+      ]
+    ]
+  },
+  {
+    "id": "dermatologie",
+    "title": "Dermatologie estetică",
+    "summary": "Consultații și tratamente cutanate, cu plan stabilit în urma evaluării.",
+    "items": [
+      [
+        "CHIST /LIPOM MIC MEDIU",
+        "600 RON"
+      ],
+      [
+        "CHIST/LIPOM MARE",
+        "800 RON"
+      ],
+      [
+        "CURA CHIRURGICALA UNGHIE INCARNATA- ABLATIE PARTIALA",
+        "300 RON"
+      ],
+      [
+        "CURA CHIRURGICALA UNGHIE INCARNATA- ABLATIE TOTALA",
+        "500 RON"
+      ],
+      [
+        "DERMATOSCOPIE 1 LEZIUNE",
+        "75 RON"
+      ],
+      [
+        "DERMATOSCOPIE 1-2 ALUNITE",
+        "250 RON"
+      ],
+      [
+        "DERMATOSCOPIE 2-5 LEZIUNI",
+        "200 RON"
+      ],
+      [
+        "DERMATOSCOPIE 3-5 ALUNITE",
+        "350 RON"
+      ],
+      [
+        "DERMATOSCOPIE 5-10 ALUNITE",
+        "500 RON"
+      ],
+      [
+        "DERMATOSCOPIE 6-10 LEZIUNI",
+        "400 RON"
+      ],
+      [
+        "DERMATOSCOPIE PESTE 10 LEZIUNI",
+        "600 RON"
+      ],
+      [
+        "ELECTROCAUTERIZARE PAPILOAME/CONDILOAME < 10 LEZIUNI",
+        "600 RON"
+      ],
+      [
+        "ELECTROCAUTERIZARE PAPILOAME/CONDILOAME < 5 LEZIUNI",
+        "250 RON"
+      ],
+      [
+        "ELECTROCAUTERIZARE PAPILOAME/CONDILOAME 15 LEZIUNI",
+        "1500 RON"
+      ],
+      [
+        "ELECTROCAUTERIZARE PAPILOM/CONDILOM LEZIUNE",
+        "100 RON"
+      ],
+      [
+        "ELECTROCAUTERIZARE VERUCI PLANTARE (PRET PER 2 CM)",
+        "300 RON"
+      ],
+      [
+        "ELECTROCAUTERIZARE XANTELASME (1 LEZIUNE)",
+        "300 RON"
+      ],
+      [
+        "EXCIZIE ALUNITE",
+        "750 RON"
+      ],
+      [
+        "EXTRACTIE MILIUM",
+        "60 RON"
+      ],
+      [
+        "INCIZIA SI DRENAJUL HEMATOAMELOR ABCESELOR CHISTULUI INFLAMAT",
+        "650 RON"
+      ],
+      [
+        "INCIZIE/ EVACUARE/ DEBRIDARE/ DRENAJ",
+        "550 RON"
+      ],
+      [
+        "INTERVENTIE ANGIOAME",
+        "70 RON"
+      ],
+      [
+        "INTERVENTIE FIBROM MOALE/ LEZIUNE",
+        "650 RON"
+      ],
+      [
+        "LASER CO2 DECOLTEU",
+        "1500 RON"
+      ],
+      [
+        "LASER CO2 FATA",
+        "1500 RON"
+      ],
+      [
+        "LASER CO2 GAT",
+        "1500 RON"
+      ],
+      [
+        "LASER CO2 PERIOCULAR",
+        "1000 RON"
+      ],
+      [
+        "LASER CO2/CICATRICE",
+        "400 RON"
+      ],
+      [
+        "NEV MARE/TUMORA (HP)",
+        "1500 RON"
+      ]
+    ]
+  },
+  {
+    "id": "orl",
+    "title": "ORL",
+    "summary": "Consultații și proceduri ORL, cu indicații stabilite în funcție de evaluare.",
+    "items": [
+      [
+        "SECTIONARE LUETA / UVULOVELOPLASTIE CU LASER/RADIOFRECVENTA",
+        "3000 RON"
+      ],
+      [
+        "SECTIONARE SINECHIE SEPTO-TURBINARA",
+        "2000 RON"
+      ],
+      [
+        "SPĂLĂTURĂ AURICULARĂ BILATERAL",
+        "300 RON"
+      ],
+      [
+        "SPĂLĂTURĂ AURICULARĂ UNILATERAL",
+        "200 RON"
+      ],
+      [
+        "TEST RAPID ANTIGEN COVID",
+        "150 RON"
+      ],
+      [
+        "TEST RAPID GRIPĂ",
+        "150 RON"
+      ],
+      [
+        "TEST RAPID STREPTOCOC",
+        "150 RON"
+      ],
+      [
+        "TIMPANOMETRIE",
+        "200 RON"
+      ],
+      [
+        "TIMPANOTOMIE",
+        "800 RON"
+      ],
+      [
+        "TIMPANOTOMIE LASER",
+        "1000 RON"
+      ],
+      [
+        "TURBINOREDUCTIE CU RADIOFRECVENTĂ",
+        "5000 RON"
+      ],
+      [
+        "INTERVENTIE COMPLEXA SFORĂIT (TURBINOREDUCTIE, UVULOVELOPLASTIE SI SECTIONARE LUETĂ) (BONUS: 2 CONTROALE INCLUSE – VALOARE 700 LEI)",
+        "8500 RON"
+      ],
+      [
+        "INTERVENTIE SFORĂIT (TURBINOREDUCTIE SI UVULOVELOPLASTIE) (BONUS: 1 CONTROL INCLUS – VALOARE 350 LEI)",
+        "7000 RON"
+      ],
+      [
+        "PACHET TURBINOREDUCTIE CU RADIOFRECVENTĂ + POLIPECTOMIE NAZALĂ ENDOSCOPIC",
+        "8500 RON"
+      ],
+      [
+        "POLIPECTOMIE NAZALĂ ENDOSCOPIC",
+        "7000 RON"
+      ],
+      [
+        "PUNCTIE SINUSALĂ",
+        "700 RON"
+      ],
+      [
+        "REEDUCARE VESTIBULARĂ",
+        "600 RON"
+      ],
+      [
+        "REPOZITIONARE OTOLIȚI",
+        "1000 RON"
+      ],
+      [
+        "RIGIDIZARE VĂL PALATIN CU RADIOFRECVENTĂ",
+        "2600 RON"
+      ],
+      [
+        "EXAMEN VESTIBULAR",
+        "1200 RON"
+      ],
+      [
+        "EXTRACTIE CORP STRĂIN GÂT",
+        "350 RON"
+      ],
+      [
+        "EXTRACTIE CORP STRĂIN NAZAL",
+        "400 RON"
+      ],
+      [
+        "EXTRACTIE DOP CERUMEN",
+        "100 / ureche RON"
+      ],
+      [
+        "EXUDAT FARINGIAN / NAZAL",
+        "150 RON"
+      ],
+      [
+        "FIBROSCOPIE NAZOFARINGOLARINGIANA",
+        "350 RON"
+      ],
+      [
+        "FRENOTOMIE",
+        "1200 RON"
+      ],
+      [
+        "FRENOTOMIE LASER",
+        "800 RON"
+      ],
+      [
+        "IMPEDANCEMETRIE",
+        "300 RON"
+      ],
+      [
+        "INCIZIE – DRENAJ COLECTIE",
+        "500 RON"
+      ],
+      [
+        "AUDIOMETRIE",
+        "250 RON"
+      ],
+      [
+        "CHIMIOCAUTERIZARE PATĂ VASCULARĂ",
+        "400 RON"
+      ],
+      [
+        "CRIPTOLIZĂ + AMIGDALOTOMIE LASER/RADIOFRECVENȚĂ",
+        "4000 RON"
+      ],
+      [
+        "CRIPTOLIZĂ AMIGDALIANA LASER/RADIOFRECVENȚĂ",
+        "2800 RON"
+      ],
+      [
+        "ENDOSCOPIE NAZALĂ",
+        "300 RON"
+      ],
+      [
+        "ABLAȚIE PAPILOM, POLIP, CHIST",
+        "1300 RON"
+      ],
+      [
+        "ABLAȚIE POLIP URECHE",
+        "2000 RON"
+      ],
+      [
+        "ABLAȚIE TUMORĂ (POLIP, PAPILOM) FARINGIANĂ",
+        "2000 RON"
+      ],
+      [
+        "ABLAȚIE TUMORĂ NAZALĂ",
+        "2000 RON"
+      ],
+      [
+        "ACUFENOMETRIE",
+        "750 RON"
+      ],
+      [
+        "AMIGDALOTOMIE CU RADIOFRECVENȚĂ",
+        "3500 RON"
+      ]
+    ]
+  },
+  {
+    "id": "terapie-led",
+    "title": "Terapie LED",
+    "summary": "Terapie LED pentru susținerea pielii și recuperare post-procedură, în funcție de indicație.",
+    "items": [
+      [
+        "ACCELEREAZA RECUPERAREA DUPA ORICE PROCEDURA ESTETICA( MINIM INVAZIVA & CHIRURGICALA)",
+        "de la 199 RON"
+      ],
+      [
+        "CALMEAZA IRITATIILE",
+        "de la 199 RON"
+      ],
+      [
+        "CALMEAZA PIELEA SENSIBILA",
+        "de la 199 RON"
+      ],
+      [
+        "EFECT ANTI-AGING GRADUAL",
+        "de la 199 RON"
+      ],
+      [
+        "IMBUNATATIREA TEXTURII PIELII",
+        "de la 199 RON"
+      ],
+      [
+        "LUMINOZITATE CRESCUTA A PIELII",
+        "de la 199 RON"
+      ],
+      [
+        "PIELE MAI FERMA",
+        "de la 199 RON"
+      ],
+      [
+        "REDUCE INFLAMATIILE SI ROSEATA",
+        "de la 199 RON"
+      ],
+      [
+        "REDUCEREA RIDURILOR FINE",
+        "de la 199 RON"
+      ],
+      [
+        "SUPORT EFICIENT POST PRP",
+        "de la 199 RON"
+      ],
+      [
+        "TRATEAZA ERITEMUL POST-PROCEDURA",
+        "de la 199 RON"
+      ],
+      [
+        "TRATEAZA ALOPECIA ANDROGENETICA",
+        "de la 199 RON"
+      ],
+      [
+        "TRATEAZA CADEREA DIFUZA A PARULUI",
+        "de la 199 RON"
+      ],
+      [
+        "UNIFORMIZEAZA NUANTA PIELII",
+        "de la 199 RON"
+      ]
+    ]
+  },
+  {
+    "id": "terapii-iv",
+    "title": "Terapii IV",
+    "summary": "Terapii IV cu administrare și recomandare individuală, după evaluare.",
+    "items": [
+      [
+        "BEAUTY GLOW (GLUTATION SI COMPLEX VIT B)",
+        "700 RON"
+      ],
+      [
+        "DETOX FORTE (N-ACETILCISTEINA, GLUTATION, COMPLEX DE VITAMINE B, RESVERTROL, ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "DETOX PLUS (N-ACETILCISTEINA, GLUTATION, COMPLEX DE VITAMINE B, VITAMINA C, ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "ENDURANCE BOOST (COMPLEX DE AMINOACIZI, COMPLEX DE VITAMINE B, GLUTATION, N-ACETILCISTEINĂ, CALCIU, MAGNEZIU, ZINC, POTASIU SI ALTI ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "ENERGY (COMPLEX B-URI, GLUTHATIONE, ELECTROLITI, RESVERATROL)",
+        "700 RON"
+      ],
+      [
+        "HAIR BOOST (COMPLEX B-URI, BIOTINA, AMINOACIZI, ARGININA)",
+        "700 RON"
+      ],
+      [
+        "HANGOVER RESTORE (ANTIEMETIC, GLUCOZA PROTECTOR GASTRIC)",
+        "700 RON"
+      ],
+      [
+        "HANGOVER TOTAL RESTORE (COMPLEX DE VITAMINE B, VITAMINA C, GLUCOZĂ, ANTIEMETIC(OSSETRON SAU METOCLOPRAMID), ANTALGIC (ALGOCALMIN), ANTISPATIC (NO-SPA), PROTECTOR GASTRIC (CONTROLLOC/PANTOPRAZOL))",
+        "700 RON"
+      ],
+      [
+        "HYDRATION RESTORE (GLUCOZA, VIT C, COMPLEX B-URI, AMINOACIZI, ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "IMMUNITY (COMPLEX B-URI, VIT C, GLUTHATIONE, OLIGOELEMENTE, MINERALE)",
+        "700 RON"
+      ],
+      [
+        "IMMUNITY BOOST (VITAMINA C, GRUP DE VITAMINE B, TRACUTIL, ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "IMMUNITY DEFENCE (COMPLEX DE AMINOACIZI, ELECTROLITI, BOOST DE VITAMINA C, RESVERATROL)",
+        "700 RON"
+      ],
+      [
+        "IRON INFUSION (FIER (VENOFER/ MONOFER), ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "NAD 100 MG",
+        "700 RON"
+      ],
+      [
+        "NAD 200 MG",
+        "700 RON"
+      ],
+      [
+        "NAD 500 MG",
+        "700 RON"
+      ],
+      [
+        "RECOVERY 1 ( COMPLEX B-URI, MAGNEZIU, CALCIU, GLUTHATIONE, RESVERATROL,MINERALE)",
+        "700 RON"
+      ],
+      [
+        "RECOVERY 2 ( AMINOACIZI, VIT C, MAGNEZIU, ZINC, POTASIU,ELECTROLITI, RESVERATROL)",
+        "700 RON"
+      ],
+      [
+        "SKIN GLOW (VITAMINA C, COMPLEX DE VITAMINE B, GLUTATION, ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "SLIM BOOST (METIONINA, COLINĂ, COMPLEX DE VITAMINE B, ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "SLIM DETOX (L-CARNITINĂ, COLINĂ, METIONINĂ, VITAMINA C, GLUTHATIONE,ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "STRESS RELIEF (COMPLEX DE AMINOACIZI, MINERALE, MAGNEZIU)",
+        "700 RON"
+      ],
+      [
+        "VITAL DEFENCE (COMPLEX DE VITAMINE B, RESVERATROL, ELECTROLITI)",
+        "700 RON"
+      ],
+      [
+        "ZEN VITALITY (COMPLEX DE AMINOACIZI, COMPLEX DE VITAMINE B, MINERALE, MAGNEZIU, POTASIU SI ALTI ELECTROLITI)",
+        "700 RON"
+      ]
+    ]
+  }
+]

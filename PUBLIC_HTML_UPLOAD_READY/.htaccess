@@ -1,0 +1,7 @@
+Options -Indexes
+DirectoryIndex index.html
+
+RewriteEngine On
+RewriteRule ^preturi-rate\.html$ /contact.html [R=302,L]
+RewriteRule ^login-owner/?$ /login-owner.html [R=302,L]
+RewriteRule ^api/prices/?$ api/prices.php [L]
