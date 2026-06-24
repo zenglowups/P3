@@ -10,5 +10,6 @@ window.ZEN_CONFIG = {
     tiktok: "https://www.tiktok.com/@zen.clinicsbucuresti"
   },
   bnrRatesProxyUrl: "https://bnr-proxy.zenwebsitesro.workers.dev/",
-  pricesApiUrl: ""
+  pricesApiUrl: "",
+  googleAnalyticsId: ""
 };

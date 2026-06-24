@@ -723,6 +723,14 @@
     header.classList.toggle("menu-open", open);
     document.body.style.overflow = open ? "hidden" : "";
     updateFloatingContact();
+
+    try {
+      document.dispatchEvent(new CustomEvent("zen:menu-state", { detail: { open: open } }));
+    } catch (error) {
+      var menuEvent = document.createEvent("CustomEvent");
+      menuEvent.initCustomEvent("zen:menu-state", false, false, { open: open });
+      document.dispatchEvent(menuEvent);
+    }
   }
 
   function getMegaItem(button) {
@@ -1616,6 +1624,253 @@
     loadFromEndpoint(0);
   }
 
+  function initCookieConsent() {
+    var CONSENT_KEY = "zen-cookie-consent-v1";
+    var analyticsId = (zenConfig.googleAnalyticsId || "").trim();
+    var panel;
+    var settingsPanel;
+    var analyticsCheckbox;
+    var preferenceButton;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+
+    window.gtag("consent", "default", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: "denied"
+    });
+
+    function readConsent() {
+      try {
+        return JSON.parse(window.localStorage && window.localStorage.getItem(CONSENT_KEY));
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function writeConsent(value) {
+      try {
+        if (window.localStorage) {
+          window.localStorage.setItem(CONSENT_KEY, JSON.stringify(value));
+        }
+      } catch (error) {}
+    }
+
+    function updateGoogleConsent(analyticsAllowed) {
+      window.gtag("consent", "update", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: analyticsAllowed ? "granted" : "denied"
+      });
+    }
+
+    function loadAnalytics() {
+      var script;
+
+      if (!analyticsId || window.ZEN_ANALYTICS_LOADED) {
+        return;
+      }
+
+      window.ZEN_ANALYTICS_LOADED = true;
+      script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(analyticsId);
+      document.head.appendChild(script);
+
+      window.gtag("js", new Date());
+      window.gtag("config", analyticsId, {
+        anonymize_ip: true
+      });
+    }
+
+    function applyConsent(consent) {
+      var analyticsAllowed = !!(consent && consent.analytics);
+
+      updateGoogleConsent(analyticsAllowed);
+
+      if (analyticsAllowed) {
+        loadAnalytics();
+      }
+    }
+
+    function closePanel() {
+      if (!panel) {
+        return;
+      }
+
+      document.body.classList.remove("has-cookie-consent-open");
+      panel.classList.remove("is-visible");
+      window.setTimeout(function () {
+        panel.hidden = true;
+      }, reduceMotion ? 0 : 220);
+    }
+
+    function saveConsent(analyticsAllowed) {
+      var value = {
+        necessary: true,
+        analytics: !!analyticsAllowed,
+        updatedAt: new Date().toISOString()
+      };
+
+      writeConsent(value);
+      applyConsent(value);
+      closePanel();
+      showPreferenceButton();
+    }
+
+    function showSettings(open) {
+      if (!settingsPanel) {
+        return;
+      }
+
+      settingsPanel.hidden = !open;
+      panel.classList.toggle("has-settings-open", open);
+    }
+
+    function openPanel() {
+      if (!panel) {
+        return;
+      }
+
+      document.body.classList.add("has-cookie-consent-open");
+      panel.hidden = false;
+      window.requestAnimationFrame(function () {
+        panel.classList.add("is-visible");
+      });
+    }
+
+    function showPreferenceButton() {
+      if (preferenceButton || !document.body) {
+        return;
+      }
+
+      preferenceButton = document.createElement("button");
+      preferenceButton.type = "button";
+      preferenceButton.className = "zen-cookie-preferences-button";
+      preferenceButton.setAttribute("data-cookie-preferences", "");
+      preferenceButton.textContent = "Setări cookies";
+      document.body.appendChild(preferenceButton);
+    }
+
+    function buildPanel() {
+      if (panel || !document.body) {
+        return;
+      }
+
+      panel = document.createElement("section");
+      panel.className = "zen-cookie-consent";
+      panel.hidden = true;
+      panel.setAttribute("data-cookie-consent", "");
+      panel.setAttribute("role", "dialog");
+      panel.setAttribute("aria-labelledby", "cookie-consent-title");
+      panel.setAttribute("aria-describedby", "cookie-consent-text");
+      panel.innerHTML = [
+        '<div class="zen-cookie-consent__content">',
+        '<p class="zen-cookie-consent__kicker">Confidențialitate</p>',
+        '<h2 id="cookie-consent-title">Alegerea ta pentru cookies</h2>',
+        '<p id="cookie-consent-text">Folosim cookies necesare pentru funcționarea site-ului. Cu acordul tău, folosim și Google Analytics pentru statistici agregate despre vizitarea paginilor. Poți accepta, respinge sau modifica preferințele oricând.</p>',
+        '<div class="zen-cookie-consent__actions">',
+        '<button type="button" class="zen-cookie-consent__button zen-cookie-consent__button--ghost" data-cookie-reject>Respinge</button>',
+        '<button type="button" class="zen-cookie-consent__button zen-cookie-consent__button--ghost" data-cookie-settings>Setări</button>',
+        '<button type="button" class="zen-cookie-consent__button zen-cookie-consent__button--gold" data-cookie-accept>Accept analytics</button>',
+        '</div>',
+        '<div class="zen-cookie-consent__settings" data-cookie-settings-panel hidden>',
+        '<div class="zen-cookie-consent__setting">',
+        '<span><strong>Cookies necesare</strong><small>Active permanent pentru securitate, preferințe tehnice și afișarea corectă a site-ului.</small></span>',
+        '<em>Activ</em>',
+        '</div>',
+        '<label class="zen-cookie-consent__setting zen-cookie-consent__setting--toggle">',
+        '<span><strong>Analytics</strong><small>Permite măsurarea vizitelor prin Google Analytics numai după consimțământ.</small></span>',
+        '<input type="checkbox" data-cookie-analytics>',
+        '<i aria-hidden="true"></i>',
+        '</label>',
+        '<button type="button" class="zen-cookie-consent__button zen-cookie-consent__button--gold" data-cookie-save>Salvează preferințele</button>',
+        '</div>',
+        '<p class="zen-cookie-consent__links"><a href="' + getLocalHref("politica-confidentialitate.html#cookies") + '">Politica de confidențialitate și cookies</a></p>',
+        '</div>'
+      ].join("");
+
+      document.body.appendChild(panel);
+
+      settingsPanel = panel.querySelector("[data-cookie-settings-panel]");
+      analyticsCheckbox = panel.querySelector("[data-cookie-analytics]");
+
+      panel.querySelector("[data-cookie-accept]").addEventListener("click", function () {
+        saveConsent(true);
+      });
+
+      panel.querySelector("[data-cookie-reject]").addEventListener("click", function () {
+        saveConsent(false);
+      });
+
+      panel.querySelector("[data-cookie-settings]").addEventListener("click", function () {
+        showSettings(settingsPanel.hidden);
+      });
+
+      panel.querySelector("[data-cookie-save]").addEventListener("click", function () {
+        saveConsent(analyticsCheckbox && analyticsCheckbox.checked);
+      });
+    }
+
+    document.addEventListener("click", function (event) {
+      var trigger = event.target.closest ? event.target.closest("[data-cookie-preferences]") : null;
+      var currentConsent;
+
+      if (!trigger) {
+        return;
+      }
+
+      event.preventDefault();
+      buildPanel();
+      currentConsent = readConsent();
+
+      if (analyticsCheckbox) {
+        analyticsCheckbox.checked = !!(currentConsent && currentConsent.analytics);
+      }
+
+      showSettings(true);
+      openPanel();
+    });
+
+    buildPanel();
+
+    if (readConsent()) {
+      applyConsent(readConsent());
+      showPreferenceButton();
+    } else {
+      window.setTimeout(openPanel, 600);
+    }
+  }
+
+  function initLegalFooterLinks() {
+    var footers = document.querySelectorAll("footer");
+
+    footers.forEach(function (footer) {
+      var nav;
+
+      if (footer.querySelector("[data-legal-links]")) {
+        return;
+      }
+
+      nav = document.createElement("nav");
+      nav.className = "zen-legal-links";
+      nav.setAttribute("data-legal-links", "");
+      nav.setAttribute("aria-label", "Linkuri legale");
+      nav.innerHTML = [
+        '<a href="' + getLocalHref("termeni-si-conditii.html") + '">Termeni și condiții</a>',
+        '<a href="' + getLocalHref("politica-confidentialitate.html") + '">Confidențialitate & cookies</a>',
+        '<button type="button" data-cookie-preferences>Setări cookies</button>'
+      ].join("");
+
+      footer.appendChild(nav);
+    });
+  }
+
   function initPromoBump() {
     var promotions = [
       {
@@ -1702,7 +1957,10 @@
     });
 
     var STORAGE_KEY = "zen-promo-bump-next-index";
+    var INITIAL_DELAY = 12000;
     var REOPEN_DELAY = 40000;
+    var POST_CLOSE_DELAY = 28000;
+    var SCROLL_IDLE_DELAY = 900;
     var panel;
     var closeButton;
     var bodyLink;
@@ -1714,6 +1972,8 @@
     var text;
     var activeIndex = 0;
     var timer = 0;
+    var scrollIdleTimer = 0;
+    var hasShownPromo = false;
 
     if (!document.body || document.querySelector("[data-promo-bump]") || /login-owner/i.test(window.location.pathname)) {
       return;
@@ -1805,8 +2065,29 @@
       return stored % promotions.length;
     }
 
+    function isPromoBlocked() {
+      return (header && header.classList.contains("menu-open")) ||
+        document.body.classList.contains("has-cookie-consent-open");
+    }
+
+    function hidePromo() {
+      panel.classList.add("is-hidden");
+      window.clearTimeout(timer);
+
+      window.setTimeout(function () {
+        panel.hidden = true;
+      }, reduceMotion ? 0 : 260);
+    }
+
     function showPromo(index) {
       window.clearTimeout(timer);
+
+      if (isPromoBlocked()) {
+        waitForScrollIdle(index, POST_CLOSE_DELAY);
+        return;
+      }
+
+      hasShownPromo = true;
       renderPromo(index);
       panel.hidden = false;
       window.requestAnimationFrame(function () {
@@ -1814,19 +2095,45 @@
       });
     }
 
-    closeButton.addEventListener("click", function () {
-      panel.classList.add("is-hidden");
+    function startPromoCountdown(index, delay) {
       window.clearTimeout(timer);
+      timer = window.setTimeout(function () {
+        showPromo(index);
+      }, reduceMotion ? Math.min(delay, 1200) : delay);
+    }
 
-      window.setTimeout(function () {
-        panel.hidden = true;
-        timer = window.setTimeout(function () {
-          showPromo(activeIndex + 1);
-        }, REOPEN_DELAY);
-      }, reduceMotion ? 0 : 260);
+    function waitForScrollIdle(index, delay) {
+      window.clearTimeout(timer);
+      window.clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = window.setTimeout(function () {
+        startPromoCountdown(index, delay);
+      }, SCROLL_IDLE_DELAY);
+    }
+
+    closeButton.addEventListener("click", function () {
+      var nextIndex = activeIndex + 1;
+
+      hidePromo();
+      waitForScrollIdle(nextIndex, POST_CLOSE_DELAY);
     });
 
-    showPromo(getNextIndex());
+    window.addEventListener("scroll", function () {
+      if (!panel.hidden && !panel.classList.contains("is-hidden")) {
+        hidePromo();
+      }
+
+      waitForScrollIdle(activeIndex + 1, hasShownPromo ? REOPEN_DELAY : INITIAL_DELAY);
+    }, { passive: true });
+
+    document.addEventListener("zen:menu-state", function (event) {
+      if (event.detail && event.detail.open) {
+        hidePromo();
+      } else {
+        waitForScrollIdle(activeIndex + 1, hasShownPromo ? REOPEN_DELAY : INITIAL_DELAY);
+      }
+    });
+
+    waitForScrollIdle(getNextIndex(), INITIAL_DELAY);
   }
 
   function setPlainNavLink(link, href, label) {
@@ -2029,6 +2336,8 @@
   enrichBookingLinks();
   initSocialLinks();
   initBnrRates();
+  initLegalFooterLinks();
+  initCookieConsent();
   initPromoBump();
   initMiniContact();
 

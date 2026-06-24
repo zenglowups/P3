@@ -9924,6 +9924,272 @@ textarea.zen-mini-contact__field {
   display: flex;
 }
 
+.zen-legal-links {
+  width: min(1180px, calc(100% - 40px));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  justify-content: center;
+  margin: 18px auto 0;
+  padding: 16px 0 0;
+  border-top: 1px solid rgba(226, 199, 130, 0.16);
+}
+
+.zen-legal-links a,
+.zen-legal-links button,
+.zen-cookie-preferences-button {
+  border: 0;
+  background: transparent;
+  color: rgba(246, 239, 229, 0.72);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.zen-legal-links a:hover,
+.zen-legal-links button:hover,
+.zen-legal-links a:focus-visible,
+.zen-legal-links button:focus-visible,
+.zen-cookie-preferences-button:hover,
+.zen-cookie-preferences-button:focus-visible {
+  color: #ffe7a5;
+}
+
+.zen-cookie-preferences-button {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 9400;
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid rgba(226, 199, 130, 0.28);
+  border-radius: 999px;
+  background: rgba(7, 6, 4, 0.78);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+}
+
+.zen-cookie-consent {
+  position: fixed;
+  inset: auto 18px 18px;
+  z-index: 9800;
+  display: grid;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(18px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.zen-cookie-consent.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.zen-cookie-consent__content {
+  width: min(760px, calc(100vw - 36px));
+  padding: 24px;
+  border: 1px solid rgba(226, 199, 130, 0.45);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 88% 14%, rgba(255, 231, 165, 0.14), transparent 28%),
+    linear-gradient(145deg, rgba(15, 12, 8, 0.98), rgba(2, 2, 2, 0.97));
+  box-shadow: 0 26px 78px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #f6efe5;
+}
+
+.zen-cookie-consent__kicker {
+  margin: 0 0 8px;
+  color: #e2c782;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.zen-cookie-consent h2 {
+  margin: 0 0 10px;
+  color: #fff8eb;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.55rem, 3vw, 2.15rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.zen-cookie-consent p {
+  margin: 0;
+  color: rgba(246, 239, 229, 0.76);
+  line-height: 1.55;
+}
+
+.zen-cookie-consent__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.zen-cookie-consent__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border: 1px solid rgba(226, 199, 130, 0.3);
+  border-radius: 7px;
+  cursor: pointer;
+  padding: 0 18px;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.zen-cookie-consent__button--gold {
+  background: linear-gradient(135deg, #e2c782, #b98b36);
+  color: #120e08;
+}
+
+.zen-cookie-consent__button--ghost {
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff3ca;
+}
+
+.zen-cookie-consent__settings {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(226, 199, 130, 0.16);
+}
+
+.zen-cookie-consent__settings[hidden] {
+  display: none;
+}
+
+.zen-cookie-consent__setting {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid rgba(226, 199, 130, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.zen-cookie-consent__setting strong,
+.zen-cookie-consent__setting small {
+  display: block;
+}
+
+.zen-cookie-consent__setting small {
+  margin-top: 4px;
+  color: rgba(246, 239, 229, 0.62);
+  line-height: 1.45;
+}
+
+.zen-cookie-consent__setting em {
+  color: #e2c782;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.zen-cookie-consent__setting--toggle {
+  cursor: pointer;
+}
+
+.zen-cookie-consent__setting--toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.zen-cookie-consent__setting--toggle i {
+  position: relative;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 28px;
+  border: 1px solid rgba(226, 199, 130, 0.3);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.zen-cookie-consent__setting--toggle i::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(246, 239, 229, 0.82);
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.zen-cookie-consent__setting--toggle input:checked + i {
+  background: rgba(226, 199, 130, 0.32);
+}
+
+.zen-cookie-consent__setting--toggle input:checked + i::after {
+  background: #ffe7a5;
+  transform: translateX(20px);
+}
+
+.zen-cookie-consent__links {
+  margin-top: 14px;
+  font-size: 0.86rem;
+}
+
+.zen-cookie-consent__links a {
+  color: #ffe7a5;
+}
+
+.zen-legal-page .inner-hero {
+  min-height: auto;
+}
+
+.zen-legal-page .legal-content {
+  display: grid;
+  gap: 22px;
+}
+
+.zen-legal-page .legal-card {
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid rgba(226, 199, 130, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(246, 239, 229, 0.78);
+}
+
+.zen-legal-page .legal-card h2 {
+  margin: 0 0 12px;
+  color: #fff8eb;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 2.8vw, 2rem);
+  line-height: 1.12;
+}
+
+.zen-legal-page .legal-card p,
+.zen-legal-page .legal-card li {
+  line-height: 1.72;
+}
+
+.zen-legal-page .legal-card ul,
+.zen-legal-page .legal-card ol {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+
+.zen-legal-page .legal-card a {
+  color: #ffe7a5;
+}
+
 .zen-promo-bump {
   position: fixed;
   right: clamp(18px, 3vw, 48px);
@@ -10657,6 +10923,35 @@ textarea.zen-mini-contact__field {
   .zen-promo-bump__close {
     width: 38px;
     height: 38px;
+  }
+
+  .zen-cookie-consent {
+    inset: auto 10px 10px;
+  }
+
+  .zen-cookie-consent__content {
+    width: calc(100vw - 20px);
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .zen-cookie-consent__actions,
+  .zen-cookie-consent__button {
+    width: 100%;
+  }
+
+  .zen-cookie-consent__button {
+    justify-content: center;
+  }
+
+  .zen-cookie-consent__setting {
+    align-items: flex-start;
+  }
+
+  .zen-cookie-preferences-button {
+    left: 10px;
+    bottom: 10px;
+    max-width: calc(100vw - 28px);
   }
 }
 
