@@ -1,4 +1,45 @@
+# ===========================================================================
+# Credentiale server — NU urca NICIODATA pe GitHub / server public
+# ===========================================================================
+api/config.php
+.env
+.env.*
+
+# ===========================================================================
+# Development / build — nu au ce cauta pe serverul web public (public_html)
+# ===========================================================================
+node_modules/
+supabase/
+app/
+functions/
+tools/
+login-owner/
+.vscode/
+package.json
+package-lock.json
 chrome-profile-video-tall/
-chrome-profile-video-tall/
-chrome-profile-video-tall/
-chrome-profile-video-tall/
+**/__pycache__/
+
+# Fisiere vechi/obsolete (inlocuite de backend-ul PHP curent)
+api/bnr-rates.js
+api/bnr-rates.php
+api/prices.js
+api/send-vip-email.php
+
+# Documentatie interna (nu pentru server)
+SECURITY_SETUP.md
+ZENClinics.txt
+
+# ===========================================================================
+# Arhive si foldere duplicat (download/upload artifacts) — nu pentru repo
+# ===========================================================================
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+PUBLIC_HTML_UPLOAD_READY/
+CACHE_BUST_STYLE_FIX/
+CACHE_BUST_STYLE_FIX*/
+audit-screenshots/

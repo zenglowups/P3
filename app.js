@@ -1867,7 +1867,12 @@
         '<button type="button" data-cookie-preferences>Setări cookies</button>'
       ].join("");
 
-      footer.appendChild(nav);
+      var credit = footer.querySelector(".footer-webcredit-bar");
+      if (credit) {
+        footer.insertBefore(nav, credit);
+      } else {
+        footer.appendChild(nav);
+      }
     });
   }
 
