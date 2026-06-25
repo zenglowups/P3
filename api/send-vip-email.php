@@ -88,53 +88,69 @@ $hits[] = $now;
 @file_put_contents($bucket, json_encode($hits), LOCK_EX);
 
 // ---- SMTP direct prin fsockopen ----
+function smtp_read($socket) {
+    $response = '';
+    stream_set_timeout($socket, 5);
+    while (true) {
+        $line = @fgets($socket, 512);
+        if ($line === false || $line === '') break;
+        $response .= $line;
+        if (preg_match('/^\d{3} /', $line)) break;
+    }
+    return $response;
+}
+
 function smtp_send($to, $subject, $htmlBody, $fromEmail, $fromName) {
     $socket = @fsockopen('localhost', 25, $errno, $errstr, 5);
     if (!$socket) {
         return 'SMTP connect failed: ' . $errstr;
     }
+    stream_set_timeout($socket, 10);
 
-    $greeting = @fgets($socket, 512);
+    $greeting = smtp_read($socket);
     if (strpos($greeting, '220') !== 0) {
         @fclose($socket);
         return 'SMTP greeting error: ' . trim($greeting);
     }
 
     $hostname = gethostname() ?: 'zenclinics.ro';
-    $commands = [
-        "EHLO $hostname",
-        "MAIL FROM:<$fromEmail>",
-        "RCPT TO:<$to>",
-        "DATA",
-    ];
 
-    foreach ($commands as $cmd) {
-        @fwrite($socket, $cmd . "\r\n");
-        $reply = '';
-        while ($line = @fgets($socket, 512)) {
-            $reply .= $line;
-            if (isset($line[3]) && $line[3] === ' ') break;
-            if (strlen($line) < 4) break;
-        }
-        $code = (int) substr($reply, 0, 3);
+    @fwrite($socket, "EHLO $hostname\r\n");
+    $reply = smtp_read($socket);
+    $code = (int) substr($reply, 0, 3);
+    if ($code !== 250) {
+        @fwrite($socket, "QUIT\r\n"); @fclose($socket);
+        return 'EHLO failed: ' . trim($reply);
+    }
 
-        if ($cmd === 'DATA' && $code !== 354) {
-            @fwrite($socket, "QUIT\r\n");
-            @fclose($socket);
-            return 'SMTP DATA rejected: ' . trim($reply);
-        }
-        if ($cmd !== 'DATA' && $code >= 400) {
-            @fwrite($socket, "QUIT\r\n");
-            @fclose($socket);
-            return 'SMTP error on ' . explode(' ', $cmd)[0] . ': ' . trim($reply);
-        }
+    @fwrite($socket, "MAIL FROM:<$fromEmail>\r\n");
+    $reply = smtp_read($socket);
+    $code = (int) substr($reply, 0, 3);
+    if ($code !== 250) {
+        @fwrite($socket, "QUIT\r\n"); @fclose($socket);
+        return 'MAIL FROM failed: ' . trim($reply);
+    }
+
+    @fwrite($socket, "RCPT TO:<$to>\r\n");
+    $reply = smtp_read($socket);
+    $code = (int) substr($reply, 0, 3);
+    if ($code !== 250) {
+        @fwrite($socket, "QUIT\r\n"); @fclose($socket);
+        return 'RCPT TO failed: ' . trim($reply);
+    }
+
+    @fwrite($socket, "DATA\r\n");
+    $reply = smtp_read($socket);
+    $code = (int) substr($reply, 0, 3);
+    if ($code !== 354) {
+        @fwrite($socket, "QUIT\r\n"); @fclose($socket);
+        return 'DATA failed: ' . trim($reply);
     }
 
     $encodedName = '=?UTF-8?B?' . base64_encode($fromName) . '?=';
     $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-    $boundary = 'zen_' . bin2hex(random_bytes(8));
 
-    $headers = "From: $encodedName <$fromEmail>\r\n"
+    $message = "From: $encodedName <$fromEmail>\r\n"
         . "To: $to\r\n"
         . "Subject: $encodedSubject\r\n"
         . "MIME-Version: 1.0\r\n"
@@ -143,23 +159,18 @@ function smtp_send($to, $subject, $htmlBody, $fromEmail, $fromName) {
         . "X-Mailer: ZenClinics\r\n"
         . "\r\n"
         . chunk_split(base64_encode($htmlBody), 76, "\r\n")
-        . "\r\n.\r\n";
+        . ".\r\n";
 
-    @fwrite($socket, $headers);
+    @fwrite($socket, $message);
 
-    $reply = '';
-    while ($line = @fgets($socket, 512)) {
-        $reply .= $line;
-        if (isset($line[3]) && $line[3] === ' ') break;
-        if (strlen($line) < 4) break;
-    }
+    $reply = smtp_read($socket);
+    $code = (int) substr($reply, 0, 3);
 
     @fwrite($socket, "QUIT\r\n");
     @fclose($socket);
 
-    $code = (int) substr($reply, 0, 3);
     if ($code !== 250) {
-        return 'SMTP send rejected: ' . trim($reply);
+        return 'Send failed: ' . trim($reply);
     }
 
     return true;
