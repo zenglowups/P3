@@ -195,7 +195,7 @@
   </style>
 </head>
 <body class="inner-page lux-home owner-login-page">
-  <main class="owner-admin" id="continut">
+  <main class="owner-admin" id="conținut">
 
     <!-- ============ LOGIN ============ -->
     <section class="owner-auth" data-auth-view>
@@ -807,7 +807,7 @@
 
         var up = iconButton("up", "Mută mai sus", function () { moveItem(cat, entry, -1); });
         var down = iconButton("down", "Mută mai jos", function () { moveItem(cat, entry, 1); });
-        var del = iconButton("trash", "Șterge procedura", function () { deleteItem(cat, entry); }, true);
+        var del = iconButton("trash", "Șterge procedură", function () { deleteItem(cat, entry); }, true);
 
         if (filtering) {
           up.disabled = true; down.disabled = true;
@@ -879,8 +879,8 @@
           if (/flebectomie|evta|rfa|stripping|scleroterapie|ulcer|indice|glezna|vascular/.test(n)) return "vasculara";
           if (/penis|circumcizie|labioplastie|vaginoplastie|volumizare peniana/.test(n)) return "intima";
           if (/implant mamar|lifting mamar|lifting cu implant|reductie mamara|micsorare sani|lipofilling sani|schimbare implant|ginecomastie/.test(n)) return "san";
-          if (/abdominoplastie|lipoaspiratie|liposuctie|brahioplastie|bbl|fese|gambe|genunchi|coapse|brate|spate|zona pubiana|postbariatrica|diastaza|stomac/.test(n)) return "corp";
-          if (/rinoplastie|blefaroplastie|lifting facial|mini lifting|sprancene|otoplastie|urechi|bichectomie|cervicala/.test(n)) return "fata";
+          if (/abdominoplastie|lipoaspiratie|liposuctie|brahioplastie|bbl|fese|gambe|genunchi|coapse|brate|spate|zona pubiana|postbariatrică|diastaza|stomac/.test(n)) return "corp";
+          if (/rinoplastie|blefaroplastie|lifting facial|mini lifting|sprancene|otoplastie|urechi|bichectomie|cervicală/.test(n)) return "fata";
           return "generala";
         }
         var ORDER = [
@@ -914,7 +914,7 @@
             if (isConsult(entry[0])) { addUnique(consultations, entry); return false; }
             return true;
           });
-          if (cat.id === "consultatii") { return; }
+          if (cat.id === "consultații") { return; }
           if (cat.id === "chirurgie") {
             var buckets = { fata: [], san: [], corp: [], intima: [], vasculara: [], generala: [], pregatire: [] };
             keep.forEach(function (e) { buckets[classify(e)].push(e); });
@@ -927,9 +927,9 @@
         });
 
         priceData = [{
-          id: "consultatii",
+          id: "consultații",
           title: "Consultații",
-      summary: "Consultatiile pot deveni gratuite doar dupa activarea ZEN VIP Card. Cardul se acorda dupa o procedura efectuata, nu dupa simpla consultatie.",
+      summary: "Consultatiile pot deveni gratuite doar după activarea ZEN VIP Card. Cardul se acordă după o procedură efectuată, nu după simplă consultație.",
           items: consultations
         }].concat(organized.filter(function (c) { return c.items && c.items.length; }));
 
