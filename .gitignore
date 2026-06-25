@@ -24,7 +24,6 @@ chrome-profile-video-tall/
 api/bnr-rates.js
 api/bnr-rates.php
 api/prices.js
-api/send-vip-email.php
 
 # Documentatie interna (nu pentru server)
 SECURITY_SETUP.md
