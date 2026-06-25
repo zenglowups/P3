@@ -2769,9 +2769,9 @@
         status.textContent = getSupabaseTableUrl("appointments") || getFunctionUrl("submit-contact") ? "Se trimite..." : "";
       }
 
-      submitSupabaseInsert("appointments", appointmentPayload).then(function () {
-        return submitSecureForm("submit-contact", payload);
-      }).then(function () {
+      submitSupabaseInsert("appointments", appointmentPayload).catch(function () {});
+
+      submitSecureForm("submit-contact", payload).then(function (result) {
         links = openRequestChannels(subject, message);
 
         if (status) {
@@ -2783,7 +2783,7 @@
       }).catch(function () {
         if (status) {
           status.classList.add("is-error");
-          status.textContent = "Trimiterea nu a reusit. Verifica tabela appointments, politica RLS din Supabase sau incearca din nou.";
+          status.textContent = "Trimiterea nu a reușit. Te rugăm încearcă din nou sau contactează-ne telefonic.";
         }
       });
     });
@@ -2813,11 +2813,20 @@
 
       if (status) {
         status.classList.remove("is-error");
-        status.textContent = getSupabaseTableUrl("vip_card_enrollments") || getFunctionUrl("submit-loyalty") ? "Se trimite..." : "";
+        status.textContent = "Se trimite...";
       }
 
-      submitSupabaseInsert("vip_card_enrollments", vipPayload).then(function () {
-        return submitSecureForm("submit-loyalty", payload);
+      submitSupabaseInsert("vip_card_enrollments", vipPayload).catch(function () {});
+
+      fetch("/api/send-vip-email.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: vipPayload.email, full_name: vipPayload.full_name || "" })
+      }).then(function (response) {
+        if (!response.ok) {
+          return response.json().then(function (body) { throw new Error(body.error || "failed"); });
+        }
+        return response.json();
       }).then(function () {
         if (status) {
           renderVipSuccess(status);
@@ -2827,7 +2836,7 @@
       }).catch(function () {
         if (status) {
           status.classList.add("is-error");
-          status.textContent = "Trimiterea nu a reusit. Verifica tabela vip_card_enrollments, politica RLS din Supabase sau incearca din nou.";
+          status.textContent = "Trimiterea nu a reușit. Te rugăm încearcă din nou sau contactează-ne telefonic.";
         }
       });
     });
