@@ -349,10 +349,13 @@
 
           <section class="oa-card">
             <h2>Backup & date</h2>
-            <p class="oa-help">Exportă o copie de siguranță, importă o listă salvată anterior sau readu prețurile de pe site. Resetarea șterge doar modificările locale din acest browser.</p>
+            <p class="oa-help">La fiecare „Publică pe site", sistemul <strong>descarcă automat</strong> un fișier de backup pe calculatorul tău și păstrează un istoric local al ultimelor 25 de variante. Așa nu mai poți pierde prețurile niciodată. Poți oricând să exporți manual, să imporți o listă salvată sau să descarci tot istoricul.</p>
             <div class="oa-form__actions">
               <button class="oa-btn oa-btn--sm" type="button" data-export>
                 <span class="oa-ic" data-ic="download"></span> Exportă JSON
+              </button>
+              <button class="oa-btn oa-btn--sm" type="button" data-history>
+                <span class="oa-ic" data-ic="download"></span> Descarcă istoricul
               </button>
               <button class="oa-btn oa-btn--sm" type="button" data-import-trigger>
                 <span class="oa-ic" data-ic="upload"></span> Importă JSON
@@ -361,6 +364,7 @@
               <button class="oa-btn oa-btn--danger oa-btn--sm" type="button" data-reset>Șterge modificările locale</button>
               <input type="file" accept="application/json,.json" data-import-input hidden>
             </div>
+            <p class="oa-help" data-history-info style="margin-top:10px;opacity:.75"></p>
           </section>
 
         </div>
@@ -611,7 +615,9 @@
           }
 
           clearDirty();
-          toast("Publicat! Modificările sunt live pe site.", "ok");
+          pushHistory("publicat", priceData);
+          downloadJson(priceData, "zen-preturi-" + zenStamp() + ".json");
+          toast("Publicat! Backup descărcat automat pe calculatorul tău.", "ok");
         } catch (error) {
           toast(error.message || "Publicarea a eșuat. Verifică conexiunea.", "error");
         } finally {
@@ -627,6 +633,51 @@
         }
       }
 
+      /* ---------- siguranță prețuri: istoric local + backup automat ---------- */
+      var PRICE_HISTORY_KEY = "zen_price_history_v1";
+      var PRICE_HISTORY_MAX = 25;
+      function zenStamp(d) {
+        d = d || new Date();
+        function p(n) { return (n < 10 ? "0" : "") + n; }
+        return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "-" + p(d.getHours()) + p(d.getMinutes());
+      }
+      function readHistory() {
+        try { return JSON.parse(window.localStorage.getItem(PRICE_HISTORY_KEY) || "[]") || []; }
+        catch (error) { return []; }
+      }
+      function pushHistory(label, data) {
+        if (!Array.isArray(data) || !data.length) { return; }
+        try {
+          var hist = readHistory();
+          var snapshot = JSON.stringify(data);
+          if (hist.length && hist[hist.length - 1].json === snapshot) { return; }
+          hist.push({ at: new Date().toISOString(), label: label || "", json: snapshot });
+          while (hist.length > PRICE_HISTORY_MAX) { hist.shift(); }
+          window.localStorage.setItem(PRICE_HISTORY_KEY, JSON.stringify(hist));
+        } catch (error) {}
+        renderHistoryInfo();
+      }
+      function downloadJson(data, name) {
+        try {
+          var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+          var link = el("a", { href: URL.createObjectURL(blob), download: name });
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(function () { try { URL.revokeObjectURL(link.href); } catch (error) {} }, 1500);
+        } catch (error) {}
+      }
+      function renderHistoryInfo() {
+        var info = $("[data-history-info]");
+        if (!info) { return; }
+        var hist = readHistory();
+        if (!hist.length) { info.textContent = "Istoric local: gol (încă nu ai publicat din acest browser)."; return; }
+        var last = hist[hist.length - 1];
+        var when = "";
+        try { when = new Date(last.at).toLocaleString("ro-RO"); } catch (error) { when = last.at; }
+        info.textContent = "Istoric local: " + hist.length + " variante salvate. Ultima: " + when + (last.label ? " (" + last.label + ")" : "") + ".";
+      }
+
       /* ---------- load prices ---------- */
       function parsePriceHtml(html) {
         var match = html.match(/<script[^>]*data-price-data[^>]*>([\s\S]*?)<\/script>/i);
@@ -635,6 +686,16 @@
       async function loadPrices(showToast) {
         var cloud = await fetchCloudPrices();
         if (Array.isArray(cloud) && cloud.length) {
+          /* protejează orice editare locală nepublicată înainte de a o suprascrie cu varianta de pe server */
+          try {
+            var prevLocal = window.localStorage.getItem(PRICES_KEY);
+            if (prevLocal) {
+              var prevArr = JSON.parse(prevLocal);
+              if (Array.isArray(prevArr) && prevArr.length && JSON.stringify(prevArr) !== JSON.stringify(cloud)) {
+                pushHistory("local-inainte-de-incarcare", prevArr);
+              }
+            }
+          } catch (error) {}
           priceData = cloud;
           saveLocalSoon();
           activeIndex = 0;
@@ -1009,6 +1070,7 @@
         try { window.sessionStorage.setItem(AUTH_KEY, "true"); } catch (error) {}
         renderTokenState();
         prefillAccount();
+        renderHistoryInfo();
         loadPrices(false);
       }
       function showLogin() {
@@ -1160,11 +1222,25 @@
       });
 
       $("[data-export]").addEventListener("click", function () {
-        var blob = new Blob([JSON.stringify(priceData, null, 2)], { type: "application/json" });
-        var link = el("a", { href: URL.createObjectURL(blob), download: "zen-clinics-preturi.json" });
-        link.click();
-        URL.revokeObjectURL(link.href);
-        toast("Backup exportat.", "ok");
+        if (!priceData.length) { toast("Nu există date de exportat.", "error"); return; }
+        pushHistory("export-manual", priceData);
+        downloadJson(priceData, "zen-clinics-preturi-" + zenStamp() + ".json");
+        toast("Backup exportat și salvat în istoric.", "ok");
+      });
+      $("[data-history]").addEventListener("click", function () {
+        var hist = readHistory();
+        if (!hist.length) { toast("Istoricul local este gol.", "error"); return; }
+        var bundle = {
+          exportedAt: new Date().toISOString(),
+          count: hist.length,
+          versions: hist.map(function (h) {
+            var prices = [];
+            try { prices = JSON.parse(h.json); } catch (error) {}
+            return { at: h.at, label: h.label, prices: prices };
+          })
+        };
+        downloadJson(bundle, "zen-istoric-preturi-" + zenStamp() + ".json");
+        toast("Istoric descărcat (" + hist.length + " variante).", "ok");
       });
       $("[data-import-trigger]").addEventListener("click", function () { $("[data-import-input]").click(); });
       $("[data-import-input]").addEventListener("change", function () {
