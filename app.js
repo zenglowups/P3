@@ -2818,20 +2818,7 @@
 
       submitSupabaseInsert("vip_card_enrollments", vipPayload).catch(function () {});
 
-      fetch("/api/send-vip-email.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: vipPayload.email, full_name: vipPayload.full_name || "" })
-      }).then(function (response) {
-        return response.text().then(function (text) {
-          var body;
-          try { body = JSON.parse(text); } catch (e) { body = null; }
-          if (!response.ok || !body || !body.ok) {
-            throw new Error((body && body.error) || "HTTP " + response.status + ": " + text.substring(0, 200));
-          }
-          return body;
-        });
-      }).then(function () {
+      submitSecureForm("submit-loyalty", payload).then(function (result) {
         if (status) {
           renderVipSuccess(status);
         }
