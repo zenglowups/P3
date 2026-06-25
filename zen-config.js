@@ -11,5 +11,5 @@ window.ZEN_CONFIG = {
   },
   bnrRatesProxyUrl: "https://bnr-proxy.zenwebsitesro.workers.dev/",
   pricesApiUrl: "/api/prices.php",
-  googleAnalyticsId: ""
+  googleAnalyticsId: "G-2B38KL3KHB"
 };
