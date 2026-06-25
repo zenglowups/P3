@@ -2823,20 +2823,25 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: vipPayload.email, full_name: vipPayload.full_name || "" })
       }).then(function (response) {
-        if (!response.ok) {
-          return response.json().then(function (body) { throw new Error(body.error || "failed"); });
-        }
-        return response.json();
+        return response.text().then(function (text) {
+          var body;
+          try { body = JSON.parse(text); } catch (e) { body = null; }
+          if (!response.ok || !body || !body.ok) {
+            throw new Error((body && body.error) || "HTTP " + response.status + ": " + text.substring(0, 200));
+          }
+          return body;
+        });
       }).then(function () {
         if (status) {
           renderVipSuccess(status);
         }
 
         form.reset();
-      }).catch(function () {
+      }).catch(function (err) {
+        console.error("VIP email error:", err);
         if (status) {
           status.classList.add("is-error");
-          status.textContent = "Trimiterea nu a reușit. Te rugăm încearcă din nou sau contactează-ne telefonic.";
+          status.textContent = "Eroare: " + (err.message || "necunoscută") + " — contactează-ne telefonic.";
         }
       });
     });
